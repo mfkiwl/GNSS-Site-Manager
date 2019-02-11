@@ -6,3 +6,5 @@ export * from './text-input.component';
 export * from './number-input.component';
 export * from './textarea-input.component';
 export * from './datetime-input.component';
+export * from './checkboxes-input.component';
+export * from './radiobuttons-input.component';
