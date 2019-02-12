@@ -367,6 +367,9 @@ export class SiteLogComponent implements OnInit, OnDestroy {
                 console.warn(`createComparator - ${itemName} does not have a comparator`);
                 // And this should never get called as it isn't an array
                 return null;
+            case 'siteAdministration':
+                console.warn(`createComparator - ${itemName} does not have a comparator`);
+                return null;
             case 'siteOwner':
                 return ResponsiblePartyGroupComponent.compare;
             case 'siteContacts':

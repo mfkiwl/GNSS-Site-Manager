@@ -6,6 +6,10 @@
         <gnss-status-info [siteId]="siteId"></gnss-status-info>
         <form [formGroup]="siteLogForm" novalidate class="form-horizontal">
             <div class="panel-group">
+                <gnss-site-administration [parentForm]="siteLogForm"
+                                          [siteAdminModel]="siteAdminModel">
+                </gnss-site-administration>
+
                 <gnss-site-information [parentForm]="siteLogForm"
                                        [siteLogModel]="siteLogModel">
                 </gnss-site-information>

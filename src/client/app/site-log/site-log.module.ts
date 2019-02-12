@@ -1,11 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
 import { SharedModule } from '../shared/shared.module';
 import { SiteLogComponent } from './site-log.component';
 import { SiteLogRoutingModule } from './site-log-routing.module';
 import { PrefetchSiteLogResolver } from '../shared/site-log/prefetch-site-log.service';
 import { PrefetchCorsSiteResolver } from '../shared/cors-site/prefetch-cors-site.service';
 import { ConfirmDeactivateSiteLogGuard } from './site-log-deactivate.module';
+
+import { SiteAdministrationModule } from '../site-administration/site-administration.module';
 import { SiteInformationModule } from '../site-information/site-information.module';
 import { GnssReceiverModule } from '../gnss-receiver/gnss-receiver.module';
 import { GnssAntennaModule } from '../gnss-antenna/gnss-antenna.module';
@@ -29,6 +32,7 @@ import { MultipathSourceModule } from '../multipath-source/multipath-source.modu
         CommonModule,
         SharedModule,
         FormInputModule,
+        SiteAdministrationModule,
         SiteInformationModule,
         GnssReceiverModule,
         GnssAntennaModule,
