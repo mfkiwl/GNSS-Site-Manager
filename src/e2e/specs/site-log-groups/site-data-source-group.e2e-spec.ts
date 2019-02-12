@@ -23,8 +23,12 @@ describe('Responsible Party - Site Data Source Group Component', () => {
     let loginActions: LoginActions = new LoginActions(selectSitePage);
     let siteLogPage: SiteLogPage;
     let itemGroup: ResponsiblePartyGroup;
+    let originalTimeout: number;
 
     beforeAll(() => {
+        originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+        jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000000;
+
         browser.get(selectSitePage.url);
         browser.waitForAngular();
         loginActions.login('user.a', 'gumby123A');
@@ -39,6 +43,11 @@ describe('Responsible Party - Site Data Source Group Component', () => {
             console.log('Number of ' + itemGroup.itemName + ' items before testing: ' + value);
         });
         browser.waitForAngular();
+    });
+
+
+    afterAll(() => {
+        jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
     });
 
     it('expect should be able to delete an existing item', () => {

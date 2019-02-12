@@ -5,6 +5,7 @@ import { AbstractInput } from './abstract-input.component';
 export interface RadioButtonOption {
     label: string;
     value: string;
+    tips: string;
 }
 
 @Component({
@@ -46,7 +47,7 @@ export class RadioButtonsInputComponent extends AbstractInput implements OnInit 
 
     protected parseInputOptions(): void {
         if (!this.formControl.value) {
-            this.error = 'Field required: must toggle on one of the choices.';
+            this.formControl.setValue(this.options[0].value);  // default is PUBLIC
             return;
         }
         let existing = false;
