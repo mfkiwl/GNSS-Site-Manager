@@ -13,6 +13,7 @@
                            [disabled]="form.disabled"
                            (change)="updateChanges()">&nbsp;{{option.label}}
                 </label>
+                <i class="glyphicon glyphicon-info-sign" tooltip="{{option.tips}}" triggers="hover click" container="body"></i>
             </span>
         </div>
         <div *ngIf="error">

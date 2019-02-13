@@ -16,8 +16,17 @@ import { RadioButtonOption } from '../shared/form-input/radiobuttons-input.compo
 })
 export class SiteAdministrationComponent implements OnInit, OnDestroy {
     public sitePermissionList: RadioButtonOption[] = [
-        {label: 'Open', value: 'PUBLIC'},
-        {label: 'Closed', value: 'PRIVATE'},
+        {
+            label: 'Open Data',
+            value: 'PUBLIC',
+            tips: 'Access to data from these stations is open to anyone for access, use or sharing.'
+        },
+        {
+            label: 'Closed Data',
+            value: 'PRIVATE',
+            tips: 'Access to data from these stations is restricted to APREF analysis centres'
+                    + ' and use within AUSPOS. The data cannot be shared.'
+        },
     ];
 
     @Input() parentForm: FormGroup;

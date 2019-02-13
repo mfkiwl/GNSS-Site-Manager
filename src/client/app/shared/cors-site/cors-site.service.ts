@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Headers, Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
@@ -88,6 +88,23 @@ export class CorsSiteService implements OnDestroy {
       .catch(HttpUtilsService.handleError);
   }
 
+  saveCorsSite(siteAdminModel: SiteAdministrationModel, id_token: string) : Observable<Response> {
+    console.log('Save existing CorsSite - CorsSiteViewModel: ', siteAdminModel);
+
+    //const user: User = this.authService.user.value.id_token;
+
+    const headers = new Headers();
+    if (id_token) {
+      headers.append('Authorization', 'Bearer ' + id_token);
+    }
+
+    return this.http.post(this.constantsService.getWebServiceURL() + '/corsSites/upload',
+                          this.getGeodesyMlFromViewModel(siteAdminModel),
+                          { headers: headers })
+        .map(HttpUtilsService.handleJsonData)
+        .catch(HttpUtilsService.handleError);
+  }
+
   private fixWFSeData(wfsData: any): any {
     // TODO - make this data an Interface
     console.debug('cors-site service - from wfsService - fixWFSeData - data: ', wfsData);
@@ -98,6 +115,10 @@ export class CorsSiteService implements OnDestroy {
     });
     console.debug('cors-site service - from wfsService - fixWFSeData - return: ', fieldsDefined);
     return fieldsDefined; //data;
+  }
+
+  private getGeodesyMlFromViewModel(siteAdminModel: SiteAdministrationModel): string {
+    return '';
   }
 }
 

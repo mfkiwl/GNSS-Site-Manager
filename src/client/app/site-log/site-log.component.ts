@@ -376,6 +376,14 @@ export class SiteLogComponent implements OnInit, OnDestroy {
                         this.siteLogForm.disable();
                     }
                 });
+
+                this.userAuthService.isSuperUser().subscribe(superuser => {
+                    if (superuser) {
+                        this.corsSiteForm.enable();
+                    } else {
+                        this.corsSiteForm.disable();
+                    }
+                });
         });
     }
 

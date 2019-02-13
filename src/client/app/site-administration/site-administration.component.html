@@ -10,16 +10,16 @@
         </span>
     </div>
     <div class="panel-body group-body" [hidden]="!isFormOpen">
+        <div class="explanation">
+            These fields can only be edited by a system administrator.
+            Please contact <a href="mailto:gnss@ga.gov.au">gnss@ga.gov.au</a> if you require a change.
+        </div>
         <div class="panel panel-level-2">
             <div class="panel-body item-body">
-                <div class="margin-bottom15">
-                    <div class="form-group">
-                        <radiobuttons-input [form]="siteAdministrationForm"
-                                            controlName="siteStatus"
-                                            [required]="true"
-                                            [options]="sitePermissionList">Site Permission</radiobuttons-input>
-                    </div>
-                </div>
+                <radiobuttons-input [form]="siteAdministrationForm"
+                                    controlName="siteStatus"
+                                    [required]="true"
+                                    [options]="sitePermissionList">Data Permission</radiobuttons-input>
             </div>
         </div>
     </div>

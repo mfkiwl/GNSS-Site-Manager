@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DatepickerModule } from 'ng2-bootstrap';
+import { DatepickerModule, TooltipModule } from 'ng2-bootstrap';
 import { TextInputComponent } from './text-input.component';
 import { TextAreaInputComponent } from './textarea-input.component';
 import { NumberInputComponent } from './number-input.component';
@@ -12,7 +12,7 @@ import { CheckboxesInputComponent } from './checkboxes-input.component';
 import { RadioButtonsInputComponent } from './radiobuttons-input.component';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, DatepickerModule.forRoot()],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, DatepickerModule.forRoot(), TooltipModule.forRoot()],
   declarations: [TextInputComponent, TextAreaInputComponent, NumberInputComponent, DatetimeInputComponent,
                  UrlInputComponent, EmailInputComponent, CheckboxesInputComponent, RadioButtonsInputComponent],
   exports: [TextInputComponent, TextAreaInputComponent, NumberInputComponent, DatetimeInputComponent,

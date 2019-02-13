@@ -87,7 +87,7 @@ export class UserAuthService {
     }
 
     public isSuperUser(): Observable<boolean> {
-        if (!this.user.value || !this.user.value.profile) {
+        if (!this.user.value || !this.user.value.profile || !this.user.value.profile.authorities) {
             return Observable.of(false);
         }
 
