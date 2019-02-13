@@ -37,6 +37,7 @@ import { MultipathSourceGroupComponent } from '../multipath-source/multipath-sou
 export class SiteLogComponent implements OnInit, OnDestroy {
     public miscUtils: any = MiscUtils;
     public siteLogForm: FormGroup;
+    public corsSiteForm: FormGroup;
     public siteLogModel: SiteLogViewModel;
     public siteAdminModel: SiteAdministrationModel;
 
@@ -292,14 +293,15 @@ export class SiteLogComponent implements OnInit, OnDestroy {
     }
 
     public isFormDirty(): boolean {
-        return this.siteLogForm && this.siteLogForm.dirty;
+        return this.siteLogForm.dirty || this.corsSiteForm.dirty;
     }
 
     public isFormInvalid(): boolean {
-        return this.siteLogForm.invalid;
+        return this.siteLogForm.invalid || this.corsSiteForm.invalid;
     }
 
     private setupForm() {
+        this.corsSiteForm = this.formBuilder.group({});
         this.siteLogForm = this.formBuilder.group({
             gnssAntennas: this.formBuilder.array([]),
             gnssReceivers: this.formBuilder.array([]),
@@ -338,6 +340,26 @@ export class SiteLogComponent implements OnInit, OnDestroy {
                 this.siteLogService.sendApplicationStateMessage({
                     applicationFormModified: this.siteLogForm.dirty,
                     applicationFormInvalid: this.siteLogForm.invalid,
+                    applicationSaveState: ApplicationSaveState.idle
+                });
+            });
+
+        this.corsSiteForm.valueChanges.debounceTime(500)
+            .takeUntil(this.unsubscribe)
+            .subscribe((value: any) => {
+                this.siteLogService.sendApplicationStateMessage({
+                    applicationFormModified: this.corsSiteForm.dirty,
+                    applicationFormInvalid: this.corsSiteForm.invalid,
+                    applicationSaveState: ApplicationSaveState.idle
+                });
+            });
+
+        this.corsSiteForm.statusChanges.debounceTime(500)
+            .takeUntil(this.unsubscribe)
+            .subscribe((value: any) => {
+                this.siteLogService.sendApplicationStateMessage({
+                    applicationFormModified: this.corsSiteForm.dirty,
+                    applicationFormInvalid: this.corsSiteForm.invalid,
                     applicationSaveState: ApplicationSaveState.idle
                 });
             });

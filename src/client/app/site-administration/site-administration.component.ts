@@ -1,7 +1,7 @@
 import { Component, ChangeDetectorRef, Input, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
-import { CorsSiteService, MiscUtils, SiteLogService } from '../shared/index';
+import { CorsSiteService, MiscUtils, UserAuthService } from '../shared/index';
 import { SiteAdministrationModel } from './site-administration-model';
 import { RadioButtonOption } from '../shared/form-input/radiobuttons-input.component';
 
@@ -34,7 +34,7 @@ export class SiteAdministrationComponent implements OnInit, OnDestroy {
     */
     constructor(private formBuilder: FormBuilder,
                 private corsSiteService: CorsSiteService,
-                private siteLogService: SiteLogService,
+                private userAuthService: UserAuthService,
                 private changeDetectionRef: ChangeDetectorRef) {
     }
 
@@ -69,8 +69,8 @@ export class SiteAdministrationComponent implements OnInit, OnDestroy {
         });
 
         this.siteAdministrationForm.controls['siteStatus'].setValue(this.siteAdminModel.siteStatus);
-        this.subscription = this.siteLogService.isUserAuthorisedToEditSite.subscribe(authorised => {
-            if (authorised) {
+        this.subscription = this.userAuthService.isSuperUser().subscribe(superuser => {
+            if (superuser) {
                 this.siteAdministrationForm.enable();
             } else {
                 this.siteAdministrationForm.disable();
