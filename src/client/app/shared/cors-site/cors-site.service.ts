@@ -58,7 +58,7 @@ export class CorsSiteService implements OnDestroy {
    * @return {SiteAdministrationModel} The Observable for the HTTP request.
    */
   getSiteAdministration(siteId: string): Observable<SiteAdministrationModel> {
-    let url = this.constantsService.getWebServiceURL() + '/corsSites/search/findByFourCharacterId?id=' + siteId;
+    let url = this.constantsService.getWebServiceURL() + '/corsSites?fourCharacterId=' + siteId;
     return this.http.get(url)
       .takeUntil(this.unsubscribe)
       .map((response: Response) => {
