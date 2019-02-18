@@ -9,12 +9,13 @@ import { DatetimeInputComponent } from './datetime-input.component';
 import { UrlInputComponent } from './url-input.component';
 import { EmailInputComponent } from './email-input.component';
 import { CheckboxesInputComponent } from './checkboxes-input.component';
+import { RadioButtonsInputComponent } from './radiobuttons-input.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule, DatepickerModule.forRoot()],
   declarations: [TextInputComponent, TextAreaInputComponent, NumberInputComponent, DatetimeInputComponent,
-                 UrlInputComponent, EmailInputComponent, CheckboxesInputComponent],
+                 UrlInputComponent, EmailInputComponent, CheckboxesInputComponent, RadioButtonsInputComponent],
   exports: [TextInputComponent, TextAreaInputComponent, NumberInputComponent, DatetimeInputComponent,
-            UrlInputComponent, EmailInputComponent, CheckboxesInputComponent]
+            UrlInputComponent, EmailInputComponent, CheckboxesInputComponent, RadioButtonsInputComponent]
 })
 export class FormInputModule {}

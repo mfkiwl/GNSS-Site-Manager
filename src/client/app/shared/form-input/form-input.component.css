@@ -3,34 +3,44 @@
   color: red;
   content: "*";
 }
+.radiobutton-group,
 .checkbox-group {
   border: 1px solid #ccc;
   border-radius: 4px;
   display: inline-block;
   margin: 0;
-  padding: 5px 0 0;
+  padding: 5px;
+  width: 100%;
 }
+.radiobutton-group label,
 .checkbox-group label {
   font-weight: normal;
   margin: 0;
   padding: 0 2px;
 }
+.radiobutton-group:hover,
 .checkbox-group input:hover {
   cursor: pointer;
 }
+.radiobutton-group input[disabled]:hover,
 .checkbox-group input[disabled]:hover {
   cursor: not-allowed;
 }
+.radiobutton-group label:hover:not(.disabled),
+.radiobutton-group label:focus:not(.disabled),
 .checkbox-group label:hover:not(.disabled),
 .checkbox-group label:focus:not(.disabled) {
   color: #006983;
   background-color: #f0f0f0;
   cursor: pointer;
 }
+.radiobutton-group.ng-dirty,
 .checkbox-group.ng-dirty {
   border-color: #00b300;
   background-color: #ebffeb;
 }
+.radiobutton-group.disabled,
+.radiobutton-group .disabled,
 .checkbox-group.disabled,
 .checkbox-group .disabled {
   background-color: #f0f0f0;
@@ -49,4 +59,7 @@
   .checkbox-group .col-xs-6 {
     padding-left: 10px !important;
   }
+}
+.align-left {
+  padding-left: 0 !important;
 }
