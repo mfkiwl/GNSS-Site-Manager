@@ -86,20 +86,19 @@ export class UserAuthService {
         }
     }
 
-    public isSuperUser(): Observable<boolean> {
+    public isSuperuser(): boolean {
         if (!this.user.value || !this.user.value.profile || !this.user.value.profile.authorities) {
-            return Observable.of(false);
+            return false;
         }
 
-        let isSuperuser = false;
+        let superuser = false;
         for (let auth of this.user.value.profile.authorities) {
             if (auth.toLowerCase() === 'superuser') {
-                isSuperuser = true;
+                superuser = true;
             }
         }
 
-        console.log(this.user.value.profile.sub +' is ' + (isSuperuser ? '' : 'not ') + 'a super user');
-        return Observable.of(isSuperuser);
+        return superuser;
     }
 
     public hasAuthorityToEditSite(siteId: string): Observable<boolean> {

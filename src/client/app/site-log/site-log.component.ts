@@ -259,8 +259,7 @@ export class SiteLogComponent implements OnInit, OnDestroy {
         let newSiteStatus = this.corsSiteForm.getRawValue().siteAdministration.siteStatus;
         if (this.siteAdminModel.siteStatus === newSiteStatus) {
             this.isLoading = false;
-            this.dialogService.showLogMessage('Skip updating siteStatus in CORS Site as no changes have been made for '
-                                            + this.siteId + '.');
+            console.debug('Skip updating siteStatus in CORS Site as no changes have been made for ' + this.siteId + '.');
             return;
         } else {
             this.siteAdminModel.siteStatus = newSiteStatus;
@@ -420,15 +419,15 @@ export class SiteLogComponent implements OnInit, OnDestroy {
                     }
                 });
 
-                this.userAuthService.isSuperUser().subscribe(superuser => {
-                    if (superuser) {
-                        this.corsSiteService.isSuperUser.next(true);
+                //this.userAuthService.isSuperuser().subscribe(superuser => {
+                    if (this.userAuthService.isSuperuser()) {
+                        this.corsSiteService.isSuperuser.next(true);
                         this.corsSiteForm.enable();
                     } else {
-                        this.corsSiteService.isSuperUser.next(false);
+                        this.corsSiteService.isSuperuser.next(false);
                         this.corsSiteForm.disable();
                     }
-                });
+                //});
         });
     }
 

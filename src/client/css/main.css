@@ -111,9 +111,6 @@ input[readonly],
   cursor: pointer;
 }
 .tooltip-inner {
-  background-color: #bfe1f1;
-  border: 1px solid #006699;
-  color: #000;
   max-width: 200px;
   padding: 5px;
   font-size: 14px;

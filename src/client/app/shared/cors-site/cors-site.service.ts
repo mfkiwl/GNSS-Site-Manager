@@ -18,7 +18,7 @@ import { SiteAdministrationModel } from '../../site-administration/site-administ
 @Injectable()
 export class CorsSiteService implements OnDestroy {
 
-  public isSuperUser: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  public isSuperuser: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private unsubscribe: Subject<void> = new Subject<void>();
 
   /**

@@ -76,7 +76,7 @@ export class SiteAdministrationComponent implements OnInit, OnDestroy {
         });
 
         this.siteAdministrationForm.controls['siteStatus'].setValue(this.siteAdminModel.siteStatus);
-        this.subscription = this.corsSiteService.isSuperUser.subscribe(superuser => {
+        this.subscription = this.corsSiteService.isSuperuser.subscribe(superuser => {
             if (superuser) {
                 this.siteAdministrationForm.enable();
             } else {
