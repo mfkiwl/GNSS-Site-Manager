@@ -585,6 +585,11 @@ textarea.ng-invalid {
   padding-top: 0;
 }
 
+@media (min-width: 1200px) {
+  .container {
+    max-width: 980px !important;
+  }
+}
 @media (min-width: 451px) AND (max-width: 550px) {
   .col-xs-10,
   .col-xs-9,
