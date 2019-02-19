@@ -1,0 +1,26 @@
+<div [formGroup]="siteAdministrationForm" class="panel panel-level-1">
+    <div class="panel-heading group-header">
+        <span class="panel-title cursor-ptr" tabindex="0"
+              (keyup.space)="isFormOpen = miscUtils.scrollIntoView($event, isFormOpen)"
+              (keyup.enter)="isFormOpen = miscUtils.scrollIntoView($event, isFormOpen)"
+              (click)="isFormOpen = miscUtils.scrollIntoView($event, isFormOpen)">
+            <i class="glyphicon"
+               [ngClass]="{'glyphicon-minus-sign': isFormOpen, 'glyphicon-plus-sign': !isFormOpen}"></i>
+            Site Administration
+        </span>
+    </div>
+    <div class="panel-body group-body" [hidden]="!isFormOpen">
+        <div class="explanation">
+            These fields can only be edited by a system administrator.
+            Please contact <a href="mailto:gnss@ga.gov.au">gnss@ga.gov.au</a> if you require a change.
+        </div>
+        <div class="panel panel-level-2">
+            <div class="panel-body item-body">
+                <radiobuttons-input [form]="siteAdministrationForm"
+                                    controlName="siteStatus"
+                                    [required]="true"
+                                    [options]="sitePermissionList">Data Permission</radiobuttons-input>
+            </div>
+        </div>
+    </div>
+</div>

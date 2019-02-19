@@ -4,6 +4,7 @@ import { MockBackend } from '@angular/http/testing';
 import { Observable } from 'rxjs/Observable';
 
 import { CorsSiteService } from './cors-site.service';
+import { UserAuthService } from '../global/user-auth.service';
 import { JsonixService } from '../jsonix/jsonix.service';
 import { WFSService } from '../wfs/wfs.service';
 import { ConstantsService } from '../global/constants.service';
@@ -14,14 +15,14 @@ export function main() {
     let corsSiteService: CorsSiteService;
     let backend: MockBackend;
     let initialResponse: any;
-    let fakeWFSService = {
-    };
-
+    let fakeWFSService = {};
+    let mockUserService = {};
 
     beforeEach(() => {
 
       let injector = ReflectiveInjector.resolveAndCreate([
         CorsSiteService,
+        UserAuthService,
         JsonixService,
         ConstantsService,
         BaseRequestOptions,
@@ -33,6 +34,7 @@ export function main() {
           deps: [MockBackend, BaseRequestOptions]
         },
         {provide: WFSService, useValue: fakeWFSService},
+        {provide: UserAuthService, useValue: mockUserService},
       ]);
       corsSiteService = injector.get(CorsSiteService);
       backend = injector.get(MockBackend);

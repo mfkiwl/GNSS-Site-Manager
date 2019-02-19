@@ -3,9 +3,11 @@
 */
 
 export class SiteAdministrationModel {
-    public siteStatus: string = null;
+    public id: number;
+    public siteStatus: string;
 
-    constructor(status: string = null) {
+    constructor(id: number = null, status: string = 'PUBLIC') {
+        this.id = id;
         this.siteStatus = status;
     }
 }

@@ -5,7 +5,7 @@ import { Subject } from 'rxjs/Subject';
 import { User } from 'oidc-client';
 import * as _ from 'lodash';
 
-import { DialogService, MiscUtils, SiteLogService } from '../shared/index';
+import { DialogService, MiscUtils, CorsSiteService, SiteLogService } from '../shared/index';
 import { SiteLogViewModel }  from '../site-log/site-log-view-model';
 import { SiteAdministrationModel } from '../site-administration/site-administration-model';
 import { UserAuthService } from '../shared/global/user-auth.service';
@@ -37,6 +37,7 @@ import { MultipathSourceGroupComponent } from '../multipath-source/multipath-sou
 export class SiteLogComponent implements OnInit, OnDestroy {
     public miscUtils: any = MiscUtils;
     public siteLogForm: FormGroup;
+    public corsSiteForm: FormGroup;
     public siteLogModel: SiteLogViewModel;
     public siteAdminModel: SiteAdministrationModel;
 
@@ -57,6 +58,7 @@ export class SiteLogComponent implements OnInit, OnDestroy {
                 private route: ActivatedRoute,
                 private dialogService: DialogService,
                 private siteLogService: SiteLogService,
+                private corsSiteService: CorsSiteService,
                 private userAuthService: UserAuthService,
                 private formBuilder: FormBuilder) {
     }
@@ -145,6 +147,7 @@ export class SiteLogComponent implements OnInit, OnDestroy {
 
                 if (this.siteId !== 'newSite') {
                     this.saveExistingSiteLog(formValueClone);
+                    this.saveExistingCorsSite();
                 } else {
                     this.saveNewSiteLog(formValueClone);
                 }
@@ -157,6 +160,9 @@ export class SiteLogComponent implements OnInit, OnDestroy {
     }
 
     public saveExistingSiteLog(formValue: any) {
+        if (!this.siteLogForm.dirty) {
+            return;
+        }
 
         _.mergeWith(this.siteLogModel, formValue,
             (objectValue: any, sourceValue: any, key: string, _object: any, _source: any, stack: any) => {
@@ -244,6 +250,43 @@ export class SiteLogComponent implements OnInit, OnDestroy {
             );
     }
 
+    public saveExistingCorsSite() {
+        if (!this.siteLogService.isUserAuthorisedToEditSite.value || !this.corsSiteForm.dirty) {
+            this.isLoading = false;
+            return;
+        }
+
+        let newSiteStatus = this.corsSiteForm.getRawValue().siteAdministration.siteStatus;
+        if (this.siteAdminModel.siteStatus === newSiteStatus) {
+            this.isLoading = false;
+            console.debug('Skip updating siteStatus in CORS Site as no changes have been made for ' + this.siteId + '.');
+            return;
+        } else {
+            this.siteAdminModel.siteStatus = newSiteStatus;
+        }
+
+        this.corsSiteService.saveCorsSite(this.siteAdminModel, this.userAuthService.user.value.id_token)
+            .subscribe(
+                (response: Response) => {
+                    this.isLoading = false;
+                    if (response.status === 200) {
+                        console.log('SiteStatus in CORS Site for ' + this.siteId + ' have been saved successfully.');
+                        this.corsSiteForm.markAsPristine();
+                    } else {
+                        let errorMsg = 'Failed in updating siteStatus in CORS Site for ' + this.siteId
+                                    + '. response status code: ' + response.status + ' - ' + response.statusText;
+                        console.log(errorMsg);
+                        this.dialogService.showErrorMessage(errorMsg);
+                    }
+                },
+                (error: Error) => {
+                    this.isLoading = false;
+                    console.error(error);
+                    this.dialogService.showErrorMessage('Error in updating siteStatus in CORS Site for ' + this.siteId);
+                }
+            );
+    }
+
     /**
      * Navigate to the default home page (Select-Site tab)
      */
@@ -292,14 +335,15 @@ export class SiteLogComponent implements OnInit, OnDestroy {
     }
 
     public isFormDirty(): boolean {
-        return this.siteLogForm && this.siteLogForm.dirty;
+        return this.siteLogForm.dirty || this.corsSiteForm.dirty;
     }
 
     public isFormInvalid(): boolean {
-        return this.siteLogForm.invalid;
+        return this.siteLogForm.invalid || this.corsSiteForm.invalid;
     }
 
     private setupForm() {
+        this.corsSiteForm = this.formBuilder.group({});
         this.siteLogForm = this.formBuilder.group({
             gnssAntennas: this.formBuilder.array([]),
             gnssReceivers: this.formBuilder.array([]),
@@ -342,6 +386,26 @@ export class SiteLogComponent implements OnInit, OnDestroy {
                 });
             });
 
+        this.corsSiteForm.valueChanges.debounceTime(500)
+            .takeUntil(this.unsubscribe)
+            .subscribe((value: any) => {
+                this.siteLogService.sendApplicationStateMessage({
+                    applicationFormModified: this.corsSiteForm.dirty,
+                    applicationFormInvalid: this.corsSiteForm.invalid,
+                    applicationSaveState: ApplicationSaveState.idle
+                });
+            });
+
+        this.corsSiteForm.statusChanges.debounceTime(500)
+            .takeUntil(this.unsubscribe)
+            .subscribe((value: any) => {
+                this.siteLogService.sendApplicationStateMessage({
+                    applicationFormModified: this.corsSiteForm.dirty,
+                    applicationFormInvalid: this.corsSiteForm.invalid,
+                    applicationSaveState: ApplicationSaveState.idle
+                });
+            });
+
         this.userAuthService.user
             .takeUntil(this.unsubscribe)
             .subscribe((_: User) => {
@@ -354,6 +418,16 @@ export class SiteLogComponent implements OnInit, OnDestroy {
                         this.siteLogForm.disable();
                     }
                 });
+
+                //this.userAuthService.isSuperuser().subscribe(superuser => {
+                    if (this.userAuthService.isSuperuser()) {
+                        this.corsSiteService.isSuperuser.next(true);
+                        this.corsSiteForm.enable();
+                    } else {
+                        this.corsSiteService.isSuperuser.next(false);
+                        this.corsSiteForm.disable();
+                    }
+                //});
         });
     }
 
@@ -366,6 +440,9 @@ export class SiteLogComponent implements OnInit, OnDestroy {
             case 'siteIdentification':
                 console.warn(`createComparator - ${itemName} does not have a comparator`);
                 // And this should never get called as it isn't an array
+                return null;
+            case 'siteAdministration':
+                console.warn(`createComparator - ${itemName} does not have a comparator`);
                 return null;
             case 'siteOwner':
                 return ResponsiblePartyGroupComponent.compare;

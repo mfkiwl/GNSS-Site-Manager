@@ -1,7 +1,10 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Headers, Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { Subject } from 'rxjs/Subject';
+import { UserAuthService } from '../global/user-auth.service';
+import { User } from 'oidc-client';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { SelectSiteSearchType, WFSService } from '../wfs/wfs.service';
@@ -14,6 +17,8 @@ import { SiteAdministrationModel } from '../../site-administration/site-administ
  */
 @Injectable()
 export class CorsSiteService implements OnDestroy {
+
+  public isSuperuser: BehaviorSubject<boolean> = new BehaviorSubject(false);
   private unsubscribe: Subject<void> = new Subject<void>();
 
   /**
@@ -24,7 +29,10 @@ export class CorsSiteService implements OnDestroy {
    * @param constantsService - Constants used in the application
    * @constructor
    */
-  constructor(private http: Http, private wfsService: WFSService, private constantsService: ConstantsService) {}
+  constructor(private http: Http, private wfsService: WFSService,
+              private constantsService: ConstantsService,
+              private userAuthService: UserAuthService) {
+  }
 
   ngOnDestroy() {
     this.unsubscribe.next();
@@ -64,7 +72,7 @@ export class CorsSiteService implements OnDestroy {
       .map((response: Response) => {
         if (response.status === 200) {
           let data: any = response.json();
-          return new SiteAdministrationModel(data.siteStatus);
+          return new SiteAdministrationModel(data.id, data.siteStatus);
         } else {
           let msg: string = 'Error with GET: ' + response.url;
           throw new Error(msg);
@@ -86,6 +94,19 @@ export class CorsSiteService implements OnDestroy {
     return this.http.get(this.constantsService.getWebServiceURL() + '/corsSites?id=' + id)
       .map(HttpUtilsService.handleJsonData)
       .catch(HttpUtilsService.handleError);
+  }
+
+  saveCorsSite(siteAdminModel: SiteAdministrationModel, id_token: string) : Observable<any> {
+    console.log('Save existing CorsSite - SiteAdminModel: ', siteAdminModel);
+
+    const user: User = this.userAuthService.user.value;
+    const headers = new Headers();
+    if (user) {
+      headers.append('Authorization', 'Bearer ' + user.id_token);
+    }
+
+    let url = this.constantsService.getWebServiceURL() + '/corsSites/' + siteAdminModel.id;
+    return this.http.patch(url, siteAdminModel, {headers: headers});
   }
 
   private fixWFSeData(wfsData: any): any {

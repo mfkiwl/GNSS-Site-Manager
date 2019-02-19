@@ -61,7 +61,7 @@ export class UserAuthService {
         });
     }
 
-  requestNewUser(registration: UserRegistration): Observable<void> {
+    requestNewUser(registration: UserRegistration): Observable<void> {
         return this.http.post(this.constantsService.getWebServiceURL() + '/userRegistrations', registration)
             .mapTo(undefined);
     }
@@ -84,6 +84,21 @@ export class UserAuthService {
             let url: string = this.constantsService.getOpenAMServerURL() + '/XUI/#profile/password';
             window.open(url);
         }
+    }
+
+    public isSuperuser(): boolean {
+        if (!this.user.value || !this.user.value.profile || !this.user.value.profile.authorities) {
+            return false;
+        }
+
+        let superuser = false;
+        for (let auth of this.user.value.profile.authorities) {
+            if (auth.toLowerCase() === 'superuser') {
+                superuser = true;
+            }
+        }
+
+        return superuser;
     }
 
     public hasAuthorityToEditSite(siteId: string): Observable<boolean> {
