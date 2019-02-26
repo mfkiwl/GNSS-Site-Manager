@@ -1,7 +1,7 @@
 import { Component, ChangeDetectorRef, Input, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
-import { CorsSiteService, MiscUtils } from '../shared/index';
+import { CorsSiteService, CorsNetworkService, MiscUtils } from '../shared/index';
 import { SiteAdministrationModel } from './site-administration-model';
 import { RadioButtonOption } from '../shared/form-input/radiobuttons-input.component';
 
@@ -43,6 +43,7 @@ export class SiteAdministrationComponent implements OnInit, OnDestroy {
     */
     constructor(private formBuilder: FormBuilder,
                 private corsSiteService: CorsSiteService,
+                private corsNetworkService: CorsNetworkService,
                 private changeDetectionRef: ChangeDetectorRef) {
     }
 

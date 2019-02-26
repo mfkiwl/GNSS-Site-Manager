@@ -4,6 +4,7 @@ import { SiteLogComponent } from './site-log.component';
 import { ConfirmDeactivateSiteLogGuard } from './site-log-deactivate.module';
 import { PrefetchSiteLogResolver } from '../shared/site-log/prefetch-site-log.service';
 import { PrefetchCorsSiteResolver } from '../shared/cors-site/prefetch-cors-site.service';
+import { PrefetchCorsNetworkResolver } from '../shared/cors-network/prefetch-cors-network.service';
 
 @NgModule({
     imports: [
@@ -14,6 +15,7 @@ import { PrefetchCorsSiteResolver } from '../shared/cors-site/prefetch-cors-site
             resolve: {
                 siteLogModel: PrefetchSiteLogResolver,
                 siteAdminModel: PrefetchCorsSiteResolver,
+                siteNetworkModel: PrefetchCorsNetworkResolver,
             },
             canDeactivate: [ConfirmDeactivateSiteLogGuard]
         }
@@ -23,6 +25,7 @@ import { PrefetchCorsSiteResolver } from '../shared/cors-site/prefetch-cors-site
     providers: [
         PrefetchSiteLogResolver,
         PrefetchCorsSiteResolver,
+        PrefetchCorsNetworkResolver,
     ]
 })
 export class SiteLogRoutingModule { }

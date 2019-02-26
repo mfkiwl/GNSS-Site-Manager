@@ -2,6 +2,7 @@
  * This barrel file provides the exports for the shared resources (services, components).
  */
 export * from './cors-site/index';
+export * from './cors-network/index';
 export * from './cors-setup/index';
 export * from './site-log/index';
 export * from './global/index';
