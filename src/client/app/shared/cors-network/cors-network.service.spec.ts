@@ -2,8 +2,9 @@ import { ReflectiveInjector } from '@angular/core';
 import { BaseRequestOptions, ConnectionBackend, Http, Response, ResponseOptions } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { ConstantsService } from '../global/constants.service';
-import { CorsNetworkModel } from './cors-network-model';
 import { CorsNetworkService } from './cors-network.service';
+import { HttpUtilsService } from '../global/http-utils.service';
+import { CorsNetworkModel } from './cors-network-model';
 
 export function main() {
     describe('CorsNetwork Service', () => {
@@ -14,6 +15,7 @@ export function main() {
             let injector = ReflectiveInjector.resolveAndCreate([
                 ConstantsService,
                 CorsNetworkService,
+                HttpUtilsService,
                 BaseRequestOptions,
                 MockBackend,
                 {
@@ -69,6 +71,7 @@ export function main() {
             let injector = ReflectiveInjector.resolveAndCreate([
                 ConstantsService,
                 CorsNetworkService,
+                HttpUtilsService,
                 BaseRequestOptions,
                 MockBackend,
                 {

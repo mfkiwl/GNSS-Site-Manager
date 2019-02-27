@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
-import { mergeMap } from 'rxjs/operators';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { HttpUtilsService } from '../global/http-utils.service';
@@ -14,7 +13,7 @@ import { CorsNetworkModel } from './cors-network-model';
 @Injectable()
 export class CorsNetworkService {
 
-    private webServiceUrl: string;
+    private resourceUrl: string;
 
     /**
      * Creates a new CorsNetworkService with the injected Http.
@@ -22,8 +21,8 @@ export class CorsNetworkService {
      * @param constantsService - Constants used in the application.
      * @constructor
      */
-    constructor(private http: Http, private constantsService: ConstantsService) {
-        this.webServiceUrl = this.constantsService.getWebServiceURL() + '/corsNetworks';
+    constructor(private http: Http, private constantsService: ConstantsService, private httpUtils: HttpUtilsService) {
+        this.resourceUrl = this.constantsService.getWebServiceURL() + '/corsNetworks';
     }
 
     /**
@@ -32,7 +31,7 @@ export class CorsNetworkService {
      * @return {CorsNetworkModel} The Observable of a CORS network object for the HTTP request.
      */
     getCorsNetworksById(id: number): Observable<CorsNetworkModel> {
-        return this.http.get(this.webServiceUrl + '/' + id)
+        return this.http.get(this.resourceUrl + '/' + id)
             .map((response: Response) => {
                 let data = response.json();
                 let corsNetwork = new CorsNetworkModel(data.id, data.name, data.description);
@@ -47,7 +46,7 @@ export class CorsNetworkService {
      * @return {CorsNetworkModel} The Observable of a CORS network object for the HTTP request.
      */
     getCorsNetworksByName(networkName: string): Observable<CorsNetworkModel> {
-        return this.http.get(this.webServiceUrl + '?name=' + networkName)
+        return this.http.get(this.resourceUrl + '?name=' + networkName)
             .map((response: Response) => {
                 let data = response.json();
                 let corsNetwork = new CorsNetworkModel(data.id, data.name, data.description);
@@ -62,46 +61,10 @@ export class CorsNetworkService {
      * @return {CorsNetworkModel[]} The Observable of a list of CORS networks for the HTTP request.
      */
     getAllCorsNetworks(): Observable<CorsNetworkModel[]> {
-        let url = this.webServiceUrl + '?size=1000';
-        return this.getCorsNetworksFromPage([], url);
-    }
-
-    /**
-     * Recursively retrieve all CORS networks from each page of the HTTP request
-     *
-     * @param {CorsNetworkModel[]} corsNetworks - An array storing all CORS networks retrieved
-     * @param {string} url - The URL of the HTTP request with page number parameter
-     * @return {CorsNetworkModel[]} The Observable of a list of CORS networks for the HTTP request.
-     */
-    private getCorsNetworksFromPage(corsNetworks: CorsNetworkModel[], url: string): Observable<CorsNetworkModel[]> {
-        return this.http.get(url).pipe(
-            mergeMap((response: Response) => {
-                let data = response.json();
-                corsNetworks.push(...this.parsePage(data));
-                let nextUrl = this.parseNextLink(data);
-                if (nextUrl) {
-                    return this.getCorsNetworksFromPage(corsNetworks, nextUrl);
-                } else {
-                    console.info('Number of cors networks retrieved: ' + corsNetworks.length);
-                    return Observable.of(corsNetworks);
-                }
-            })
-        );
-    }
-
-    private parseNextLink(data: any): string {
-        return (data && data['_links']['next']) ? data['_links']['next']['href'] : null;
-    }
-
-    private parsePage(data: any): CorsNetworkModel[] {
-        let networks: CorsNetworkModel[] = [];
-        let items: any[] = data ? data['_embedded']['corsNetworks'] : [];
-        if (items) {
-            items.forEach((item: any) => {
-                let network = new CorsNetworkModel(item.id, item.name, item.description);
-                networks.push(network);
-            });
-        }
-        return networks;
+        let url = this.resourceUrl + '?size=1000';
+        let resourceName = 'corsNetworks';
+        return this.httpUtils.getResourcesFromPage(resourceName, [], url, (item: any): CorsNetworkModel => {
+            return new CorsNetworkModel(item.id, item.name, item.description);
+        });
     }
 }
