@@ -62,8 +62,7 @@ export class CorsNetworkService {
      */
     getAllCorsNetworks(): Observable<CorsNetworkModel[]> {
         let url = this.resourceUrl + '?size=1000';
-        let resourceName = 'corsNetworks';
-        return this.httpUtils.getResourcesFromPage(resourceName, [], url, (item: any): CorsNetworkModel => {
+        return this.httpUtils.getResourcesFromPage([], url, (item: any): CorsNetworkModel => {
             return new CorsNetworkModel(item.id, item.name, item.description);
         });
     }
