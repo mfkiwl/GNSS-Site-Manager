@@ -72,10 +72,16 @@ export class CorsSiteService implements OnDestroy {
       .map((response: Response) => {
         if (response.status === 200) {
           let data: any = response.json();
-          return new SiteAdministrationModel(data.id, data.siteStatus);
+          let corsSite = data && data['_embedded'] ? data['_embedded']['corsSites'][0] : null;
+          if (corsSite) {
+              let siteAdmin = new SiteAdministrationModel(corsSite.id, corsSite.siteStatus);
+              siteAdmin.parseNetworkTenancies(corsSite.networkTenancies);
+              return siteAdmin;
+          } else {
+            throw new Error('Error: no CORS site data from ' + response.url);
+          }
         } else {
-          let msg: string = 'Error with GET: ' + response.url;
-          throw new Error(msg);
+          throw new Error('Error with GET: ' + response.url);
         }
       });
   }
