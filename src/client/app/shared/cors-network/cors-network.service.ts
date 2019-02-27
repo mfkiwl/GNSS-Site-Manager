@@ -47,7 +47,7 @@ export class CorsNetworkService {
      * @return {CorsNetworkModel} The Observable of a CORS network object for the HTTP request.
      */
     getCorsNetworksByName(networkName: string): Observable<CorsNetworkModel> {
-        return this.http.get(this.webServiceUrl + '/search/findByName?name=' + networkName)
+        return this.http.get(this.webServiceUrl + '?name=' + networkName)
             .map((response: Response) => {
                 let data = response.json();
                 let corsNetwork = new CorsNetworkModel(data.id, data.name, data.description);
@@ -76,8 +76,9 @@ export class CorsNetworkService {
     private getCorsNetworksFromPage(corsNetworks: CorsNetworkModel[], url: string): Observable<CorsNetworkModel[]> {
         return this.http.get(url).pipe(
             mergeMap((response: Response) => {
-                corsNetworks.push(...this.parsePage(response));
-                let nextUrl = this.parseNextLink(response);
+                let data = response.json();
+                corsNetworks.push(...this.parsePage(data));
+                let nextUrl = this.parseNextLink(data);
                 if (nextUrl) {
                     return this.getCorsNetworksFromPage(corsNetworks, nextUrl);
                 } else {
@@ -93,14 +94,14 @@ export class CorsNetworkService {
     }
 
     private parsePage(data: any): CorsNetworkModel[] {
-        let corsNetworks: CorsNetworkModel[] = [];
+        let networks: CorsNetworkModel[] = [];
         let items: any[] = data ? data['_embedded']['corsNetworks'] : [];
         if (items) {
             items.forEach((item: any) => {
-                let corsNetwork = new CorsNetworkModel(item.id, item.name, item.description);
-                corsNetworks.push(corsNetwork);
+                let network = new CorsNetworkModel(item.id, item.name, item.description);
+                networks.push(network);
             });
         }
-        return corsNetworks;
+        return networks;
     }
 }
