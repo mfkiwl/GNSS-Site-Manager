@@ -6,6 +6,7 @@ import { SiteLogComponent } from './site-log.component';
 import { SiteLogRoutingModule } from './site-log-routing.module';
 import { PrefetchSiteLogResolver } from '../shared/site-log/prefetch-site-log.service';
 import { PrefetchCorsSiteResolver } from '../shared/cors-site/prefetch-cors-site.service';
+import { PrefetchCorsNetworkResolver } from '../shared/cors-network/prefetch-cors-network.service';
 import { ConfirmDeactivateSiteLogGuard } from './site-log-deactivate.module';
 
 import { SiteAdministrationModule } from '../site-administration/site-administration.module';
@@ -54,6 +55,7 @@ import { MultipathSourceModule } from '../multipath-source/multipath-source.modu
     providers: [
         PrefetchSiteLogResolver,
         PrefetchCorsSiteResolver,
+        PrefetchCorsNetworkResolver,
         ConfirmDeactivateSiteLogGuard,
     ],
 })
