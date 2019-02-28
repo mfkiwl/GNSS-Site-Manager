@@ -1,27 +1,45 @@
-/**
-* This is the Data & View Models for Site Administration.
-*/
+import { CorsNetworkModel } from '../shared/cors-network/cors-network-model';
 
+/**
+ * This is the Data & View Models for Site Administration.
+ */
 export class SiteAdministrationModel {
     public id: number;
     public siteStatus: string;
-    public corsNetworkIds: number[];
+    public corsNetworks: CorsNetworkModel[];
 
     constructor(id: number = null, status: string = 'PUBLIC') {
         this.id = id;
         this.siteStatus = status;
-        this.corsNetworkIds = [];
+        this.corsNetworks = [];
     }
 
     public parseNetworkTenancies(networkTenancies: any[]) {
         if (networkTenancies) {
             networkTenancies.forEach((network: any) => {
-                this.corsNetworkIds.push(network.corsNetworkId);
+                let corsNetwork = new CorsNetworkModel(network.corsNetworkId, null, null);
+                this.corsNetworks.push(corsNetwork);
             });
         }
     }
 
-    public getCorsNetworkIds(): string {
-        return this.corsNetworkIds.join(', ');
+    public mapNetworkNames(corsNetworkList: CorsNetworkModel[]) {
+        this.corsNetworks.forEach((networkCurrent: CorsNetworkModel) => {
+            let networkFound = this.findCorsNetworkModelById(networkCurrent.id, corsNetworkList);
+            if (networkFound) {
+                networkCurrent.name = networkFound.name;
+                networkCurrent.description = networkFound.description;
+            }
+        });
+    }
+
+    private findCorsNetworkModelById(networkId: number, corsNetworkList: CorsNetworkModel[]): CorsNetworkModel {
+        for (let network of corsNetworkList) {
+            if (network.id === networkId) {
+                return network;
+            }
+        }
+
+        return null;
     }
 }

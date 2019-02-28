@@ -8,6 +8,7 @@ import * as _ from 'lodash';
 import { DialogService, MiscUtils, CorsSiteService, SiteLogService } from '../shared/index';
 import { SiteLogViewModel }  from '../site-log/site-log-view-model';
 import { SiteAdministrationModel } from '../site-administration/site-administration-model';
+import { CorsNetworkModel } from '../shared/cors-network/cors-network-model';
 import { UserAuthService } from '../shared/global/user-auth.service';
 import { ApplicationSaveState } from '../shared/site-log/site-log.service';
 import { ResponsiblePartyGroupComponent } from '../responsible-party/responsible-party-group.component';
@@ -40,6 +41,7 @@ export class SiteLogComponent implements OnInit, OnDestroy {
     public corsSiteForm: FormGroup;
     public siteLogModel: SiteLogViewModel;
     public siteAdminModel: SiteAdministrationModel;
+    public corsNetworkList: CorsNetworkModel[];
 
     private siteId: string;
     private isLoading: boolean = false;
@@ -80,7 +82,9 @@ export class SiteLogComponent implements OnInit, OnDestroy {
         });
 
         this.isLoading = true;
-        this.route.data.subscribe((data: {siteLogModel: SiteLogViewModel, siteAdminModel: SiteAdministrationModel}) => {
+        this.route.data.subscribe((data: {siteLogModel: SiteLogViewModel,
+                                          siteAdminModel: SiteAdministrationModel,
+                                          corsNetworkList: CorsNetworkModel[]}) => {
 
             // if we already have a siteLogForm then this looks like a good place to reload the page
             // TODO possibly work out a way to clear out all the data instead
@@ -88,6 +92,7 @@ export class SiteLogComponent implements OnInit, OnDestroy {
                 window.location.reload();
             }
 
+            this.corsNetworkList = data.corsNetworkList;
             this.siteAdminModel = data.siteAdminModel;
             console.log('Site administration data loaded from CORS site successfully for ' + this.siteId);
 
