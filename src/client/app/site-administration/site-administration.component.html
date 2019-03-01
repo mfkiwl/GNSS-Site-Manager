@@ -15,11 +15,14 @@
             Please contact <a href="mailto:gnss@ga.gov.au">gnss@ga.gov.au</a> if you require a change.
         </div>
         <div class="panel panel-level-2">
+            <div class="panel-heading item-header">
+                <span class="panel-title cursor-ptr" tabindex="0">Data Permission</span>
+            </div>
             <div class="panel-body item-body">
                 <radiobuttons-input [form]="siteAdministrationForm"
                                     controlName="siteStatus"
                                     [required]="true"
-                                    [options]="sitePermissionList">Data Permission</radiobuttons-input>
+                                    [options]="sitePermissionList"></radiobuttons-input>
             </div>
         </div>
     </div>
