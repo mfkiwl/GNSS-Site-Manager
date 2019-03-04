@@ -1,0 +1,34 @@
+<div [formGroup]="form" class="multi-select-boxes" [ngClass]="{'disabled': form.disabled, 'ng-dirty': formControl.dirty}">
+    <div class="col-d24-11 col-xxs-12">
+        <list-box [(inputItemList)]="selects">CORS Networks Selected</list-box>
+    </div>
+    <div class="col-d24-2 col-xxs-12 list-box-btn-group">
+        <div class="align-horizontal">
+            <button class="btn btn-primary btn-xs"
+                    [disabled]="!canAddItems()"
+                    (click)="addSelectedItems()">
+                <i class="glyphicon glyphicon-arrow-left" aria-hidden="true"></i>
+            </button>
+            <button class="btn btn-primary btn-xs"
+                    [disabled]="!canRemoveItems()"
+                    (click)="removeSelectedItems()">
+                <i class="glyphicon glyphicon-arrow-right" aria-hidden="true"></i>
+            </button>
+        </div>
+        <div class="align-vertical">
+            <button class="btn btn-primary btn-xs"
+                    [disabled]="!canAddItems()"
+                    (click)="addSelectedItems()">
+                <i class="glyphicon glyphicon-arrow-up" aria-hidden="true"></i>
+            </button>
+            <button class="btn btn-primary btn-xs"
+                    [disabled]="!canRemoveItems()"
+                    (click)="removeSelectedItems()">
+                <i class="glyphicon glyphicon-arrow-down" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+    <div class="col-d24-11 col-xxs-12">
+        <list-box [(inputItemList)]="options">CORS Networks Available</list-box>
+    </div>
+</div>

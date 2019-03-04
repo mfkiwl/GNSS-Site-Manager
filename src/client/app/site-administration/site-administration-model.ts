@@ -27,8 +27,10 @@ export class SiteAdministrationModel {
         this.corsNetworks.forEach((networkCurrent: CorsNetworkModel) => {
             let networkFound = this.findCorsNetworkModelById(networkCurrent.id, corsNetworkList);
             if (networkFound) {
+                networkFound.added = true;
                 networkCurrent.name = networkFound.name;
                 networkCurrent.description = networkFound.description;
+                networkCurrent.selected = networkFound.selected;
             }
         });
     }

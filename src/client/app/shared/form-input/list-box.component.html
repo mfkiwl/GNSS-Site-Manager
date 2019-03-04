@@ -1,0 +1,16 @@
+<div class="list-box-container">
+    <div class="list-box-header">
+        <ng-content></ng-content>
+    </div>
+    <div class="list-box-body">
+        <div *ngFor="let item of inputItemList; let i = index">
+            <span *ngIf="!item.added"
+                  class="list-box-item"
+                  (click)="markSelected(i)"
+                  [ngClass]="{'item-selected': item.selected}">
+                {{item.name}}
+                <i class="glyphicon" [ngClass]="{'glyphicon-ok': item.selected}"></i>
+            </span>
+        </div>
+    </div>
+</div>

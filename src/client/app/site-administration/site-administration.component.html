@@ -25,5 +25,16 @@
                                     [options]="sitePermissionList"></radiobuttons-input>
             </div>
         </div>
+        <div class="panel panel-level-2">
+            <div class="panel-heading item-header">
+                <span class="panel-title cursor-ptr" tabindex="0">CORS Networks</span>
+            </div>
+            <div class="panel-body item-body">
+                <multi-select-boxes [form]="siteAdministrationForm"
+                                    controlName="corsNetworks"
+                                    [options]="corsNetworkList"
+                                    [selects]="siteAdminModel.corsNetworks"></multi-select-boxes>
+            </div>
+        </div>
     </div>
 </div>

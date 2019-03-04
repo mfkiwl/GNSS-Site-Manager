@@ -77,9 +77,11 @@ export class SiteAdministrationComponent implements OnInit, OnDestroy {
     private setupForm() {
         this.siteAdministrationForm = this.formBuilder.group({
             siteStatus: ['', [Validators.maxLength(10)]],
+            corsNetworks: [''],
         });
 
         this.siteAdministrationForm.controls['siteStatus'].setValue(this.siteAdminModel.siteStatus);
+        this.siteAdministrationForm.controls['corsNetworks'].setValue(this.siteAdminModel.corsNetworks);
         this.subscription = this.corsSiteService.isSuperuser.subscribe(superuser => {
             if (superuser) {
                 this.siteAdministrationForm.enable();
