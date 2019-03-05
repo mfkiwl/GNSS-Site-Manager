@@ -27,14 +27,21 @@ export class MultiSelectBoxesComponent extends AbstractInput implements ControlV
     }
 
     canAddItems(): boolean {
+        if (this.form.disabled)
+            return false;
         return this.hasItemsSelected(this.options);
     }
 
     canRemoveItems(): boolean {
+        if (this.form.disabled)
+            return false;
         return this.hasItemsSelected(this.selects);
     }
 
     addSelectedItems() {
+        if (this.form.disabled)
+            return;
+
         this.options.forEach((item: CorsNetworkModel) => {
             if (item.selected) {
                 item.selected = false;
@@ -45,6 +52,9 @@ export class MultiSelectBoxesComponent extends AbstractInput implements ControlV
     }
 
     removeSelectedItems() {
+        if (this.form.disabled)
+            return;
+
         for (let i = this.selects.length - 1; i >= 0; i --) {
             if (this.selects[i].selected) {
                 this.markOptionItemById(this.selects[i].id);

@@ -9,8 +9,11 @@ import { CorsNetworkModel } from '../cors-network/cors-network-model';
 })
 export class ListBoxComponent {
     @Input() inputItemList: CorsNetworkModel[];
+    @Input() disabled: string;
 
-    markSelected(i: number) {
-        this.inputItemList[i].selected = !this.inputItemList[i].selected;
+    markSelected(index: number) {
+        if (!this.disabled) {
+            this.inputItemList[index].selected = !this.inputItemList[index].selected;
+        }
     }
 }

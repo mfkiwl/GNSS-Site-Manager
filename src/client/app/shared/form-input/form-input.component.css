@@ -45,7 +45,7 @@
   white-space: nowrap;
   width: 100%;
 }
-.item-selected {
+.list-item-selected {
   background-color: #3182bd;
   color: #fff;
 }
@@ -68,6 +68,18 @@
   margin-right: auto;
   margin-top: 0;
   padding: 2px 10px;
+}
+.list-box-body.disabled,
+.list-box-body .disabled {
+  background-color: #f0f0f0;
+  cursor: not-allowed;
+}
+.list-box-item.disabled,
+.list-box-item .disabled {
+  background-color: #f0f0f0;
+  border-color: #f1f1f1;
+  color: #333;
+  cursor: not-allowed;
 }
 
 .radiobutton-group,

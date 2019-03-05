@@ -1,6 +1,6 @@
-<div [formGroup]="form" class="multi-select-boxes" [ngClass]="{'disabled': form.disabled, 'ng-dirty': formControl.dirty}">
+<div [formGroup]="form" class="multi-select-boxes">
     <div class="col-d24-11 col-xxs-12">
-        <list-box [(inputItemList)]="selects">CORS Networks Selected</list-box>
+        <list-box [(inputItemList)]="selects" [disabled]="form.disabled">Asigned</list-box>
     </div>
     <div class="col-d24-2 col-xxs-12 list-box-btn-group">
         <div class="align-horizontal">
@@ -29,6 +29,6 @@
         </div>
     </div>
     <div class="col-d24-11 col-xxs-12">
-        <list-box [(inputItemList)]="options">CORS Networks Available</list-box>
+        <list-box [(inputItemList)]="options" [disabled]="form.disabled">Available</list-box>
     </div>
 </div>
