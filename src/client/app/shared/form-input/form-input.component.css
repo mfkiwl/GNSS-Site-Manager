@@ -45,16 +45,6 @@
   white-space: nowrap;
   width: 100%;
 }
-.list-item-selected {
-  background-color: #3182bd;
-  color: #fff;
-}
-.list-box-item:hover,
-.list-box-item:focus {
-  background-color: #deebf7;
-  color: #2171b5;
-  cursor: pointer;
-}
 .list-box-btn-group {
   margin-top: 75px;
   padding-left: 0 !important;
@@ -70,16 +60,43 @@
   padding: 2px 10px;
 }
 .list-box-body.disabled,
-.list-box-body .disabled {
+.list-box-body .disabled,
+.list-box-body.ng-dirty.disabled,
+.list-box-body.ng-dirty .disabled {
   background-color: #f0f0f0;
   cursor: not-allowed;
 }
 .list-box-item.disabled,
-.list-box-item .disabled {
+.list-box-item .disabled,
+.list-box-item.ng-dirty.disabled,
+.list-box-item.ng-dirty .disabled,
+.list-box-item.disabled:hover,
+.list-box-item .disabled:hover,
+.list-box-item.disabled.ng-dirty,
+.list-box-item.ng-dirty .disabled {
   background-color: #f0f0f0;
   border-color: #f1f1f1;
   color: #333;
   cursor: not-allowed;
+}
+.list-box-body.ng-dirty {
+  border-color: #00b300;
+  background-color: #ebffeb;
+}
+.list-box-item.ng-dirty {
+  border-color: #ebffeb;
+  background-color: #ebffeb;
+}
+.list-item-selected.ng-dirty,
+.list-item-selected {
+  background-color: #3182bd;
+  color: #fff;
+}
+.list-box-item:hover:not(.disabled),
+.list-box-item:focus:not(.disabled) {
+  background-color: #deebf7;
+  color: #2171b5;
+  cursor: pointer;
 }
 
 .radiobutton-group,

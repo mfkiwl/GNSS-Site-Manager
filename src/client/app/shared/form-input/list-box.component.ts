@@ -10,6 +10,7 @@ import { CorsNetworkModel } from '../cors-network/cors-network-model';
 export class ListBoxComponent {
     @Input() inputItemList: CorsNetworkModel[];
     @Input() disabled: string;
+    @Input() cssNgDirty: string;
 
     markSelected(index: number) {
         if (!this.disabled) {
