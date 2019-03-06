@@ -102,17 +102,29 @@ export class CorsSiteService implements OnDestroy {
       .catch(HttpUtilsService.handleError);
   }
 
-  saveCorsSite(siteAdminModel: SiteAdministrationModel, id_token: string) : Observable<any> {
-    console.log('Save existing CorsSite - SiteAdminModel: ', siteAdminModel);
+  updateCorsSite(siteAdminModel: SiteAdministrationModel): Observable<any> {
+    let url = this.constantsService.getWebServiceURL() + '/corsSites/' + siteAdminModel.id;
+    return this.http.patch(url, siteAdminModel, {headers: this.getHttpHeaders()});
+  }
 
+  addToNetwork(siteId: number, networkId: number): Observable<any> {
+    let url = this.constantsService.getWebServiceURL() + '/corsSites/' + siteId + '/addToNetwork?networkId=' + networkId;
+    return this.http.put(url, '', {headers: this.getHttpHeaders()});
+  }
+
+  removeFromNetwork(siteId: number, networkId: number): Observable<any> {
+    let url = this.constantsService.getWebServiceURL() + '/corsSites/' + siteId + '/removeFromNetwork?networkId=' + networkId;
+    return this.http.put(url, '', {headers: this.getHttpHeaders()});
+  }
+
+  private getHttpHeaders(): Headers {
     const user: User = this.userAuthService.user.value;
     const headers = new Headers();
     if (user) {
       headers.append('Authorization', 'Bearer ' + user.id_token);
     }
 
-    let url = this.constantsService.getWebServiceURL() + '/corsSites/' + siteAdminModel.id;
-    return this.http.patch(url, siteAdminModel, {headers: headers});
+    return headers;
   }
 
   private fixWFSeData(wfsData: any): any {
