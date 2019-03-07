@@ -41,12 +41,12 @@ export class FrequencyStandardItemComponent extends AbstractItemComponent {
      */
     getItemForm(): FormGroup {
         return this.formBuilder.group({
-            id: [null],
-            standardType: ['', [Validators.maxLength(200)]],
-            inputFrequency: ['', [Validators.maxLength(25)]],
-            startDate: [''],
-            endDate: [''],
-            notes: ['', [Validators.maxLength(2000)]],
+            id: [{value: null, disabled: this.isEditable}],
+            standardType: [{value: '', disabled: this.isEditable}, [Validators.maxLength(200)]],
+            inputFrequency: [{value: '', disabled: this.isEditable}, [Validators.maxLength(25)]],
+            startDate: [{value: '', disabled: this.isEditable}],
+            endDate: [{value: '', disabled: this.isEditable}],
+            notes: [{value: '', disabled: this.isEditable}, [Validators.maxLength(2000)]],
             objectMap: [''],
         });
     }

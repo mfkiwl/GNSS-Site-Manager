@@ -161,9 +161,9 @@ export class SiteLocationComponent extends AbstractBaseComponent implements OnIn
 
     private setupForm() {
         this.cartesianPositionForm = this.formBuilder.group({
-            x: '',
-            y: '',
-            z: ''
+            x: {value: '', disabled: this.isEditable},
+            y: {value: '', disabled: this.isEditable},
+            z: {value: '', disabled: this.isEditable}
         });
         // Validators are applied in handleLocationPositionGroupChange.
         // Validators.required is added to those listed (conditionally when the group has at least one value)
@@ -175,9 +175,9 @@ export class SiteLocationComponent extends AbstractBaseComponent implements OnIn
             }
         );
         this.geodeticPositionForm = this.formBuilder.group({
-            lat: '',
-            lon: '',
-            height: ''
+            lat: {value: '', disabled: this.isEditable},
+            lon: {value: '', disabled: this.isEditable},
+            height: {value: '', disabled: this.isEditable}
         });
         // Validators are applied in handleLocationPositionGroupChange.
         // Validators.required is added to those listed (conditionally when the group has at least one value)
@@ -189,13 +189,13 @@ export class SiteLocationComponent extends AbstractBaseComponent implements OnIn
             }
         );
         this.siteLocationForm = this.formBuilder.group({
-            city: ['', [Validators.maxLength(100)]],
-            state: ['', [Validators.maxLength(100)]],
-            countryCodeISO: ['', [Validators.maxLength(10)]],
+            city: [{value: '', disabled: this.isEditable}, [Validators.maxLength(100)]],
+            state: [{value: '', disabled: this.isEditable}, [Validators.maxLength(100)]],
+            countryCodeISO: [{value: '', disabled: this.isEditable}, [Validators.maxLength(10)]],
             cartesianPosition: this.cartesianPositionForm,
             geodeticPosition: this.geodeticPositionForm,
-            tectonicPlate: ['', [Validators.maxLength(100)]],
-            notes: ['', [Validators.maxLength(2000)]],
+            tectonicPlate: [{value: '', disabled: this.isEditable}, [Validators.maxLength(100)]],
+            notes: [{value: '', disabled: this.isEditable}, [Validators.maxLength(2000)]],
             objectMap: [''],
         });
         this.siteLocation = this.siteLogModel.siteInformation.siteLocation;

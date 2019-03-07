@@ -98,20 +98,20 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
         organisationValidators.push(Validators.maxLength(200));
 
         return this.formBuilder.group({
-            id: [null],
-            individualName: ['', individualNameValidators],
-            organisationName: ['', organisationValidators],
-            positionName: ['', [Validators.maxLength(100)]],
-            deliveryPoint: ['', [Validators.maxLength(2000)]],
-            city: ['', [Validators.maxLength(100)]],
-            administrativeArea: ['', [Validators.maxLength(100)]],
-            postalCode: ['', [Validators.maxLength(25)]],
-            country: [''],
-            email: [''],
-            primaryPhone: ['', [Validators.maxLength(25)]],
-            secondaryPhone: ['', [Validators.maxLength(25)]],
-            fax: ['', [Validators.maxLength(25)]],
-            url: [''],
+            id: [{value: null, disabled: this.isEditable}],
+            individualName: [{value: '', disabled: this.isEditable}, individualNameValidators],
+            organisationName: [{value: '', disabled: this.isEditable}, organisationValidators],
+            positionName: [{value: '', disabled: this.isEditable}, [Validators.maxLength(100)]],
+            deliveryPoint: [{value: '', disabled: this.isEditable}, [Validators.maxLength(2000)]],
+            city: [{value: '', disabled: this.isEditable}, [Validators.maxLength(100)]],
+            administrativeArea: [{value: '', disabled: this.isEditable}, [Validators.maxLength(100)]],
+            postalCode: [{value: '', disabled: this.isEditable}, [Validators.maxLength(25)]],
+            country: [{value: '', disabled: this.isEditable}],
+            email: [{value: '', disabled: this.isEditable}],
+            primaryPhone: [{value: '', disabled: this.isEditable}, [Validators.maxLength(25)]],
+            secondaryPhone: [{value: '', disabled: this.isEditable}, [Validators.maxLength(25)]],
+            fax: [{value: '', disabled: this.isEditable}, [Validators.maxLength(25)]],
+            url: [{value: '', disabled: this.isEditable}],
         });
     }
 

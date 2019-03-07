@@ -39,10 +39,10 @@ export class OtherInstrumentationItemComponent extends AbstractItemComponent {
      */
     getItemForm(): FormGroup {
         return this.formBuilder.group({
-            id: [null],
-            instrumentation: ['', [Validators.required]],
-            startDate: [''],
-            endDate: [''],
+            id: [{value: null, disabled: this.isEditable}],
+            instrumentation: [{value: '', disabled: this.isEditable}, [Validators.required]],
+            startDate: [{value: '', disabled: this.isEditable}],
+            endDate: [{value: '', disabled: this.isEditable}],
         });
     }
 }

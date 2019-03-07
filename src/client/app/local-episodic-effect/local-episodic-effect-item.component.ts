@@ -41,10 +41,10 @@ export class LocalEpisodicEffectItemComponent extends AbstractItemComponent {
      */
     getItemForm(): FormGroup {
         return this.formBuilder.group({
-            id: [null],
-            event: ['', [Validators.required]],
-            startDate: [''],
-            endDate: [''],
+            id: [{value: null, disabled: this.isEditable}],
+            event: [{value: '', disabled: this.isEditable}, [Validators.required]],
+            startDate: [{value: '', disabled: this.isEditable}],
+            endDate: [{value: '', disabled: this.isEditable}],
             objectMap: [''],
         });
     }

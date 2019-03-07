@@ -41,18 +41,18 @@ export class TemperatureSensorItemComponent extends AbstractItemComponent {
      */
     getItemForm(): FormGroup {
         return this.formBuilder.group({
-            id: [null],
-            type: ['', [Validators.required, Validators.maxLength(100)]],
-            manufacturer: [' ', [Validators.required, Validators.maxLength(100)]],
-            serialNumber: [' ', [Validators.maxLength(100)]],
-            dataSamplingInterval: [''],
-            accuracyDegreesCelcius: [''],
-            heightDiffToAntenna: [''],
-            aspiration: ['', [Validators.maxLength(100)]],
-            calibrationDate: [''],
-            startDate: [''],
-            endDate: [''],
-            notes: [['', [Validators.maxLength(2000)]]],
+            id: [{value: null, disabled: this.isEditable}],
+            type: [{value: '', disabled: this.isEditable}, [Validators.required, Validators.maxLength(100)]],
+            manufacturer: [{value: ' ', disabled: this.isEditable}, [Validators.required, Validators.maxLength(100)]],
+            serialNumber: [{value: ' ', disabled: this.isEditable}, [Validators.maxLength(100)]],
+            dataSamplingInterval: [{value: '', disabled: this.isEditable}],
+            accuracyDegreesCelcius: [{value: '', disabled: this.isEditable}],
+            heightDiffToAntenna: [{value: '', disabled: this.isEditable}],
+            aspiration: [{value: '', disabled: this.isEditable}, [Validators.maxLength(100)]],
+            calibrationDate: [{value: '', disabled: this.isEditable}],
+            startDate: [{value: '', disabled: this.isEditable}],
+            endDate: [{value: '', disabled: this.isEditable}],
+            notes: [{value: '', disabled: this.isEditable}, [Validators.maxLength(2000)]],
             objectMap: [''],
         });
     }

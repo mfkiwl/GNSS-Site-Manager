@@ -35,16 +35,16 @@ export class GnssReceiverItemComponent extends AbstractItemComponent {
      */
     getItemForm(): FormGroup {
         return this.formBuilder.group({
-            id: [null],
-            receiverType: [' ', [Validators.maxLength(25)]],
-            manufacturerSerialNumber: ['', [Validators.maxLength(25)]],
-            startDate: [''],
-            endDate: [''],
-            firmwareVersion: ['', [Validators.maxLength(25)]],
-            satelliteSystems: ['', [Validators.maxLength(200)]],
-            elevationCutoffSetting: ['', [Validators.maxLength(25)]],
-            temperatureStabilization: ['', [Validators.maxLength(25)]],
-            notes: ['', [Validators.maxLength(2000)]],
+            id: [{value: null, disabled: this.isEditable}],
+            receiverType: [{value: ' ', disabled: this.isEditable}, [Validators.maxLength(25)]],
+            manufacturerSerialNumber: [{value: '', disabled: this.isEditable}, [Validators.maxLength(25)]],
+            startDate: [{value: '', disabled: this.isEditable}],
+            endDate: [{value: '', disabled: this.isEditable}],
+            firmwareVersion: [{value: '', disabled: this.isEditable}, [Validators.maxLength(25)]],
+            satelliteSystems: [{value: '', disabled: this.isEditable}, [Validators.maxLength(200)]],
+            elevationCutoffSetting: [{value: '', disabled: this.isEditable}, [Validators.maxLength(25)]],
+            temperatureStabilization: [{value: '', disabled: this.isEditable}, [Validators.maxLength(25)]],
+            notes: [{value: '', disabled: this.isEditable}, [Validators.maxLength(2000)]],
             objectMap: [''],
         });
     }

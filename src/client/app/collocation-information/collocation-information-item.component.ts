@@ -39,12 +39,12 @@ export class CollocationInformationItemComponent extends AbstractItemComponent {
      */
     getItemForm(): FormGroup {
         return this.formBuilder.group({
-            id: [null],
-            instrumentationType: ['', [Validators.required]],
-            status: ['', [Validators.maxLength(2000)]],
-            startDate: [''],
-            endDate: [''],
-            notes: ['', [Validators.maxLength(2000)]],
+            id: [{value: null, disabled: this.isEditable}],
+            instrumentationType: [{value: '', disabled: this.isEditable}, [Validators.required]],
+            status: [{value: '', disabled: this.isEditable}, [Validators.maxLength(2000)]],
+            startDate: [{value: '', disabled: this.isEditable}],
+            endDate: [{value: '', disabled: this.isEditable}],
+            notes: [{value: '', disabled: this.isEditable}, [Validators.maxLength(2000)]],
         });
     }
 }

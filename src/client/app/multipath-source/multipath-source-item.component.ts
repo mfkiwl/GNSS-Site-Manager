@@ -41,11 +41,11 @@ export class MultipathSourceItemComponent extends AbstractItemComponent {
      */
     getItemForm(): FormGroup {
         return this.formBuilder.group({
-            id: [null],
-            possibleProblemSource: ['', [Validators.maxLength(100)]],
-            startDate: [''],
-            endDate: [''],
-            notes: ['', [Validators.maxLength(2000)]],
+            id: [{value: null, disabled: this.isEditable}],
+            possibleProblemSource: [{value: '', disabled: this.isEditable}, [Validators.maxLength(100)]],
+            startDate: [{value: '', disabled: this.isEditable}],
+            endDate: [{value: '', disabled: this.isEditable}],
+            notes: [{value: '', disabled: this.isEditable}, [Validators.maxLength(2000)]],
             objectMap: [''],
         });
     }

@@ -65,27 +65,27 @@ export class SurveyedLocalTieItemComponent extends AbstractItemComponent impleme
     getItemForm(): FormGroup {
         // Differential Components from GNSS Marker to the tied monument (ITRS)
         this.differentialComponentForm = this.formBuilder.group({
-            dx: null,
-            dy: null,
-            dz: null
+            dx: {value: null, disabled: this.isEditable},
+            dy: {value: null, disabled: this.isEditable},
+            dz: {value: null, disabled: this.isEditable}
         });
         this.formSubscription = this.differentialComponentForm.valueChanges.subscribe((change: any) => {
             this.isDifferentialComponentRequired = this.handleGroupFieldsChange(change, this.differentialComponentForm);
         });
 
         return this.formBuilder.group({
-            id: [null],
-            tiedMarkerName: ['', [Validators.maxLength(50)]],
-            tiedMarkerUsage: ['', [Validators.maxLength(50)]],
-            tiedMarkerCDPNumber: ['', [Validators.maxLength(25)]],
-            tiedMarkerDOMESNumber: ['', [Validators.maxLength(25)]],
+            id: [{value: null, disabled: this.isEditable}],
+            tiedMarkerName: [{value: '', disabled: this.isEditable}, [Validators.maxLength(50)]],
+            tiedMarkerUsage: [{value: '', disabled: this.isEditable}, [Validators.maxLength(50)]],
+            tiedMarkerCDPNumber: [{value: '', disabled: this.isEditable}, [Validators.maxLength(25)]],
+            tiedMarkerDOMESNumber: [{value: '', disabled: this.isEditable}, [Validators.maxLength(25)]],
             differentialComponent: this.differentialComponentForm,
-            surveyMethod: ['', [Validators.maxLength(50)]],
-            localSiteTiesAccuracy: ['', [Validators.maxLength(50)]],
-            startDate: [''],
+            surveyMethod: [{value: '', disabled: this.isEditable}, [Validators.maxLength(50)]],
+            localSiteTiesAccuracy: [{value: '', disabled: this.isEditable}, [Validators.maxLength(50)]],
+            startDate: [{value: '', disabled: this.isEditable}],
             // TODO see GEOD-454 endDate not needed by this component but the value exists in the model
-            endDate: [''],
-            notes: [['', [Validators.maxLength(2000)]]],
+            endDate: [{value: '', disabled: this.isEditable}],
+            notes: [{value: '', disabled: this.isEditable}, [Validators.maxLength(2000)]],
             objectMap: [''],
         });
     }
