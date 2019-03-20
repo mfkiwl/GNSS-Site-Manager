@@ -98,6 +98,10 @@
   color: #2171b5;
   cursor: pointer;
 }
+.list-item-selected:not(:hover):not(.disabled) > .glyphicon-info-sign {
+  background-color: #3182bd;
+  color: #fff;
+}
 
 .radiobutton-group,
 .checkbox-group {

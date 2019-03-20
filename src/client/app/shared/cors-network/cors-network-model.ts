@@ -11,7 +11,7 @@ export class CorsNetworkModel {
     constructor(id: number, name: string, description: string) {
         this.id = id;
         this.name = name;
-        this.description = description;
+        this.description = !description ? 'No description for ' + name : description;
         this.added = false;
         this.selected = false;
     }

@@ -9,6 +9,7 @@
                   (click)="markSelected(i)"
                   [ngClass]="{'ng-dirty': cssNgDirty, 'list-item-selected': item.selected, 'disabled': disabled}">
                 {{item.name}}
+                <i class="glyphicon glyphicon-info-sign" tooltip="{{item.description}}" triggers="hover click" container="body"></i>
                 <i class="glyphicon" [ngClass]="{'glyphicon-ok': item.selected}"></i>
             </span>
         </div>
