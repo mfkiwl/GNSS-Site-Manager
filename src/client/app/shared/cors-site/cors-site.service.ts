@@ -72,13 +72,13 @@ export class CorsSiteService implements OnDestroy {
       .map((response: Response) => {
         if (response.status === 200) {
           let data: any = response.json();
-          let corsSite = data && data['_embedded'] ? data['_embedded']['corsSites'][0] : null;
-          if (corsSite) {
-              let siteAdmin = new SiteAdministrationModel(corsSite.id, corsSite.siteStatus);
-              siteAdmin.parseNetworkTenancies(corsSite.networkTenancies);
-              return siteAdmin;
+          let corsSites = data && data['_embedded'] ? data['_embedded']['corsSites'] : [];
+          if (corsSites.length === 0) {
+            throw new Error('Error: no CORS sites found in ' + response.url);
+          } else if (corsSites.length > 1) {
+            throw new Error('Error: more than 1 CORS site found in ' + response.url);
           } else {
-            throw new Error('Error: no CORS site data from ' + response.url);
+            return new SiteAdministrationModel(corsSites[0]);
           }
         } else {
           throw new Error('Error with GET: ' + response.url);
@@ -102,18 +102,19 @@ export class CorsSiteService implements OnDestroy {
       .catch(HttpUtilsService.handleError);
   }
 
+  /**
+   * Update the CORS site (currently siteStatus property)
+   */
   updateCorsSite(siteAdminModel: SiteAdministrationModel): Observable<any> {
     let url = this.constantsService.getWebServiceURL() + '/corsSites/' + siteAdminModel.id;
     return this.http.patch(url, siteAdminModel, {headers: this.getHttpHeaders()});
   }
 
-  addToNetwork(siteId: number, networkId: number): Observable<any> {
-    let url = this.constantsService.getWebServiceURL() + '/corsSites/' + siteId + '/addToNetwork?networkId=' + networkId;
-    return this.http.put(url, '', {headers: this.getHttpHeaders()});
-  }
-
-  removeFromNetwork(siteId: number, networkId: number): Observable<any> {
-    let url = this.constantsService.getWebServiceURL() + '/corsSites/' + siteId + '/removeFromNetwork?networkId=' + networkId;
+  /**
+   * Update (addTo or removeFrom) network given by networkId
+   */
+  updateNetwork(networkUpdateHref: string, networkId: number): Observable<any> {
+    let url = networkUpdateHref + '?networkId=' + networkId;
     return this.http.put(url, '', {headers: this.getHttpHeaders()});
   }
 

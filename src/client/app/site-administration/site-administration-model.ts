@@ -6,25 +6,22 @@ import { CorsNetworkModel } from '../shared/cors-network/cors-network-model';
 export class SiteAdministrationModel {
     public id: number;
     public siteStatus: string;
-    public corsNetworks: CorsNetworkModel[];
+    public addToNetworkHref: string;
+    public removeFromNetworkHref: string;
+    public corsNetworks: CorsNetworkModel[] = [];
 
-    constructor(id: number = null, status: string = 'PUBLIC') {
-        this.id = id;
-        this.siteStatus = status;
-        this.corsNetworks = [];
-    }
-
-    public parseNetworkTenancies(networkTenancies: any[]) {
-        if (networkTenancies) {
-            networkTenancies.forEach((network: any) => {
-                let corsNetwork = new CorsNetworkModel(network.corsNetworkId, null, null);
-                this.corsNetworks.push(corsNetwork);
-            });
+    constructor(corsSite: any = null) {
+        if(corsSite) {
+            this.id = corsSite.id;
+            this.siteStatus = corsSite.siteStatus;
+            this.addToNetworkHref = corsSite._links.addToNetwork.href;
+            this.removeFromNetworkHref = corsSite._links.removeFromNetwork.href;
+            this.parseNetworkTenancies(corsSite.networkTenancies);
         }
     }
 
     public mapNetworkNames(corsNetworkList: CorsNetworkModel[]) {
-        this.corsNetworks.forEach((networkCurrent: CorsNetworkModel) => {
+        this.corsNetworks.map((networkCurrent: CorsNetworkModel) => {
             let networkFound = this.findCorsNetworkModelById(networkCurrent.id, corsNetworkList);
             if (networkFound) {
                 networkFound.added = true;
@@ -43,5 +40,13 @@ export class SiteAdministrationModel {
         }
 
         return null;
+    }
+
+    private parseNetworkTenancies(networkTenancies: any[]) {
+        if (networkTenancies) {
+            networkTenancies.forEach((network: any) => {
+                this.corsNetworks.push(new CorsNetworkModel(network.corsNetworkId, null, null, network.period));
+            });
+        }
     }
 }

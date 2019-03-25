@@ -252,10 +252,10 @@ export class SiteLogComponent implements OnInit, OnDestroy {
             return;
         }
 
-        let siteAdminUpdateList = this.getSiteAdminUpdateList();
-        if (siteAdminUpdateList.length > 0) {
+        let observables = this.getCorsSiteHttpObservables();
+        if (observables.length > 0) {
             this.isLoading = true;
-            this.updateCorsSiteProperties(siteAdminUpdateList, 0);
+            this.updateCorsSiteProperties(observables, 0);
         }
     }
 
@@ -459,76 +459,57 @@ export class SiteLogComponent implements OnInit, OnDestroy {
         }
     }
 
-    private getSiteAdminUpdateList(): any[] {
-        let siteAdminUpdateList: any[] = [];
+    private getCorsSiteHttpObservables(): Observable<Response>[] {
+        let observables: Observable<Response>[] = [];
 
-        // Save siteStatus (data permission) if changed
+        // Save site status (data permission) if changed
         let newSiteStatus = this.corsSiteForm.getRawValue().siteAdministration.siteStatus;
         if (this.siteAdminModel.siteStatus !== newSiteStatus) {
-            siteAdminUpdateList.push( {action: 'updating', siteStatus: newSiteStatus} );
+            this.siteAdminModel.siteStatus = newSiteStatus;
+            observables.push(this.corsSiteService.updateCorsSite(this.siteAdminModel));
         }
 
         let networkAddList = _.differenceBy(this.siteAdminModel.corsNetworks, this.siteAdminModelOrigin.corsNetworks, 'id');
         networkAddList.forEach((network: CorsNetworkModel) => {
-            siteAdminUpdateList.push( {action: 'adding', networkId: network.id} );
+            observables.push(this.corsSiteService.updateNetwork(this.siteAdminModel.addToNetworkHref, network.id));
         });
 
         let networkRemoveList = _.differenceBy(this.siteAdminModelOrigin.corsNetworks, this.siteAdminModel.corsNetworks, 'id');
         networkRemoveList.forEach((network: CorsNetworkModel) => {
-            siteAdminUpdateList.push( {action: 'removing', networkId: network.id} );
+            observables.push(this.corsSiteService.updateNetwork(this.siteAdminModel.removeFromNetworkHref, network.id));
         });
-        return siteAdminUpdateList;
+
+        return observables;
     }
 
     /*
-     * Update CORS site properties by recursively/sequentially invoking HTTP client service for each property changed
+     * Update CORS site properties by recursively/sequentially invoking HTTP client service for each property to be changed
      *
      */
-    private updateCorsSiteProperties(siteAdminUpdateList: any[], index: number) {
-        if (index < siteAdminUpdateList.length) {
-            let siteAdminUpdate = siteAdminUpdateList[index];
-
-            let msg = siteAdminUpdate.action + ' site (' + this.siteAdminModel.id + ')';
-            let httpObservable: Observable<any> = null;
-            if (siteAdminUpdate.action === 'updating') {
-                msg += ' status from ' + this.siteAdminModel.siteStatus + ' to ' + siteAdminUpdate.siteStatus;
-                this.siteAdminModel.siteStatus = siteAdminUpdate.siteStatus;
-                httpObservable = this.corsSiteService.updateCorsSite(this.siteAdminModel);
-            } else if (siteAdminUpdate.action === 'adding') {
-                msg += ' to network (' + siteAdminUpdate.networkId + ')';
-                httpObservable = this.corsSiteService.addToNetwork(this.siteAdminModel.id, siteAdminUpdate.networkId);
-            } else if (siteAdminUpdate.action === 'removing') {
-                msg += ' from network (' + siteAdminUpdate.networkId + ')';
-                httpObservable = this.corsSiteService.removeFromNetwork(this.siteAdminModel.id, siteAdminUpdate.networkId);
-            } else {
-                this.handleError('Unknown action (' + siteAdminUpdate.action +') for site ' + this.siteAdminModel.id);
-            }
-
-            httpObservable.subscribe(
+    private updateCorsSiteProperties(observables: Observable<Response>[], index: number) {
+        if (index < observables.length) {
+            observables[index].subscribe(
                 (response: Response) => {
                     if (response.status === 200) {
-                        console.log('Done in ' + msg);
-                        this.updateCorsSiteProperties(siteAdminUpdateList, index + 1);
+                        this.updateCorsSiteProperties(observables, index + 1);
                     } else {
-                        this.handleError('Response status: ' + response.status + ' - ' + response.statusText, 'Failed in ' + msg);
+                        this.handleError('Response status: ' + response.status + ' - ' + response.statusText);
                     }
                 },
                 (error: Error) => {
-                    this.handleError(error, 'Failed in ' + msg);
+                    this.handleError(error.message);
                 }
             );
         } else {
+            this.dialogService.showSuccessMessage('Done in updating CORS site properties');
             this.siteAdminModelOrigin = _.cloneDeep(this.siteAdminModel);
             this.resetFormStatusAfterSave();
         }
     }
 
-    private handleError(error: any, message: string = null) {
+    private handleError(message: string) {
         this.isLoading = false;
-        console.error(error);
-        if (!message) {
-            message = error;
-        }
+        console.error(message);
         this.dialogService.showErrorMessage(message);
         throw new Error(message);
     }
