@@ -75,6 +75,10 @@
                     <!-- TODO: Disable service worker for now -->
                     <!-- <li class="divider dropdown-divider"></li> -->
                     <!-- <li role="menuitem"><a (click)="clearCache()">Update Application</a></li> -->
+                    <li class="divider dropdown-divider"></li>
+                    <li role="menuitem" *ngFor="let link of webUrlLinks">
+                        <a class="dropdown-item" href="{{link.url}}" target="_blank">{{link.name}}</a>
+                    </li>
                 </ul>
             </span>
         </span>

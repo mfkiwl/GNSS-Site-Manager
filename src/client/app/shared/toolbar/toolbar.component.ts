@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
 import { ServiceWorkerService, DialogService } from '../index';
 import { UserAuthService } from '../global/user-auth.service';
+import { ConstantsService, Link } from '../global/constants.service';
 import { User } from 'oidc-client';
 import { SiteLogService, ApplicationState } from '../site-log/site-log.service';
 import { AbstractBaseComponent } from '../abstract-groups-items/abstract-base.component';
@@ -20,6 +21,9 @@ import { AbstractBaseComponent } from '../abstract-groups-items/abstract-base.co
 export class ToolbarComponent extends AbstractBaseComponent implements OnInit, OnDestroy {
     public siteId: string;
     public user: User | null = null;
+
+    public webUrlLinks: Link[] = ConstantsService.webUrlLinks;
+
     @Output() onSave: EventEmitter<boolean> = new EventEmitter<boolean>();
     @Output() onRevert: EventEmitter<boolean> = new EventEmitter<boolean>();
     @Output() onClose: EventEmitter<boolean> = new EventEmitter<boolean>();
