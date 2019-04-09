@@ -2,6 +2,7 @@ import { Component, ChangeDetectorRef, Input, OnInit, OnDestroy } from '@angular
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
 import { CorsSiteService, CorsNetworkService, MiscUtils } from '../shared/index';
+import { CorsNetworkModel } from '../shared/cors-network/cors-network-model';
 import { SiteAdministrationModel } from './site-administration-model';
 import { RadioButtonOption } from '../shared/form-input/radiobuttons-input.component';
 
@@ -30,6 +31,7 @@ export class SiteAdministrationComponent implements OnInit, OnDestroy {
     ];
 
     @Input() parentForm: FormGroup;
+    @Input() corsNetworkList: CorsNetworkModel[];
     @Input() siteAdminModel: SiteAdministrationModel;
 
     public siteAdministrationForm: FormGroup;
@@ -51,6 +53,7 @@ export class SiteAdministrationComponent implements OnInit, OnDestroy {
      * Initialise all data on loading the site-log page
      */
     public ngOnInit() {
+        this.siteAdminModel.mapNetworkNames(this.corsNetworkList);
         this.setupForm();
     }
 
@@ -74,9 +77,11 @@ export class SiteAdministrationComponent implements OnInit, OnDestroy {
     private setupForm() {
         this.siteAdministrationForm = this.formBuilder.group({
             siteStatus: ['', [Validators.maxLength(10)]],
+            corsNetworks: [''],
         });
 
         this.siteAdministrationForm.controls['siteStatus'].setValue(this.siteAdminModel.siteStatus);
+        this.siteAdministrationForm.controls['corsNetworks'].setValue(this.siteAdminModel.corsNetworks);
         this.subscription = this.corsSiteService.isSuperuser.subscribe(superuser => {
             if (superuser) {
                 this.siteAdministrationForm.enable();

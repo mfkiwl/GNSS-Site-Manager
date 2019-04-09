@@ -15,7 +15,7 @@ import { PrefetchCorsNetworkResolver } from '../shared/cors-network/prefetch-cor
             resolve: {
                 siteLogModel: PrefetchSiteLogResolver,
                 siteAdminModel: PrefetchCorsSiteResolver,
-                siteNetworkModel: PrefetchCorsNetworkResolver,
+                corsNetworkList: PrefetchCorsNetworkResolver,
             },
             canDeactivate: [ConfirmDeactivateSiteLogGuard]
         }
