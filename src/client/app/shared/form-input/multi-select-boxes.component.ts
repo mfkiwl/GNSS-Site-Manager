@@ -18,15 +18,10 @@ import { CorsNetworkModel } from '../cors-network/cors-network-model';
 export class MultiSelectBoxesComponent extends AbstractInput implements OnInit, ControlValueAccessor {
     @Input() options: CorsNetworkModel[];
 
-    public selects: CorsNetworkModel[];
+    public selects: CorsNetworkModel[] = [];
 
     propagateChange: Function = (_: any) => { };
     propagateTouch: Function = () => { };
-
-    constructor() {
-        super();
-        this.selects = [];
-    }
 
     /**
      * Initialise all data on loading the site-log page
@@ -37,21 +32,23 @@ export class MultiSelectBoxesComponent extends AbstractInput implements OnInit, 
     }
 
     canAddItems(): boolean {
-        if (this.form.disabled)
+        if (this.form.disabled) {
             return false;
+        }
         return this.hasItemsSelected(this.options);
     }
 
     canRemoveItems(): boolean {
-        if (this.form.disabled)
+        if (this.form.disabled) {
             return false;
+        }
         return this.hasItemsSelected(this.selects);
     }
 
     addSelectedItems() {
-        if (this.form.disabled)
+        if (this.form.disabled) {
             return;
-
+        }
         let hasChanged: boolean = false;
         this.options.forEach((item: CorsNetworkModel) => {
             if (item.selected) {
@@ -68,9 +65,9 @@ export class MultiSelectBoxesComponent extends AbstractInput implements OnInit, 
     }
 
     removeSelectedItems() {
-        if (this.form.disabled)
+        if (this.form.disabled) {
             return;
-
+        }
         let hasChanged: boolean = false;
         for (let i = this.selects.length - 1; i >= 0; i --) {
             if (this.selects[i].selected) {

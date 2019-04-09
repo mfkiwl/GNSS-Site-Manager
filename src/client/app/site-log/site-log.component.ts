@@ -255,7 +255,7 @@ export class SiteLogComponent implements OnInit, OnDestroy {
         let observables = this.getCorsSiteHttpObservables();
         if (observables.length > 0) {
             this.isLoading = true;
-            this.updateCorsSiteProperties(observables, 0);
+            this.updateCorsSiteProperties(observables);
         }
     }
 
@@ -486,12 +486,17 @@ export class SiteLogComponent implements OnInit, OnDestroy {
      * Update CORS site properties by recursively/sequentially invoking HTTP client service for each property to be changed
      *
      */
-    private updateCorsSiteProperties(observables: Observable<Response>[], index: number) {
-        if (index < observables.length) {
-            observables[index].subscribe(
+    private updateCorsSiteProperties(observables: Observable<Response>[]) {
+        let observable = _.head(observables);
+        if (!observable) {
+            this.dialogService.showSuccessMessage('Done in updating CORS site properties');
+            this.siteAdminModelOrigin = _.cloneDeep(this.siteAdminModel);
+            this.resetFormStatusAfterSave();
+        } else {
+            observable.subscribe(
                 (response: Response) => {
                     if (response.status === 200) {
-                        this.updateCorsSiteProperties(observables, index + 1);
+                        this.updateCorsSiteProperties(_.tail(observables));
                     } else {
                         this.handleError('Response status: ' + response.status + ' - ' + response.statusText);
                     }
@@ -500,10 +505,6 @@ export class SiteLogComponent implements OnInit, OnDestroy {
                     this.handleError(error.message);
                 }
             );
-        } else {
-            this.dialogService.showSuccessMessage('Done in updating CORS site properties');
-            this.siteAdminModelOrigin = _.cloneDeep(this.siteAdminModel);
-            this.resetFormStatusAfterSave();
         }
     }
 

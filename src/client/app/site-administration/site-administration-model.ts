@@ -1,4 +1,6 @@
+import * as _ from 'lodash';
 import { CorsNetworkModel } from '../shared/cors-network/cors-network-model';
+import { CorsSite, NetworkTenancy } from '../shared/cors-site/cors-site-model';
 
 /**
  * This is the Data & View Models for Site Administration.
@@ -10,7 +12,7 @@ export class SiteAdministrationModel {
     public removeFromNetworkHref: string;
     public corsNetworks: CorsNetworkModel[] = [];
 
-    constructor(corsSite: any = null) {
+    constructor(corsSite: CorsSite = null) {
         if(corsSite) {
             this.id = corsSite.id;
             this.siteStatus = corsSite.siteStatus;
@@ -20,9 +22,9 @@ export class SiteAdministrationModel {
         }
     }
 
-    public mapNetworkNames(corsNetworkList: CorsNetworkModel[]) {
+    public mapNetworkNames(corsNetworks: CorsNetworkModel[]) {
         this.corsNetworks.map((networkCurrent: CorsNetworkModel) => {
-            let networkFound = this.findCorsNetworkModelById(networkCurrent.id, corsNetworkList);
+            let networkFound = _.find(corsNetworks, ['id', networkCurrent.id]);
             if (networkFound) {
                 networkFound.added = true;
                 networkCurrent.name = networkFound.name;
@@ -32,19 +34,9 @@ export class SiteAdministrationModel {
         });
     }
 
-    private findCorsNetworkModelById(networkId: number, corsNetworkList: CorsNetworkModel[]): CorsNetworkModel {
-        for (let network of corsNetworkList) {
-            if (network.id === networkId) {
-                return network;
-            }
-        }
-
-        return null;
-    }
-
-    private parseNetworkTenancies(networkTenancies: any[]) {
+    private parseNetworkTenancies(networkTenancies: NetworkTenancy[]) {
         if (networkTenancies) {
-            networkTenancies.forEach((network: any) => {
+            networkTenancies.forEach((network: NetworkTenancy) => {
                 this.corsNetworks.push(new CorsNetworkModel(network.corsNetworkId, null, null, network.period));
             });
         }
