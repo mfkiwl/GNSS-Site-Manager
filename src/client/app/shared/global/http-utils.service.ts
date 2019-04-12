@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Response } from '@angular/http';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { Observable } from 'rxjs/Rx';
-import { Response } from '@angular/http';
+import { mergeMap } from 'rxjs/operators';
 
 @Injectable()
 export class HttpUtilsService {
@@ -49,5 +49,35 @@ export class HttpUtilsService {
         return this.http.get(jsonFilePath)
             .map(HttpUtilsService.handleJsonData)
             .catch(HttpUtilsService.handleError);
+    }
+
+    /**
+     * Recursively retrieve all resources from each page of the HTTP request
+     *
+     * @param {T[]} resources - An array of all resources retrieved
+     * @param {string} url - The URL of the HTTP request with page number parameter
+     * @return {T[]} The Observable of a list of resources for the HTTP request.
+     */
+    public getResourcesFromPage<T>(resources: T[], url: string, resourceParser: (item: any) => T): Observable<T[]> {
+        return this.http.get(url).pipe(
+            mergeMap((response: Response) => {
+                let data = response.json();
+                let items: any[] = [];
+                if (data && data['_embedded']) {
+                    let firstKey = Object.keys(data['_embedded'])[0];
+                    items = data['_embedded'][firstKey];
+                }
+                items.forEach((item: any) => {
+                    resources.push(resourceParser(item));
+                });
+
+                let nextUrl = (data && data['_links']['next']) ? data['_links']['next']['href'] : null;
+                if (nextUrl) {
+                    return this.getResourcesFromPage(resources, nextUrl, resourceParser);
+                } else {
+                    return Observable.of(resources);
+                }
+            })
+        );
     }
 }

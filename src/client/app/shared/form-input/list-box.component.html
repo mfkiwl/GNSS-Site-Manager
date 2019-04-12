@@ -1,0 +1,17 @@
+<div class="list-box-container">
+    <div class="list-box-header">
+        <ng-content></ng-content>
+    </div>
+    <div class="list-box-body" [ngClass]="{'ng-dirty': cssNgDirty, 'disabled': disabled}">
+        <div *ngFor="let item of inputItemList; let i = index">
+            <span *ngIf="!item.added"
+                  class="list-box-item"
+                  (click)="markSelected(i)"
+                  [ngClass]="{'ng-dirty': cssNgDirty, 'list-item-selected': item.selected, 'disabled': disabled}">
+                {{item.name}}
+                <i class="glyphicon glyphicon-info-sign" tooltip="{{item.description}}" triggers="hover click" container="body"></i>
+                <i class="glyphicon" [ngClass]="{'glyphicon-ok': item.selected}"></i>
+            </span>
+        </div>
+    </div>
+</div>

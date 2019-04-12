@@ -8,6 +8,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { StatusInfoComponent } from './status-info/status-info.component';
 import { CorsSiteService } from './cors-site/index';
+import { CorsNetworkService } from './cors-network/index';
 import { SiteLogService } from './site-log/index';
 import { JsonixService } from './jsonix/index';
 import { WFSService } from './wfs/index';
@@ -46,8 +47,8 @@ export class SharedModule {
     return {
       ngModule: SharedModule,
       providers: [MiscUtils, JsonixService, SiteLogService, DialogService,
-                  CorsSiteService, WFSService, ConstantsService, HttpUtilsService, JsonViewModelService,
-                  UserAuthService,
+                  CorsSiteService, CorsNetworkService, WFSService, ConstantsService,
+                  HttpUtilsService, JsonViewModelService, UserAuthService,
                  ]
     };
   }

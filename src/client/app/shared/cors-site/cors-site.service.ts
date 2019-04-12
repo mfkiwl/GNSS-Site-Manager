@@ -72,10 +72,16 @@ export class CorsSiteService implements OnDestroy {
       .map((response: Response) => {
         if (response.status === 200) {
           let data: any = response.json();
-          return new SiteAdministrationModel(data.id, data.siteStatus);
+          let corsSites = data && data['_embedded'] ? data['_embedded']['corsSites'] : [];
+          if (corsSites.length === 0) {
+            throw new Error('Error: no CORS sites found in ' + response.url);
+          } else if (corsSites.length > 1) {
+            throw new Error('Error: more than 1 CORS site found in ' + response.url);
+          } else {
+            return new SiteAdministrationModel(corsSites[0]);
+          }
         } else {
-          let msg: string = 'Error with GET: ' + response.url;
-          throw new Error(msg);
+          throw new Error('Error with GET: ' + response.url);
         }
       });
   }
@@ -96,17 +102,30 @@ export class CorsSiteService implements OnDestroy {
       .catch(HttpUtilsService.handleError);
   }
 
-  saveCorsSite(siteAdminModel: SiteAdministrationModel, id_token: string) : Observable<any> {
-    console.log('Save existing CorsSite - SiteAdminModel: ', siteAdminModel);
+  /**
+   * Update the CORS site (currently siteStatus property)
+   */
+  updateCorsSite(siteAdminModel: SiteAdministrationModel): Observable<any> {
+    let url = this.constantsService.getWebServiceURL() + '/corsSites/' + siteAdminModel.id;
+    return this.http.patch(url, siteAdminModel, {headers: this.getHttpHeaders()});
+  }
 
+  /**
+   * Update (addTo or removeFrom) network given by networkId
+   */
+  updateNetwork(networkUpdateHref: string, networkId: number): Observable<any> {
+    let url = networkUpdateHref + '?networkId=' + networkId;
+    return this.http.put(url, '', {headers: this.getHttpHeaders()});
+  }
+
+  private getHttpHeaders(): Headers {
     const user: User = this.userAuthService.user.value;
     const headers = new Headers();
     if (user) {
       headers.append('Authorization', 'Bearer ' + user.id_token);
     }
 
-    let url = this.constantsService.getWebServiceURL() + '/corsSites/' + siteAdminModel.id;
-    return this.http.patch(url, siteAdminModel, {headers: headers});
+    return headers;
   }
 
   private fixWFSeData(wfsData: any): any {
