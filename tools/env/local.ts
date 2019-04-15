@@ -8,7 +8,7 @@ const LocalConfig: EnvConfig = {
   CLIENT_URL: 'http://localhost:5555',
   WEB_URL_LINKS: [
     {name: 'GNSS Data Repository', url: 'https://dev-data.gnss.ga.gov.au'},
-    {name: 'GNSS Data Repo Docs', url: 'https://dev-data.gnss.ga.gov.au/docs'},
+    {name: 'GA Regional GNSS Datacentre', url: 'https://www.auscors.ga.gov.au'},
     {name: 'GNSS Portal', url: 'https://portal.gnss.ga.gov.au'},
   ],
 };

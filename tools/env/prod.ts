@@ -8,8 +8,7 @@ const ProdConfig: EnvConfig = {
   CLIENT_URL: 'https://gnss-site-manager.geodesy.ga.gov.au',
   WEB_URL_LINKS: [
     {name: 'GNSS Data Repository', url: 'https://data.gnss.ga.gov.au'},
-    {name: 'GNSS Data Repo Docs', url: 'https://data.gnss.ga.gov.au/docs'},
-    // {name: 'GNSS Portal', url: 'https://portal.gnss.ga.gov.au'},  // not deployed to prod yet ?
+    {name: 'GA Regional GNSS Datacentre', url: 'https://www.auscors.ga.gov.au'},
   ],
 };
 
