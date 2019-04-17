@@ -37,6 +37,8 @@ export class SiteAdministrationComponent implements OnInit, OnDestroy {
     public siteAdministrationForm: FormGroup;
     public miscUtils: any = MiscUtils;
     public isFormOpen: boolean = false;
+    public isSiteStatusPanelOpen: boolean = true;
+    public isNetworkPanelOpen: boolean = true;
 
     private subscription: Subscription;
 
@@ -72,6 +74,14 @@ export class SiteAdministrationComponent implements OnInit, OnDestroy {
 
     public isFormInvalid(): boolean {
         return this.siteAdministrationForm.invalid;
+    }
+
+    public toggleSiteStatusPanel() {
+        this.isSiteStatusPanelOpen = !this.isSiteStatusPanelOpen;
+    }
+
+    public toggleNetworkPanel() {
+        this.isNetworkPanelOpen = !this.isNetworkPanelOpen;
     }
 
     private setupForm() {
