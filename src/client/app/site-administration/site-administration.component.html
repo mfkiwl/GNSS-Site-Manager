@@ -16,9 +16,17 @@
         </div>
         <div class="panel panel-level-2">
             <div class="panel-heading item-header">
-                <span class="panel-title cursor-ptr" tabindex="0">Data Permission</span>
+                <span class="panel-title cursor-ptr" tabindex="0"
+                      (keyup.space)="toggleSiteStatusPanel()"
+                      (keyup.enter)="toggleSiteStatusPanel()"
+                      (click)="toggleSiteStatusPanel()">
+                    <i class="glyphicon"
+                       [ngClass]="{'glyphicon-minus-sign': isSiteStatusPanelOpen, 'glyphicon-plus-sign': !isSiteStatusPanelOpen}">
+                    </i>
+                    Data Permission
+                </span>
             </div>
-            <div class="panel-body item-body">
+            <div class="panel-body item-body" [hidden]="!isSiteStatusPanelOpen">
                 <radiobuttons-input [form]="siteAdministrationForm"
                                     controlName="siteStatus"
                                     [required]="true"
@@ -27,9 +35,17 @@
         </div>
         <div class="panel panel-level-2">
             <div class="panel-heading item-header">
-                <span class="panel-title cursor-ptr" tabindex="0">Networks</span>
+                <span class="panel-title cursor-ptr" tabindex="0"
+                      (keyup.space)="toggleNetworkPanel()"
+                      (keyup.enter)="toggleNetworkPanel()"
+                      (click)="toggleNetworkPanel()">
+                    <i class="glyphicon"
+                       [ngClass]="{'glyphicon-minus-sign': isNetworkPanelOpen, 'glyphicon-plus-sign': !isNetworkPanelOpen}">
+                    </i>
+                    Networks
+                </span>
             </div>
-            <div class="panel-body item-body">
+            <div class="panel-body item-body" [hidden]="!isNetworkPanelOpen">
                 <multi-select-boxes [form]="siteAdministrationForm"
                                     controlName="corsNetworks"
                                     [options]="corsNetworkList"></multi-select-boxes>

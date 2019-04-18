@@ -7,8 +7,8 @@ const E2EConfig: EnvConfig = {
   OPENAM_SERVER_URL: 'https://testgeodesy-openam.geodesy.ga.gov.au/openam',
   CLIENT_URL: 'http://localhost:5555',
   WEB_URL_LINKS: [
+    {name: 'AUSCORS', url: 'https://www.auscors.ga.gov.au'},
     {name: 'GNSS Data Repository', url: 'https://test-data.gnss.ga.gov.au'},
-    {name: 'GA Regional GNSS Datacentre', url: 'https://www.auscors.ga.gov.au'},
     {name: 'GNSS Portal', url: 'https://portal.gnss.ga.gov.au'},
   ],
 };

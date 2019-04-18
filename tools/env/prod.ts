@@ -7,8 +7,8 @@ const ProdConfig: EnvConfig = {
   OPENAM_SERVER_URL: 'https://prodgeodesy-openam.geodesy.ga.gov.au/openam',
   CLIENT_URL: 'https://gnss-site-manager.geodesy.ga.gov.au',
   WEB_URL_LINKS: [
+    {name: 'AUSCORS', url: 'https://www.auscors.ga.gov.au'},
     {name: 'GNSS Data Repository', url: 'https://data.gnss.ga.gov.au'},
-    {name: 'GA Regional GNSS Datacentre', url: 'https://www.auscors.ga.gov.au'},
   ],
 };
 
