@@ -1,9 +1,11 @@
 :host {
+  --header-height1: 72px;
+  --header-height2: 55px;
+  --strap-height1: 8px;
+  --strap-height2: 5px;
   background-color: #fff;
   display: block;
   float: none;
-  height: 75px;
-  max-height: 75px;
   margin: 0;
   padding: 0;
   width: 100%;
@@ -11,37 +13,46 @@
 .header-container {
   background-color: #fff;
   color: #222;
-  height: 70px;
-  margin-left: auto;
-  margin-right: auto;
-  max-height: 70px;
+  height: var(--header-height1);
+  max-height: var(--header-height1);
   padding: 0;
+  width: 100%;
 }
-.title {
-  display: inline;
-  font-size: 24px;
-  font-weight: normal;
-  letter-spacing: 0.1px;
-  margin-left: 15px;
+.ga-logo-panel {
+  display: inline-block;
+}
+.ga-logo-inline {
+  background-image: url(./assets/img/ga-logo-inline.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 225px 55px;
+  display: inline-block;
+  height: calc(var(--header-height1) - 6px);
+  width: 225px;
   vertical-align: middle;
 }
-#ga-logo {
+.app-title-panel {
   display: inline-block;
-  margin: 0;
-  padding: 0;
+  padding-left: 15px;
+  position: absolute;
+  top: 0;
 }
-img.logo-inline {
-  height: 69px;
-  width: 235px;
+.app-title-panel > .title {
+  display: table-cell;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+  height: var(--header-height1);
+  padding-top: 8px;
+  vertical-align: middle;
 }
-img.logo-stacked {
-  height: 69px;
-  width: 100px;
-}
+
 .dropdown-menu-panel {
   display: inline-block;
   float: right;
-  padding: 12px 0 0 0;
+  height: var(--header-height1);
+  padding-top: 15px;
+  vertical-align: middle;
 }
 .site-id-menu,
 .profile-menu,
@@ -125,14 +136,14 @@ img.logo-stacked {
 /* A horizontal strap just right below the header */
 .strap-container {
   display: table;
-  height: 5px;
+  height: var(--strap-height1);
+  min-height: var(--strap-height1);
   margin: 0;
-  min-height: 5px;
   padding: 0;
   width: 100%;
 }
 .strap-blue, .strap-white, .strap-red {
-  height: 5px;
+  height: var(--strap-height1);
   margin: 0;
 }
 .strap-blue {
@@ -150,51 +161,61 @@ img.logo-stacked {
 }
 
 @media (max-width: 990px) {
-  .title {
+  .app-title-panel .title {
     font-size: 22px;
-    letter-spacing: 0;
-    margin-left: 10px;
   }
 }
 
 /* Special CSS classes defined for small devices such as smart phone (landscape) */
 @media (max-width: 767px) {
   .header-container {
-    padding: 10px 10px 0 0;
+    height: var(--header-height2);
+    max-height: var(--header-height2);
   }
-  #ga-logo {
-    margin-top: -10px;
+  .ga-logo-inline {
+    background-image: url(./assets/img/ga-logo-inline.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 155px 38px;
+    height: var(--header-height2);
+    width: 155px;
   }
-  .title {
-    font-size: 20px;
-    line-height: 2.0;
-    margin-left: 0;
+  ga-logo-panel {
+    margin-left: 15px;
+  }
+  .app-title-panel {
+    padding-left: 10px;
+  }
+  .app-title-panel .title {
+    height: calc(var(--header-height2) - 2px);
+    font-size: 17px;
+    line-height: 1.3;
   }
   .dropdown-menu-panel {
-    padding: 2px 0;
+    height: var(--header-height2);
+    padding-top: 6px;
   }
   .visible-xs {
     display: inline-block !important;
   }
+
+  .strap-container {
+    height: var(--strap-height2);
+    min-height: var(--strap-height2);
+  }
+  .strap-blue,
+  .strap-white,
+  .strap-red {
+    height: var(--strap-height2);
+  }
 }
 
 /* Special CSS classes defined for small devices such as smart phone (portrait) */
-@media (max-width: 500px) {
-  .header-container {
-    padding: 15px 5px 0 0;
-  }
-  #ga-logo {
-    margin-top: -15px;
-  }
-  .title {
-    display: inline-block;
-    font-size: 19px;
+@media (max-width: 550px) {
+  .app-title-panel .title {
+    font-size: 16px;
     line-height: 1.2;
-    margin: -18px 0 -18px 10px;
     width: 100px;
-  }
-  .dropdown-menu-panel {
-    margin-top: -2px;
   }
   .site-id-menu,
   .profile-menu,
@@ -202,26 +223,28 @@ img.logo-stacked {
     margin: 0 2px 0 0;
   }
 }
-@media (max-width: 420px) {
-  .header-container {
-    padding: 10px 5px 0 0;
+@media (max-width: 450px) {
+  .app-title-panel {
+    padding-left: 5px;
+  }
+  .app-title-panel .title {
+    font-size: 15px;
+    line-height: 1;
+    padding-top: 4px;
+    width: 70px;
   }
   .dropdown-menu-panel {
     margin-top: 0;
   }
-  .title {
-    display: inline-block;
-    font-size: 17px;
-    line-height: 1.1;
-    margin: -5px 0 0 0;
-    width: 70px;
-  }
 }
-@media (max-width: 355px) {
-  #ga-logo {
+@media (max-width: 400px) {
+  .ga-logo-panel {
     display: none;
   }
-  .title {
-    margin-left: 10px;
+  .app-title-panel .title {
+    line-height: 1.2;
+    padding-left: 5px;
+    padding-top: 0;
+    width: 100px;
   }
 }
