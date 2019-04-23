@@ -10,15 +10,15 @@ import { SiteLogService, ApplicationState } from '../site-log/site-log.service';
 import { AbstractBaseComponent } from '../abstract-groups-items/abstract-base.component';
 
 /**
- * This class represents the toolbar component which is the header of all UI pages.
+ * This class represents the header component.
  */
 @Component({
     moduleId: module.id,
-    selector: 'sd-toolbar',
-    templateUrl: 'toolbar.component.html',
-    styleUrls: ['toolbar.component.css']
+    selector: 'sd-header',
+    templateUrl: 'header.component.html',
+    styleUrls: ['header.component.css']
 })
-export class ToolbarComponent extends AbstractBaseComponent implements OnInit, OnDestroy {
+export class HeaderComponent extends AbstractBaseComponent implements OnInit, OnDestroy {
     public siteId: string;
     public user: User | null = null;
 
@@ -94,7 +94,7 @@ export class ToolbarComponent extends AbstractBaseComponent implements OnInit, O
      */
     clearCache(): void {
         this.serviceWorkerService.clearCache().then((data: string) => {
-            console.debug('toolbar.component clearCacheObservable() success: ', data);
+            console.debug('header.component clearCacheObservable() success: ', data);
             self.location.reload();
         }, (error: Error) => {
             throw new Error('Error in clearCacheObservable: ' + error.message);
