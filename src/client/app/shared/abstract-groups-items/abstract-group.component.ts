@@ -256,6 +256,15 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel>
         this.parentForm.removeAt(itemIndex);
     }
 
+    /**
+     * After a new item is created 'EventNames.newItem' is sent so that item can init itself.
+     */
+    public newItemEvent() {
+        let geodesyEvent: GeodesyEvent = this.getGeodesyEvent();
+        geodesyEvent.name = EventNames.newItem;
+        geodesyEvent.valueNumber = 0;
+    }
+
     public isFormDirty(): boolean {
         return this.parentForm && this.parentForm.dirty;
     }
@@ -339,14 +348,5 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel>
                 endDateControl.markAsDirty();
             }
         }
-    }
-
-    /**
-     * After a new item is created 'EventNames.newItem' is sent so that item can init itself.
-     */
-    private newItemEvent() {
-        let geodesyEvent: GeodesyEvent = this.getGeodesyEvent();
-        geodesyEvent.name = EventNames.newItem;
-        geodesyEvent.valueNumber = 0;
     }
 }
