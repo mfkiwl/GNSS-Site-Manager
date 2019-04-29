@@ -1,11 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import * as _ from 'lodash';
 
 import { AbstractGroupComponent } from '../shared/abstract-groups-items/abstract-group.component';
 import { GnssReceiverViewModel } from './gnss-receiver-view-model';
 import { SiteLogService } from '../shared/site-log/site-log.service';
-import { MiscUtils } from '../shared/global/misc-utils';
 
 /**.
  * This class represents a group of GNSS Receivers.
@@ -38,40 +36,27 @@ export class GnssReceiversGroupComponent extends AbstractGroupComponent<GnssRece
     /**
      * Add a new GNSS Receiver by copying and updating values from the current one
      */
-    updateCurrentReceiver(event: UIEvent) {
+    addNewByCopying(event: UIEvent) {
         if (!this.hasItems()) {
             return;
         }
 
-        event.preventDefault();
-        this.isGroupOpen = true;
-        let dateUtc: string = MiscUtils.getUTCDateTime();
-        let gnssReceivers = this.getItems();
+        this.addNew(event);
 
-        let newReceiverViewModel = _.cloneDeep(gnssReceivers[0]);
-        newReceiverViewModel.id = null;
-        newReceiverViewModel.startDate = dateUtc;
-        newReceiverViewModel.endDate = null;
-        newReceiverViewModel.dateInserted = dateUtc;
-        newReceiverViewModel.dateDeleted = null;
-        this.addToItems(newReceiverViewModel);
-
+        let attrNames = ['receiverType', 'manufacturerSerialNumber', 'firmwareVersion',
+                         'satelliteSystems', 'elevationCutoffSetting', 'temperatureStabilization', 'notes'];
         setTimeout(() => {
             let newFormGroup = <FormGroup>this.parentForm.at(0);
+            let oldFormGroup = <FormGroup>this.parentForm.at(1);
+            attrNames.map((attrName: string) => {
+                let value = oldFormGroup.get(attrName).value;
+                if (value) {
+                    newFormGroup.get(attrName).setValue(value);
+                    newFormGroup.get(attrName).markAsDirty();
+                }
+            });
             newFormGroup.controls.receiverType.disable();
             newFormGroup.controls.manufacturerSerialNumber.disable();
-            newFormGroup.markAsDirty();
-
-            let currentFormGroup = <FormGroup>this.parentForm.at(1);
-            currentFormGroup.controls.endDate.setValue(dateUtc);
-            currentFormGroup.controls.endDate.markAsDirty();
-
-            newFormGroup.controls.startDate.valueChanges.subscribe((date: string) => {
-                currentFormGroup.controls.endDate.setValue(date);
-                currentFormGroup.controls.endDate.markAsDirty();
-            });
         });
-
-        this.newItemEvent();
     }
 }
