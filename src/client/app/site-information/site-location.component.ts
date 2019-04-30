@@ -85,6 +85,10 @@ export class SiteLocationComponent extends AbstractBaseComponent implements OnIn
         return 'siteLocation';
     }
 
+    getElementName(): string {
+        return _.kebabCase(this.getItemName());
+    }
+
     public isFormDirty(): boolean {
         return this.siteLocationForm && this.siteLocationForm.dirty;
     }

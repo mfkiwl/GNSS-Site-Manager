@@ -11,6 +11,7 @@
         </span>
         <span class="pull-right" [hidden]="!isMultiple && getItems().length >= 1">
             <button type="button" class="btn btn-similar btn-xs" title="Add a new {{getItemName()}}"
+                    id="new-{{getElementName()}}"
                     [disabled]="!isEditable"
                     (click)="addNew($event); miscUtils.scrollToElementById($event, getElementName()+'-group');">
                 <i class="glyphicon glyphicon-plus-sign"></i>
