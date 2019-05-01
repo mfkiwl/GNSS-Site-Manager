@@ -18,6 +18,7 @@
         </span>
         <span [hidden]="siteLocation != null" class="pull-right">
             <button class="btn btn-similar btn-xs"
+                    id="new-{{getElementName()}}"
                     title="Add a new {{getItemName()}}"
                     [disabled]="!isEditable"
                     (click)="addNew($event); miscUtils.showFullView($event);">

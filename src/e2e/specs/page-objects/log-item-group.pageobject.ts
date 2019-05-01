@@ -26,7 +26,7 @@ export class LogItemGroup {
         this.itemName = itemName;
         this.elementName = _.kebabCase(itemName);
         this.items = element.all(by.css(this.elementName + '-item'));
-        this.newItemButton = element(by.buttonText('New ' + this.itemName));
+        this.newItemButton = element(by.id('new-' + this.elementName));
         this.itemGroupHeader = element(by.cssContainingText('div.group-header>span.panel-title', this.getGroupName()));
         this.currentItemContainer = element(by.id(this.elementName + '-0'));
         this.currentItemHeader = this.currentItemContainer.element(by.css('span.panel-title'));
