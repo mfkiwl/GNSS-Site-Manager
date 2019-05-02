@@ -1,20 +1,17 @@
 <div class="container clear-pad">
     <div class="header-container">
-        <span id="ga-logo">
-            <a href="http://www.ga.gov.au" title="Go to Geoscience Australia home page" target="_blank">
-                <span class="hidden-sm hidden-xs">
-                    <img class="logo-inline" src="assets/ga-logo-inline.png"
-                         alt="Australian Government - Geoscience Australia">
-                </span>
-                <span class="visible-sm visible-xs">
-                    <img class="logo-stacked" src="assets/ga-logo-stacked.png"
-                         alt="Australian Government - Geoscience Australia">
-                </span>
+        <div class="ga-logo-panel">
+            <a class="ga-logo-inline"
+               href="http://www.ga.gov.au"
+               title="Go to Geoscience Australia home page"
+               target="_blank">
             </a>
-        </span>
-        <span class="title" id="app-title">GNSS Site Manager</span>
-        <span class="dropdown-menu-panel" id="dropdown-menu-panel">
-            <span dropdown *ngIf="siteId" class="pull-left" id="site-id-dropdown-menu">
+        </div>
+        <div class="app-title-panel">
+            <span class="title">GNSS Site Manager</span>
+        </div>
+        <div class="dropdown-menu-panel" id="dropdown-menu-panel">
+            <span dropdown *ngIf="siteId" id="site-id-dropdown-menu">
                 <nav dropdownToggle class="site-id-menu">
                     <span class="site-id-menu-label">{{siteId == 'newSite' ? 'New Site' : siteId}}</span>
                     <i class="glyphicon glyphicon-triangle-bottom dropdown-icon"></i>
@@ -58,7 +55,7 @@
                     </li>
                 </ul>
             </span>
-            <span dropdown class="pull-right" id="navigation-dropdown-menu">
+            <span dropdown id="navigation-dropdown-menu">
                 <nav dropdownToggle class="navigation-menu">
                     <i class="glyphicon glyphicon-menu-hamburger"></i>
                 </nav>
@@ -81,7 +78,7 @@
                     </li>
                 </ul>
             </span>
-        </span>
+        </div>
     </div>
 </div>
 <div class="strap-container" id="horizontal-bar">
