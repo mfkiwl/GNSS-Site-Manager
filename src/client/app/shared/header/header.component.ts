@@ -161,7 +161,7 @@ export class HeaderComponent extends AbstractBaseComponent implements OnInit, On
             .subscribe(event => {
                 // find the site log component route and extract the site id
                 let routeRoot: ActivatedRoute = this.route.root;
-                while ((routeRoot.snapshot.url[0] && routeRoot.snapshot.url[0].path !== 'siteLog') || routeRoot.firstChild) {
+                while ((routeRoot.snapshot.url[0] && routeRoot.snapshot.url[0].path !== 'site') || routeRoot.firstChild) {
                     routeRoot = routeRoot.firstChild;
                     // check if more no more children
                     if (!routeRoot.firstChild) {

@@ -125,7 +125,7 @@ export class SelectSiteComponent implements OnInit, AfterViewInit, OnDestroy {
      */
     public selectSite(site: any) {
         this.selectedSite = site;
-        let link = ['/siteLog', site.fourCharacterId];
+        let link = ['/site', site.fourCharacterId];
         this.router.navigate(link);
     }
 

@@ -2,7 +2,7 @@ import { Component, ViewContainerRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { Config, CorsSiteService, CorsSetupService, SiteLogService, DialogService, MiscUtils,
          ServiceWorkerService, JsonixService } from './shared/index';
-import { SiteLogComponent } from './site-log/site-log.component';
+import { SiteComponent } from './site/site.component';
 import { JsonViewModelService } from './shared/json-data-view-model/json-view-model.service';
 
 /**
@@ -20,14 +20,14 @@ import { JsonViewModelService } from './shared/json-data-view-model/json-view-mo
     JsonixService,
     ServiceWorkerService,
     SiteLogService,
-    SiteLogComponent,
+    SiteComponent,
     JsonViewModelService,
   ],
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.css'],
 })
 export class AppComponent {
-  constructor(private siteLogComponent: SiteLogComponent, private viewContainerRef: ViewContainerRef, private router: Router) {
+  constructor(private siteComponent: SiteComponent, private viewContainerRef: ViewContainerRef, private router: Router) {
     console.log('Environment config', Config);
   }
 
@@ -38,7 +38,7 @@ export class AppComponent {
    */
   onSave(event: any) {
     if (event) {
-      this.siteLogComponent.save();
+      this.siteComponent.save();
     }
   }
 
@@ -52,7 +52,7 @@ export class AppComponent {
    */
   onRevert(event: any) {
     if (event) {
-        this.siteLogComponent.confirmRevert();
+        this.siteComponent.confirmRevert();
     }
   }
 
@@ -63,12 +63,12 @@ export class AppComponent {
    */
   onClose(event: any) {
     if (event) {
-      this.siteLogComponent.goToHomePage();
+      this.siteComponent.goToHomePage();
     }
   }
 
   onActivate(event: any) {
-    this.siteLogComponent = event;
+    this.siteComponent = event;
     localStorage.setItem('routerUrl', this.router.url);
   }
 }
