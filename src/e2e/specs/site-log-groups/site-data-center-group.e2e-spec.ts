@@ -64,7 +64,7 @@ describe('Responsible Party - Site Data Center Group Component', () => {
         itemGroup.urlInput.sendKeys(viewModel.url);
         browser.waitForAngular();
         siteLogPage.save();
-        itemGroup.updateItemElements(noOfItems);  // the new item is the last one after saving
+        itemGroup.updateItemElements(0);  // the new item is the first one after sorting and saving
     });
 
     it('expect should have all new values saved for the new item', () => {
