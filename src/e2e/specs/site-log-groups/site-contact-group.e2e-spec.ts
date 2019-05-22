@@ -61,7 +61,7 @@ describe('Responsible Party - Site Contact Group Component', () => {
             itemGroup.faxInput.sendKeys(viewModel.fax);
             browser.waitForAngular();
             siteLogPage.save();
-            itemGroup.updateItemElements(0);  // the new item is the first one after sorting and saving
+            itemGroup.updateItemElements(noOfItems);  // the new item is the last one after saving
         }
     });
 
