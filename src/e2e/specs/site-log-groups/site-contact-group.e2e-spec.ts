@@ -61,7 +61,6 @@ describe('Responsible Party - Site Contact Group Component', () => {
             itemGroup.faxInput.sendKeys(viewModel.fax);
             browser.waitForAngular();
             siteLogPage.save();
-            itemGroup.updateItemElements(noOfItems);  // the new item is the last one after saving
         }
     });
 
@@ -94,6 +93,7 @@ describe('Responsible Party - Site Contact Group Component', () => {
 
     it('expect should have all new values saved for the new item', () => {
         siteLogPage.reload(siteId);
+        itemGroup.updateNewItemElements(noOfItems + 1, viewModel.positionName);
         siteLogPage.siteInformationHeader.click();
         itemGroup.itemGroupHeader.click().then(() => {
             console.log('Open ' + itemGroup.itemName + ' group');

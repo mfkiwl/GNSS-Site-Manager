@@ -26,7 +26,7 @@ export class ResponsiblePartyGroup extends LogItemGroup {
         super(partyName);
         this.partyItems = element(by.cssContainingText('.panel-level-2', this.getGroupName()))
                          .all(by.css('gnss-responsible-party-item'));
-        this.updateItemElements(0);  // by default, the new item is the first one before saving
+        this.updateNewItemElements(0);  // by default, the new item is the first one before saving
     }
 
     public getGroupName(): string {
@@ -37,7 +37,27 @@ export class ResponsiblePartyGroup extends LogItemGroup {
        return groupName;
     }
 
-    public updateItemElements(itemIndex: number) {
+    /**
+     * Find out the new responsibleParty item by its unique position name appended with timestamp
+     */
+    public updateNewItemElements(noOfItems: number, positionNameValue: string = null): void {
+        if (noOfItems < 2 || !positionNameValue) {
+            this.updateItemElements(0);
+        } else {
+            let positionNameInputs: ElementArrayFinder = element(by.cssContainingText('.panel-level-2', this.getGroupName()))
+                                                         .all(by.css('text-input[controlName="positionName"] input'));
+            positionNameInputs.each((element: ElementFinder, index: number) => {
+                element.getAttribute('value').then((value: string) => {
+                    if (value === positionNameValue) {
+                        this.updateItemElements(index);
+                        console.log('\tNew item index for ' + this.getGroupName() + ': ' + index);
+                    }
+                });
+            });
+        }
+    }
+
+    private updateItemElements(itemIndex: number) {
         let itemContainer: ElementFinder = this.getItemContainer(itemIndex);
         this.individualNameInput = itemContainer.element(by.css('text-input[controlName="individualName"] input'));
         this.organisationNameInput = itemContainer.element(by.css('text-input[controlName="organisationName"] input'));
