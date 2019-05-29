@@ -10,15 +10,6 @@
             {{getItemName()}}s
         </span>
         <span class="pull-right">
-            <button *ngIf="hasItems()"
-                    type="button"
-                    class="btn btn-similar btn-xs"
-                    title="Add a new {{getItemName()}} by updating the current one"
-                    [disabled]="!isEditable"
-                    (click)="addNewByCopying($event); miscUtils.showFullView($event);">
-            <i class="glyphicon glyphicon-plus-sign"></i>
-            Update
-            </button>
             <button type="button"
                     class="btn btn-similar btn-xs"
                     title="Add a new {{getItemName()}}"
@@ -27,6 +18,15 @@
                     (click)="addNew($event); miscUtils.showFullView($event);">
             <i class="glyphicon glyphicon-plus-sign"></i>
             New
+            </button>
+            <button *ngIf="hasItems()"
+                    type="button"
+                    class="btn btn-similar btn-xs"
+                    title="Add a new {{getItemName()}} by updating the current one"
+                    [disabled]="!isEditable"
+                    (click)="addNewByCopying($event); miscUtils.showFullView($event);">
+            <i class="glyphicon glyphicon-plus-sign"></i>
+            Update
             </button>
         </span>
     </div>
