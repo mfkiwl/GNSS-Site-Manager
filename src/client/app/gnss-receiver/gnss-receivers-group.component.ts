@@ -46,7 +46,7 @@ export class GnssReceiversGroupComponent extends AbstractGroupComponent<GnssRece
 
         let fieldsToKeep = ['receiverType', 'manufacturerSerialNumber', 'firmwareVersion',
                             'satelliteSystems', 'elevationCutoffSetting',
-                            'temperatureStabilization', 'notes'];
+                            'temperatureStabilization'];
         setTimeout(() => {
             let newFormGroup = <FormGroup>this.parentForm.at(0);
             let oldFormGroup = <FormGroup>this.parentForm.at(1);
