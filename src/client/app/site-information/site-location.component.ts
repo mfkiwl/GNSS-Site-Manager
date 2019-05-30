@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn } from
 import { Subscription } from 'rxjs/Subscription';
 import { MiscUtils } from '../shared/global/misc-utils';
 import { DialogService } from '../shared/index';
-import { SiteLogService, ApplicationState, ApplicationSaveState } from '../shared/site-log/site-log.service';
+import { SiteLogService } from '../shared/site-log/site-log.service';
 import { AbstractBaseComponent } from '../shared/abstract-groups-items/abstract-base.component';
 import { SiteLogViewModel }  from '../site-log/site-log-view-model';
 import { SiteLocationViewModel } from './site-location-view-model';
@@ -36,8 +36,6 @@ export class SiteLocationComponent extends AbstractBaseComponent implements OnIn
 
     public miscUtils: any = MiscUtils;
     public isOpen: boolean = false;
-    public isNew: boolean = false;
-    public isDeleted: boolean = false;
     public isCartesianPositionRequired: boolean = false;
     public isGeodeticPositionRequired: boolean = false;
 
@@ -50,7 +48,6 @@ export class SiteLocationComponent extends AbstractBaseComponent implements OnIn
     private siteLocation: SiteLocationViewModel;
     private cartesianPositionFormValidators: ValidatorFn[];
     private geodeticPositionFormValidators: ValidatorFn[];
-    private stateSubscription: Subscription;
     private cartesianSubscription: Subscription;
     private geodeticSubscription: Subscription;
 
@@ -62,17 +59,10 @@ export class SiteLocationComponent extends AbstractBaseComponent implements OnIn
 
     ngOnInit() {
         this.setupForm();
-        this.stateSubscription = this.siteLogService.getApplicationState().subscribe((applicationState: ApplicationState) => {
-            if (applicationState.applicationSaveState === ApplicationSaveState.saved) {
-                this.isNew = false;
-                this.isDeleted = false;
-            }
-        });
     }
 
     ngOnDestroy() {
         super.ngOnDestroy();
-        this.stateSubscription.unsubscribe();
         this.cartesianSubscription.unsubscribe();
         this.geodeticSubscription.unsubscribe();
     }
@@ -95,72 +85,6 @@ export class SiteLocationComponent extends AbstractBaseComponent implements OnIn
 
     public isFormInvalid(): boolean {
         return this.siteLocationForm && this.siteLocationForm.invalid;
-    }
-
-
-    public isDeleteDisabled(): boolean {
-        if (this.isNew) {
-            return false;
-        }
-        return !this.isEditable || this.isDeleted;
-    }
-
-    public getRemoveOrDeletedText(): string {
-        return this.isNew ? 'Cancel' : 'Delete';
-    }
-
-    public addNew(event: UIEvent): void {
-        event.preventDefault();
-        this.isNew = true;
-        this.isOpen = true;
-        this.siteLocation = new SiteLocationViewModel();
-        setTimeout(() => {
-            if (this.siteLocationForm) {
-                this.siteLocationForm.markAsDirty();
-            }
-        });
-    }
-
-    /**
-     * Remove an item from the UI and delete if it is an existing record.
-     */
-    public removeItem(): boolean {
-
-        if (this.isNew) {
-            this.cancelNew();
-        } else {
-            this.dialogService.confirmDeleteDialog(
-                this.getItemName(),
-                (deleteReason : string) => {  // ok callback
-                    this.deleteItem(deleteReason);
-                },
-                () => {  // cancel callback
-                    console.log('delete cancelled by user');
-                }
-            );
-        }
-        return false;
-    }
-
-    public cancelNew() {
-        this.siteLocation = null;
-        this.isNew = false;
-        if (this.siteLocationForm) {
-            this.siteLocationForm.markAsPristine();
-            this.parentForm.removeControl(this.getControlName());
-        }
-    }
-
-    /**
-     *  Mark an item for deletion with the given reason.
-     */
-    private deleteItem(deleteReason : string | null): void {
-        this.isDeleted = true;
-        let date: string = MiscUtils.getUTCDateTime();
-        this.siteLocation.dateDeleted = date;
-        this.siteLocation.deletedReason = deleteReason;
-        this.siteLocationForm.markAsDirty();
-        this.siteLocationForm.disable();
     }
 
     private setupForm() {
