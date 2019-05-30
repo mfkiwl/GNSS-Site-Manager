@@ -2,6 +2,7 @@ export enum EventNames {
     none,
     newItem,
     removeItem,
+    undeleteItem,
     cancelNew,
 }
 export class GeodesyEvent {
