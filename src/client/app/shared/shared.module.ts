@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { DropdownModule, TooltipModule, CollapseModule  } from 'ng2-bootstrap';
 
-import { ToolbarComponent } from './toolbar/toolbar.component';
+import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { StatusInfoComponent } from './status-info/status-info.component';
 import { CorsSiteService } from './cors-site/index';
@@ -28,12 +28,12 @@ import { JsonViewModelService } from './json-data-view-model/index';
     TooltipModule.forRoot()
   ],
   declarations: [
-    ToolbarComponent,
+    HeaderComponent,
     FooterComponent,
     StatusInfoComponent
   ],
   exports: [
-    ToolbarComponent,
+    HeaderComponent,
     FooterComponent,
     StatusInfoComponent,
     CommonModule,

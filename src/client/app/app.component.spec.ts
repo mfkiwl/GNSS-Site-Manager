@@ -9,7 +9,7 @@ import { MockBackend } from '@angular/http/testing';
 import { CollapseModule } from 'ng2-bootstrap';
 import { AppComponent } from './app.component';
 import { AboutComponent } from './about/about.component';
-import { ToolbarComponent } from './shared/toolbar/toolbar.component';
+import { HeaderComponent } from './shared/header/header.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { WFSService } from './shared/wfs/wfs.service';
 import { JsonixService } from './shared/jsonix/jsonix.service';
@@ -31,7 +31,7 @@ export function main() {
     beforeEach(() => {
       TestBed.configureTestingModule({
         imports: [FormsModule, ReactiveFormsModule, HttpModule, CollapseModule.forRoot(), RouterTestingModule.withRoutes(config)],
-        declarations: [TestComponent, ToolbarComponent, FooterComponent, AppComponent, AboutComponent],
+        declarations: [TestComponent, HeaderComponent, FooterComponent, AppComponent, AboutComponent],
         providers: [
           {provide: APP_BASE_HREF, useValue: '/'},
           {provide: 'Window', useValue: mockWindow},
