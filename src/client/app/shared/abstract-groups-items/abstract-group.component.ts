@@ -211,6 +211,30 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel>
     }
 
     /**
+     * Add a new GNSS Receiver by copying and updating values from the current one
+     */
+    addNewByCopying(event: UIEvent) {
+        if (!this.hasItems()) {
+            return;
+        }
+
+        this.addNew(event);
+
+        setTimeout(() => {
+            let newItemForm = <FormGroup>this.parentForm.at(0);
+            let currentItemForm = <FormGroup>this.parentForm.at(1);
+            this.copyValuesFromCurrentItem(newItemForm, currentItemForm);
+        });
+    }
+
+    /**
+     * Copy values from the current item to the new item created, and disable key fields if required.
+     *
+     * Note: cannot declare as an abstract method as not all child components will implement the Update function
+     */
+    copyValuesFromCurrentItem(newItemForm: FormGroup, currentItemForm: FormGroup): void {}
+
+    /**
      * Setup the form for the group.  It will contain an array of Items.
      *
      * @param itemsArrayName that is set on the parentForm

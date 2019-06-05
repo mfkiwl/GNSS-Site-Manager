@@ -35,29 +35,18 @@ export class GnssReceiversGroupComponent extends AbstractGroupComponent<GnssRece
     }
 
     /**
-     * Add a new GNSS Receiver by copying and updating values from the current one
+     * Copy values from the current item to the new item created, and disable key fields if required.
      */
-    addNewByCopying(event: UIEvent) {
-        if (!this.hasItems()) {
-            return;
-        }
+    copyValuesFromCurrentItem(newItemForm: FormGroup, currentItemForm: FormGroup): void {
+        let filedsToCopy = ['receiverType', 'manufacturerSerialNumber', 'firmwareVersion',
+                            'satelliteSystems', 'elevationCutoffSetting', 'temperatureStabilization'];
+        let valuesToCopy = _.pick(currentItemForm.getRawValue(), filedsToCopy);
+        newItemForm.patchValue(_.cloneDeep(valuesToCopy));
 
-        this.addNew(event);
-
-        let fieldsToKeep = ['receiverType', 'manufacturerSerialNumber', 'firmwareVersion',
-                            'satelliteSystems', 'elevationCutoffSetting',
-                            'temperatureStabilization'];
+        // Disable of the two fileds must be after patchValue() completed, so need the 2nd setTimeout
         setTimeout(() => {
-            let newFormGroup = <FormGroup>this.parentForm.at(0);
-            let oldFormGroup = <FormGroup>this.parentForm.at(1);
-            let valuesToCopy = _.pick(oldFormGroup.getRawValue(), fieldsToKeep);
-            newFormGroup.patchValue(valuesToCopy);
-
-            // Disable of the two fileds must be after patchValue() completed, so need the 2nd setTimeout
-            setTimeout(() => {
-                newFormGroup.controls.receiverType.disable();
-                newFormGroup.controls.manufacturerSerialNumber.disable();
-            });
+            newItemForm.controls.receiverType.disable();
+            newItemForm.controls.manufacturerSerialNumber.disable();
         });
     }
 }
