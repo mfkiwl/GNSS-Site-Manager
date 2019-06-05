@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import * as _ from 'lodash';
+
 import { AbstractGroupComponent } from '../shared/abstract-groups-items/abstract-group.component';
 import { GnssAntennaViewModel } from './gnss-antenna-view-model';
 import { SiteLogService } from '../shared/site-log/site-log.service';
@@ -27,5 +29,23 @@ export class GnssAntennaGroupComponent extends AbstractGroupComponent<GnssAntenn
 
     getNewItemViewModel(): GnssAntennaViewModel {
         return new GnssAntennaViewModel();
+    }
+
+    /**
+     * Copy values from the current item to the new item created, and disable key fields if required.
+     */
+    copyValuesFromCurrentItem(newItemForm: FormGroup, currentItemForm: FormGroup): void {
+        let filedsToCopy = ['antennaType', 'serialNumber', 'antennaReferencePoint',
+                            'markerArpEastEcc', 'markerArpUpEcc', 'markerArpNorthEcc',
+                            'alignmentFromTrueNorth', 'antennaRadomeType', 'radomeSerialNumber',
+                            'antennaCableType', 'antennaCableLength'];
+        let valuesToCopy = _.pick(currentItemForm.getRawValue(), filedsToCopy);
+        newItemForm.patchValue(_.cloneDeep(valuesToCopy));
+
+        // Disable of the two fileds must be after patchValue() completed, so need the 2nd setTimeout
+        setTimeout(() => {
+            newItemForm.controls.antennaType.disable();
+            newItemForm.controls.serialNumber.disable();
+        });
     }
 }
