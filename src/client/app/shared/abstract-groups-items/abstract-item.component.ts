@@ -1,6 +1,8 @@
 import { EventEmitter, Input, Output, OnInit, OnChanges, AfterViewInit, SimpleChange, OnDestroy } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
+import * as _ from 'lodash';
+
 import { AbstractBaseComponent } from './abstract-base.component';
 import { GeodesyEvent, EventNames } from '../events-messages/Event';
 import { DialogService } from '../index';
@@ -40,6 +42,8 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
 
     protected isNew: boolean = false;
     protected isItemOpen: boolean = false;
+    protected isItemEditable: boolean;
+    protected itemBackup: AbstractViewModel;
 
     private _isDeleted: boolean = false;
     private subscription: Subscription;
@@ -53,11 +57,12 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
                 protected dialogService: DialogService,
                 protected siteLogService: SiteLogService) {
         super(siteLogService);
+        this.isItemEditable = false;
     }
 
     ngAfterViewInit(): void {
         setTimeout(() => {
-            if (this.isEditable) {
+            if (this.isEditable && (this.isItemEditable || this.isNew)) {
                 this.itemGroup.enable();
             } else {
                 this.itemGroup.disable();
@@ -237,12 +242,38 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
              + '<span class="hidden-xxs">(</span>' + dateRange + '<span class="hidden-xxs">)</span>';
     }
 
+    public getItemEditButtonName(): string {
+        return this.isItemEditable ? 'Revert' : 'Edit';
+    }
+
     /**
      * Toggle the item (open or close it)
      */
     public toggleItem(event: UIEvent) {
         event.preventDefault();
         this.isItemOpen = this.miscUtils.scrollIntoView(event, this.isItemOpen);
+    }
+
+    /**
+     * Toggle on/off the edit flag for the item by user
+     */
+    protected toggleItemEditFlag() {
+        if (this.isDeleteDisabled()) {
+            return;
+        }
+
+        this.isItemOpen = true;
+        this.isItemEditable = !this.isItemEditable;
+        if (this.isItemEditable) {
+            this.itemGroup.enable();
+            this.itemBackup = _.cloneDeep(this.itemGroup.getRawValue());
+        } else {
+            if (this.isFormDirty() && this.itemBackup) {
+                this.itemGroup.patchValue(this.itemBackup);
+            }
+            this.itemBackup = null;
+            this.itemGroup.disable();
+        }
     }
 
     /**
@@ -264,7 +295,6 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
         this.getReturnEvents().emit(geodesyEvent);
         this.itemGroup.disable();
     }
-
 
     /**
      * Event Handler - if this item has the given indexOfNew, then update relevant flags for the new item.

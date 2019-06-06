@@ -13,6 +13,16 @@
             (<span [ngClass]="{'hidden-xxxs': index != 0}">marked </span>to delete)
         </span>
         <span class="pull-right" [ngClass]="{'hidden-xs': humiditySensor.dateDeleted}">
+            <button *ngIf="!isNew"
+                    type="button"
+                    [disabled]="isDeleteDisabled()"
+                    class="btn btn-xs"
+                    [ngClass]="{'btn-danger': isItemEditable, 'btn-primary': !isItemEditable}"
+                    title="{{isItemEditable ? 'Discard changes' : 'Enable editing'}}"
+                    (click)="toggleItemEditFlag()">
+                <i class="glyphicon" [ngClass]="{'glyphicon-share-alt': isItemEditable, 'glyphicon-edit': !isItemEditable}"></i>
+                <span class="hidden-xs">{{getItemEditButtonName()}}</span>
+            </button>
             <button type="button" [disabled]="isDeleteDisabled()"
                   class="btn btn-danger btn-xs"
                   title="{{getRemoveOrDeletedText()}} the humidity sensor"
