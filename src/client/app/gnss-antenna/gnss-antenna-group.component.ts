@@ -46,6 +46,9 @@ export class GnssAntennaGroupComponent extends AbstractGroupComponent<GnssAntenn
         setTimeout(() => {
             newItemForm.controls.antennaType.disable();
             newItemForm.controls.serialNumber.disable();
+            newItemForm.controls.antennaReferencePoint.disable();
+            newItemForm.controls.antennaRadomeType.disable();
+            newItemForm.controls.radomeSerialNumber.disable();
         });
     }
 }
