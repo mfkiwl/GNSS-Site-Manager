@@ -18,7 +18,7 @@
                     [disabled]="isDeleteDisabled()"
                     class="btn btn-xs"
                     [ngClass]="{'btn-danger': isItemEditable, 'btn-primary': !isItemEditable}"
-                    title="Click to {{isItemEditable ? 'disable' : 'enable' }} editing of the {{getItemName()}}"
+                    title="{{isItemEditable ? 'Discard changes' : 'Enable editing'}}"
                     (click)="toggleItemEditFlag()">
                 <i class="glyphicon" [ngClass]="{'glyphicon-share-alt': isItemEditable, 'glyphicon-edit': !isItemEditable}"></i>
                 <span class="hidden-xs">{{getItemEditButtonName()}}</span>
