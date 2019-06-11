@@ -71,7 +71,7 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
     }
 
     isDeleteDisabled(): boolean {
-        return !this.isEditable || this.isDeleted;
+        return !this.isEditable;
     }
 
     set isDeleted(f: boolean) {
@@ -181,26 +181,27 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
      * Remove an item from the UI and delete if it is an existing record.
      */
     removeItem(index: number): boolean {
-
-      if (this.isNew) {
-        this.cancelNew(index);
-      } else {
-          this.dialogService.confirmDeleteDialog(
-            this.getItemName(),
-            (deleteReason : string) => {  // ok callback
-               this.deleteItem(index, deleteReason);
-                this.itemGroup.markAsDirty();
-            },
-            () => {  // cancel callback
-              console.log('delete cancelled by user');
-            }
-          );
-      }
+        if (this.isNew) {
+            this.cancelNew(index);
+        } else if (this.isDeleted) {
+            this.undeleteItem(index);
+        } else {
+            this.dialogService.confirmDeleteDialog(
+                this.getItemName(),
+                (deleteReason : string) => {  // ok callback
+                    this.deleteItem(index, deleteReason);
+                    this.itemGroup.markAsDirty();
+                },
+                () => {  // cancel callback
+                    console.log('delete cancelled by user');
+                }
+            );
+        }
       return false; // same as 'event.preventDefault()` (which I'm having trouble as cant get event parameter)
     }
 
     getRemoveOrDeletedText(): string {
-        return this.isNew ? 'Cancel' : 'Delete';
+        return this.isNew ? 'Cancel' : (this.isDeleted ? 'Undelete' : 'Delete');
     }
 
     public isFormDirty(): boolean {
@@ -243,7 +244,11 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
     }
 
     public getItemEditButtonName(): string {
-        return this.isItemEditable ? 'Revert' : 'Edit';
+        return !this.isItemEditable ? 'Edit' : (this.itemGroup.dirty ? 'Revert' : 'Cancel');
+    }
+
+    public getEditButtonTooltip(): string {
+        return !this.isItemEditable ? 'Enable editing' : (this.itemGroup.dirty ? 'Discard changes' : 'Cancel editing');
     }
 
     /**
@@ -285,7 +290,6 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
         this.isNew = false;
     }
 
-
     /**
      *  Mark an item for deletion using the specified reason.
      */
@@ -294,6 +298,16 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
         let geodesyEvent: GeodesyEvent = {name: EventNames.removeItem, valueNumber: index, valueString: deleteReason};
         this.getReturnEvents().emit(geodesyEvent);
         this.itemGroup.disable();
+    }
+
+    /**
+     *  Undelete the marked item
+     */
+    protected undeleteItem(index: number): void {
+        this.isDeleted = false;
+        let geodesyEvent: GeodesyEvent = {name: EventNames.undeleteItem, valueNumber: index};
+        this.getReturnEvents().emit(geodesyEvent);
+        this.itemGroup.markAsPristine();
     }
 
     /**

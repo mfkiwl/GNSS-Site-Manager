@@ -196,6 +196,9 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel>
             case EventNames.removeItem:
                 this.removeItem(geodesyEvent.valueNumber, geodesyEvent.valueString);
                 break;
+            case EventNames.undeleteItem:
+                this.undeleteItem(geodesyEvent.valueNumber);
+                break;
             case EventNames.cancelNew:
                 this.cancelNew(geodesyEvent.valueNumber);
                 break;
@@ -258,6 +261,16 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel>
         item.dateDeleted = date;
         item.deletedReason = reason;
         item.isDeleted = true;
+    }
+
+    /**
+     * Undelete an item by unmark it from deletion.
+     */
+    public undeleteItem(index: number) {
+        let item: T = this.getItems()[index];
+        item.dateDeleted = null;
+        item.deletedReason = null;
+        item.isDeleted = false;
     }
 
     /**
