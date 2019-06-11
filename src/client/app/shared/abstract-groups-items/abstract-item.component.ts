@@ -62,7 +62,7 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
 
     ngAfterViewInit(): void {
         setTimeout(() => {
-            if (this.isEditable && (this.isItemEditable || this.isNew)) {
+            if (this.isAuthorised && (this.isItemEditable || this.isNew)) {
                 this.itemGroup.enable();
             } else {
                 this.itemGroup.disable();
@@ -71,7 +71,7 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
     }
 
     isDeleteDisabled(): boolean {
-        return !this.isEditable;
+        return !this.isAuthorised;
     }
 
     set isDeleted(f: boolean) {
