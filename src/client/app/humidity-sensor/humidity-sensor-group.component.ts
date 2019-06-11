@@ -1,39 +1,35 @@
 import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { AbstractGroupComponent } from '../shared/abstract-groups-items/abstract-group.component';
-import { SurveyedLocalTieViewModel } from './surveyed-local-tie-view-model';
+import { HumiditySensorViewModel } from './humidity-sensor-view-model';
 import { SiteLogService } from '../shared/site-log/site-log.service';
 
 /**.
- * This class represents a group of Surveyed Local Ties.
+ * This class represents a group of Humidity Sensors.
  */
 @Component({
     moduleId: module.id,
-    selector: 'surveyed-local-ties-group',
-    templateUrl: 'surveyed-local-ties-group.component.html',
+    selector: 'humidity-sensor-group',
+    templateUrl: 'humidity-sensor-group.component.html',
 })
-export class SurveyedLocalTiesGroupComponent extends AbstractGroupComponent<SurveyedLocalTieViewModel> {
+export class HumiditySensorGroupComponent extends AbstractGroupComponent<HumiditySensorViewModel> {
 
     constructor(protected siteLogService: SiteLogService, formBuilder: FormBuilder) {
         super(siteLogService, formBuilder);
     }
 
     getItemName(): string {
-        return 'Surveyed Local Tie';
+        return 'Humidity Sensor';
     }
 
     getControlName(): string {
-        return 'surveyedLocalTies';
+        return 'humiditySensors';
     }
 
     /* **************************************************
      * Other methods
      */
-    getNewItemViewModel(): SurveyedLocalTieViewModel {
-        return new SurveyedLocalTieViewModel();
-    }
-
-    protected hasEndDateField(): boolean {
-        return false;
+    getNewItemViewModel(): HumiditySensorViewModel {
+        return new HumiditySensorViewModel();
     }
 }

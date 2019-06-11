@@ -15,17 +15,17 @@
                                        [siteLogModel]="siteLogModel">
                 </gnss-site-information>
 
-                <gnss-receivers-group [parentForm]="siteLogForm.controls.gnssReceivers"
+                <gnss-receiver-group [parentForm]="siteLogForm.controls.gnssReceivers"
                                       [siteLogModel]="siteLogModel">
-                </gnss-receivers-group>
+                </gnss-receiver-group>
 
                 <gnss-antenna-group [parentForm]="siteLogForm.controls.gnssAntennas"
                                     [siteLogModel]="siteLogModel">
                 </gnss-antenna-group>
 
-                <surveyed-local-ties-group [parentForm]="siteLogForm.controls.surveyedLocalTies"
+                <surveyed-local-tie-group [parentForm]="siteLogForm.controls.surveyedLocalTies"
                                            [siteLogModel]="siteLogModel">
-                </surveyed-local-ties-group>
+                </surveyed-local-tie-group>
 
                 <frequency-standard-group [parentForm]="siteLogForm.controls.frequencyStandards"
                                           [siteLogModel]="siteLogModel">
@@ -35,25 +35,25 @@
                                           [siteLogModel]="siteLogModel">
                 </collocation-information-group>
 
-                <local-episodic-effects-group [parentForm]="siteLogForm.controls.localEpisodicEffects"
+                <local-episodic-effect-group [parentForm]="siteLogForm.controls.localEpisodicEffects"
                                               [siteLogModel]="siteLogModel">
-                </local-episodic-effects-group>
+                </local-episodic-effect-group>
 
-                <humidity-sensors-group [parentForm]="siteLogForm.controls.humiditySensors"
+                <humidity-sensor-group [parentForm]="siteLogForm.controls.humiditySensors"
                                         [siteLogModel]="siteLogModel">
-                </humidity-sensors-group>
+                </humidity-sensor-group>
 
-                <pressure-sensors-group [parentForm]="siteLogForm.controls.pressureSensors"
+                <pressure-sensor-group [parentForm]="siteLogForm.controls.pressureSensors"
                                         [siteLogModel]="siteLogModel">
-                </pressure-sensors-group>
+                </pressure-sensor-group>
 
-                <temperature-sensors-group [parentForm]="siteLogForm.controls.temperatureSensors"
+                <temperature-sensor-group [parentForm]="siteLogForm.controls.temperatureSensors"
                                            [siteLogModel]="siteLogModel">
-                </temperature-sensors-group>
+                </temperature-sensor-group>
 
-                <water-vapor-sensors-group [parentForm]="siteLogForm.controls.waterVaporSensors"
+                <water-vapor-sensor-group [parentForm]="siteLogForm.controls.waterVaporSensors"
                                            [siteLogModel]="siteLogModel">
-                </water-vapor-sensors-group>
+                </water-vapor-sensor-group>
 
                 <other-instrumentation-group [parentForm]="siteLogForm.controls.otherInstrumentation"
                                            [siteLogModel]="siteLogModel">

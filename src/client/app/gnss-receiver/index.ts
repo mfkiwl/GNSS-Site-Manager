@@ -1,2 +1,2 @@
 export * from './gnss-receiver-item.component';
-export * from './gnss-receivers-group.component';
+export * from './gnss-receiver-group.component';

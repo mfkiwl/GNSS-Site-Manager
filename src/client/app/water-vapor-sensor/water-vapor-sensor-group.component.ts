@@ -9,10 +9,10 @@ import { SiteLogService } from '../shared/site-log/site-log.service';
  */
 @Component({
     moduleId: module.id,
-    selector: 'water-vapor-sensors-group',
-    templateUrl: 'water-vapor-sensors-group.component.html',
+    selector: 'water-vapor-sensor-group',
+    templateUrl: 'water-vapor-sensor-group.component.html',
 })
-export class WaterVaporSensorsGroupComponent extends AbstractGroupComponent<WaterVaporSensorViewModel> {
+export class WaterVaporSensorGroupComponent extends AbstractGroupComponent<WaterVaporSensorViewModel> {
 
     constructor(protected siteLogService: SiteLogService, formBuilder: FormBuilder) {
         super(siteLogService, formBuilder);
