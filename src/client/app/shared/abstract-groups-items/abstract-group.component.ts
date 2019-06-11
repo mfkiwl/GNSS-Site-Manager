@@ -10,8 +10,6 @@ import { MiscUtils } from '../global/misc-utils';
 import * as _ from 'lodash';
 import { SiteLogService } from '../site-log/site-log.service';
 
-export const newItemShouldBeBlank: boolean = true;
-
 export abstract class AbstractGroupComponent<T extends AbstractViewModel>
     extends AbstractBaseComponent
     implements OnInit, AfterViewInit, OnChanges, OnDestroy {
