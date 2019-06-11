@@ -32,6 +32,8 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
     @Input() responsibleParty: ResponsiblePartyViewModel;
     @Input() partyType: ResponsiblePartyType;
     @Input() isMandatory: boolean;
+    @Input() total: number;
+
     protected isDataType: boolean;
     protected isMetadataCustodian: boolean;
     protected isDataCenter: boolean;
@@ -138,14 +140,5 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
             );
         }
         return false; // same as 'event.preventDefault()` (which I'm having trouble as cant get event parameter)
-    }
-
-    /**
-     * Allow items to deal with total number of items change
-     */
-    protected handleTotalChange(currentValue: number, previousValue: number): void {
-        if (currentValue === 1) {
-            this.isItemOpen = true;
-        }
     }
 }

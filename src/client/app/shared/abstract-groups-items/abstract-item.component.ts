@@ -24,11 +24,6 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
     @Input() index: number;
 
     /**
-     * Total number of items
-     */
-    @Input() total: number;
-
-    /**
      * This is to receive geodesyEvent from parent.
      */
     @Input() geodesyEvent: GeodesyEvent;
@@ -113,12 +108,6 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
      */
     abstract getItemForm(): FormGroup;
 
-    /**
-     * Allow items to deal with total number of items change
-     */
-    protected handleTotalChange(currentValue: number, previousValue: number): void {
-    }
-
     ngOnInit() {
         this.subscription = this.siteLogService.getApplicationState().subscribe((applicationState: ApplicationState) => {
             if (! applicationState.applicationFormModified) {
@@ -153,9 +142,6 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
                 if (propName === 'geodesyEvent') {
                     this.handleGeodesyEvents();
                 }
-            }
-            if (propName === 'total') {
-                this.handleTotalChange(changedProp.currentValue, changedProp.previousValue);
             }
         }
     }
