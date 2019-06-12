@@ -12,7 +12,7 @@
     <span class="pull-right">
       <button type="button" class="btn btn-similar btn-xs"
               id="new-{{getElementName()}}"
-              [disabled]="!isEditable"
+              [disabled]="!isAuthorised"
               title="Add a new {{getItemName()}}"
               (click)="addNew($event); miscUtils.showFullView($event);">
         <i class="glyphicon glyphicon-plus-sign"></i>
@@ -27,7 +27,6 @@
       <div *ngFor="let frequencyStandard of getItems(); let i = index">
           <frequency-standard-item #item [groupArray]="parentForm"
                                    [frequencyStandard]="frequencyStandard"
-                              [total]="items.length"
                               [index]="i"
                               [geodesyEvent]="geodesyEvent"
                               (returnEvents)="returnEvents($event)">

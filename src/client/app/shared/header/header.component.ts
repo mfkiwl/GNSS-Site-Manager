@@ -82,7 +82,7 @@ export class HeaderComponent extends AbstractBaseComponent implements OnInit, On
      * save is disabled if nothing has in the form has changed or the user is not allowed to edit this site
      */
     public isSaveDisabled(): boolean {
-        return !this.isFormDirty() || !this.isEditable;
+        return !this.isFormDirty() || !this.isAuthorised;
     }
 
     public isRevertDisabled(): boolean {

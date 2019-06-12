@@ -12,7 +12,7 @@
         <span class="pull-right">
             <button class="btn btn-similar btn-xs" title="Add a new {{getItemName()}}"
                     id="new-{{getElementName()}}"
-                    [disabled]="!isEditable"
+                    [disabled]="!isAuthorised"
                     (click)="addNew($event); miscUtils.showFullView($event);">
             <i class="glyphicon glyphicon-plus-sign"></i>
             New
@@ -27,7 +27,6 @@
             <radio-interference-item #item
                                      [groupArray]="parentForm"
                                      [radioInterference]="radioInterference"
-                                     [total]="items.length"
                                      [index]="i"
                                      [geodesyEvent]="geodesyEvent"
                                      (returnEvents)="returnEvents($event)"></radio-interference-item>
