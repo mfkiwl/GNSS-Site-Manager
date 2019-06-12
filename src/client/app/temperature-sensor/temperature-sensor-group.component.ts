@@ -1,32 +1,32 @@
 import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { AbstractGroupComponent } from '../shared/abstract-groups-items/abstract-group.component';
-import { PressureSensorViewModel } from './pressure-sensor-view-model';
+import { TemperatureSensorViewModel } from './temperature-sensor-view-model';
 import { SiteLogService } from '../shared/site-log/site-log.service';
 
 /**
- * This class represents a group of Pressure Sensors.
+ * This class represents a group of Temperature Sensors.
  */
 @Component({
     moduleId: module.id,
-    selector: 'pressure-sensors-group',
-    templateUrl: 'pressure-sensors-group.component.html',
+    selector: 'temperature-sensor-group',
+    templateUrl: 'temperature-sensor-group.component.html',
 })
-export class PressureSensorsGroupComponent extends AbstractGroupComponent<PressureSensorViewModel> {
+export class TemperatureSensorGroupComponent extends AbstractGroupComponent<TemperatureSensorViewModel> {
 
     constructor(protected siteLogService: SiteLogService, formBuilder: FormBuilder) {
         super(siteLogService, formBuilder);
     }
 
     getItemName(): string {
-        return 'Pressure Sensor';
+        return 'Temperature Sensor';
     }
 
     getControlName(): string {
-        return 'pressureSensors';
+        return 'temperatureSensors';
     }
 
-    getNewItemViewModel(): PressureSensorViewModel {
-        return new PressureSensorViewModel();
+    getNewItemViewModel(): TemperatureSensorViewModel {
+        return new TemperatureSensorViewModel();
     }
 }

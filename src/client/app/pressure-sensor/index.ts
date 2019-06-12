@@ -1,2 +1,2 @@
 export * from './pressure-sensor-item.component';
-export * from './pressure-sensors-group.component';
+export * from './pressure-sensor-group.component';

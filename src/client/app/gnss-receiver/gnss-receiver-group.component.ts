@@ -11,10 +11,10 @@ import { SiteLogService } from '../shared/site-log/site-log.service';
  */
 @Component({
     moduleId: module.id,
-    selector: 'gnss-receivers-group',
-    templateUrl: 'gnss-receivers-group.component.html',
+    selector: 'gnss-receiver-group',
+    templateUrl: 'gnss-receiver-group.component.html',
 })
-export class GnssReceiversGroupComponent extends AbstractGroupComponent<GnssReceiverViewModel> {
+export class GnssReceiverGroupComponent extends AbstractGroupComponent<GnssReceiverViewModel> {
     constructor(protected siteLogService: SiteLogService, protected formBuilder: FormBuilder) {
         super(siteLogService, formBuilder);
     }

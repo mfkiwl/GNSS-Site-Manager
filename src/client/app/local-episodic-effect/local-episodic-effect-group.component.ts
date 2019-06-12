@@ -9,10 +9,10 @@ import { SiteLogService } from '../shared/site-log/site-log.service';
  */
 @Component({
     moduleId: module.id,
-    selector: 'local-episodic-effects-group',
-    templateUrl: 'local-episodic-effects-group.component.html',
+    selector: 'local-episodic-effect-group',
+    templateUrl: 'local-episodic-effect-group.component.html',
 })
-export class LocalEpisodicEffectsGroupComponent extends AbstractGroupComponent<LocalEpisodicEffectViewModel> {
+export class LocalEpisodicEffectGroupComponent extends AbstractGroupComponent<LocalEpisodicEffectViewModel> {
 
     constructor(protected siteLogService: SiteLogService, formBuilder: FormBuilder) {
         super(siteLogService, formBuilder);
