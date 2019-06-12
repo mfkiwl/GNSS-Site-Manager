@@ -5,7 +5,6 @@ import { AbstractItemComponent } from '../shared/abstract-groups-items/abstract-
 import { SurveyedLocalTieViewModel } from './surveyed-local-tie-view-model';
 import { DialogService } from '../shared/index';
 import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
-import { UserAuthService } from '../shared/global/user-auth.service';
 import { SiteLogService } from '../shared/site-log/site-log.service';
 import { DatetimeFormatValidator } from '../shared/form-input-validators/datetime-format-validator';
 
@@ -27,11 +26,10 @@ export class SurveyedLocalTieItemComponent extends AbstractItemComponent impleme
 
     private formSubscription: Subscription;
 
-    constructor(protected userAuthService: UserAuthService,
-                protected dialogService: DialogService,
+    constructor(protected dialogService: DialogService,
                 protected siteLogService: SiteLogService,
                 protected formBuilder: FormBuilder) {
-        super(userAuthService, dialogService, siteLogService);
+        super(dialogService, siteLogService);
     }
 
     ngOnInit() {

@@ -6,7 +6,6 @@ import { ResponsiblePartyViewModel } from './responsible-party-view-model';
 import { ResponsiblePartyType } from './responsible-party-group.component';
 import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
 import { DialogService } from '../shared/global/dialog.service';
-import { UserAuthService } from '../shared/global/user-auth.service';
 import { SiteLogService } from '../shared/site-log/site-log.service';
 
 /**
@@ -39,11 +38,10 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
     protected isDataCenter: boolean;
     protected itemIdName: string;
 
-    constructor(protected userAuthService: UserAuthService,
-                protected dialogService: DialogService,
+    constructor(protected dialogService: DialogService,
                 protected siteLogService: SiteLogService,
                 protected formBuilder: FormBuilder) {
-        super(userAuthService, dialogService, siteLogService);
+        super(dialogService, siteLogService);
         this.isItemEditable = true;
     }
 
