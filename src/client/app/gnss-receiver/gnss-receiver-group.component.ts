@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import * as _ from 'lodash';
 
 import { AbstractGroupComponent } from '../shared/abstract-groups-items/abstract-group.component';
@@ -15,8 +15,8 @@ import { SiteLogService } from '../shared/site-log/site-log.service';
     templateUrl: 'gnss-receiver-group.component.html',
 })
 export class GnssReceiverGroupComponent extends AbstractGroupComponent<GnssReceiverViewModel> {
-    constructor(protected siteLogService: SiteLogService, protected formBuilder: FormBuilder) {
-        super(siteLogService, formBuilder);
+    constructor(protected siteLogService: SiteLogService) {
+        super(siteLogService);
     }
 
     getItemName(): string {

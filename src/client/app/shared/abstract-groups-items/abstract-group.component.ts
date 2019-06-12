@@ -1,5 +1,5 @@
 import { Input, OnInit, AfterViewInit, OnChanges, SimpleChange, ViewChildren, QueryList, OnDestroy } from '@angular/core';
-import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
+import { FormGroup, FormArray } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
 import { AbstractBaseComponent } from './abstract-base.component';
 import { AbstractItemComponent } from './abstract-item.component';
@@ -67,7 +67,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel>
         }
     }
 
-    constructor(protected siteLogService: SiteLogService,  protected formBuilder: FormBuilder) {
+    constructor(protected siteLogService: SiteLogService) {
         super(siteLogService);
     }
 
