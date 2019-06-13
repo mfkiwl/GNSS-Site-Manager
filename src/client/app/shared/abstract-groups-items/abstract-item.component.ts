@@ -7,7 +7,6 @@ import { AbstractBaseComponent } from './abstract-base.component';
 import { GeodesyEvent, EventNames } from '../events-messages/Event';
 import { DialogService } from '../index';
 import { MiscUtils } from '../global/misc-utils';
-import { UserAuthService } from '../global/user-auth.service';
 import { AbstractViewModel } from '../json-data-view-model/view-model/abstract-view-model';
 import { SiteLogService, ApplicationState, ApplicationSaveState } from '../site-log/site-log.service';
 
@@ -48,8 +47,7 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
      *
      * @param {DialogService} dialogService - The injected DialogService.
      */
-    constructor(protected userAuthService: UserAuthService,
-                protected dialogService: DialogService,
+    constructor(protected dialogService: DialogService,
                 protected siteLogService: SiteLogService) {
         super(siteLogService);
         this.isItemEditable = false;

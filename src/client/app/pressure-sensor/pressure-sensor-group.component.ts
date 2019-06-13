@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 import { AbstractGroupComponent } from '../shared/abstract-groups-items/abstract-group.component';
 import { PressureSensorViewModel } from './pressure-sensor-view-model';
 import { SiteLogService } from '../shared/site-log/site-log.service';
@@ -14,8 +13,8 @@ import { SiteLogService } from '../shared/site-log/site-log.service';
 })
 export class PressureSensorGroupComponent extends AbstractGroupComponent<PressureSensorViewModel> {
 
-    constructor(protected siteLogService: SiteLogService, formBuilder: FormBuilder) {
-        super(siteLogService, formBuilder);
+    constructor(protected siteLogService: SiteLogService) {
+        super(siteLogService);
     }
 
     getItemName(): string {
