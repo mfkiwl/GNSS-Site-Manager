@@ -1,2 +1,2 @@
 export * from './water-vapor-sensor-item.component';
-export * from './water-vapor-sensors-group.component';
+export * from './water-vapor-sensor-group.component';

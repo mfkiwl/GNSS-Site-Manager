@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 import { AbstractGroupComponent } from '../shared/abstract-groups-items/abstract-group.component';
 import { TemperatureSensorViewModel } from './temperature-sensor-view-model';
 import { SiteLogService } from '../shared/site-log/site-log.service';
@@ -9,13 +8,13 @@ import { SiteLogService } from '../shared/site-log/site-log.service';
  */
 @Component({
     moduleId: module.id,
-    selector: 'temperature-sensors-group',
-    templateUrl: 'temperature-sensors-group.component.html',
+    selector: 'temperature-sensor-group',
+    templateUrl: 'temperature-sensor-group.component.html',
 })
-export class TemperatureSensorsGroupComponent extends AbstractGroupComponent<TemperatureSensorViewModel> {
+export class TemperatureSensorGroupComponent extends AbstractGroupComponent<TemperatureSensorViewModel> {
 
-    constructor(protected siteLogService: SiteLogService, formBuilder: FormBuilder) {
-        super(siteLogService, formBuilder);
+    constructor(protected siteLogService: SiteLogService) {
+        super(siteLogService);
     }
 
     getItemName(): string {

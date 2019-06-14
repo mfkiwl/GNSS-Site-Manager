@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 import { AbstractGroupComponent } from '../shared/abstract-groups-items/abstract-group.component';
 import { SurveyedLocalTieViewModel } from './surveyed-local-tie-view-model';
 import { SiteLogService } from '../shared/site-log/site-log.service';
@@ -9,13 +8,13 @@ import { SiteLogService } from '../shared/site-log/site-log.service';
  */
 @Component({
     moduleId: module.id,
-    selector: 'surveyed-local-ties-group',
-    templateUrl: 'surveyed-local-ties-group.component.html',
+    selector: 'surveyed-local-tie-group',
+    templateUrl: 'surveyed-local-tie-group.component.html',
 })
-export class SurveyedLocalTiesGroupComponent extends AbstractGroupComponent<SurveyedLocalTieViewModel> {
+export class SurveyedLocalTieGroupComponent extends AbstractGroupComponent<SurveyedLocalTieViewModel> {
 
-    constructor(protected siteLogService: SiteLogService, formBuilder: FormBuilder) {
-        super(siteLogService, formBuilder);
+    constructor(protected siteLogService: SiteLogService) {
+        super(siteLogService);
     }
 
     getItemName(): string {

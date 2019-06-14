@@ -1,0 +1,261 @@
+:host {
+  --header-height1: 72px;
+  --header-height2: 55px;
+  --strap-height1: 8px;
+  --strap-height2: 5px;
+  background-color: #fff;
+  display: block;
+  float: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+.header-container {
+  background-color: #fff;
+  color: #222;
+  height: var(--header-height1);
+  max-height: var(--header-height1);
+  padding: 0;
+  width: 100%;
+}
+.ga-logo-panel {
+  display: inline-block;
+}
+.ga-logo-inline {
+  background-image: url(./assets/img/ga-logo-inline.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 225px 55px;
+  display: inline-block;
+  height: calc(var(--header-height1) - 6px);
+  width: 225px;
+  vertical-align: middle;
+}
+.app-title-panel {
+  display: inline-block;
+  padding-left: 15px;
+  position: absolute;
+  top: 0;
+}
+.app-title-panel > .title {
+  display: table-cell;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+  height: var(--header-height1);
+  padding-top: 8px;
+  vertical-align: middle;
+}
+
+.dropdown-menu-panel {
+  display: inline-block;
+  float: right;
+  height: var(--header-height1);
+  padding-top: 15px;
+  vertical-align: middle;
+}
+.dropdown-menu-panel ul {
+  margin: 10px 5px 0 0;
+}
+#navigation-dropdown-menu {
+  top: -1px;
+}
+.site-id-menu,
+.profile-menu,
+.navigation-menu {
+  background-color: transparent;
+  border: 1px solid #222;
+  border-radius: 4px;
+  display: inline;
+  line-height: 2.95;
+  margin: 0 5px;
+  vertical-align: middle;
+}
+.site-id-menu {
+  font-size: 15px;
+  padding: 5px 8px;
+}
+.profile-menu {
+  font-size: 15px;
+  padding: 5px 10px;
+}
+.navigation-menu {
+  font-size: 20px;
+  height: 36px;
+  line-height: 1.9;
+  padding: 2px 12px 3px;
+}
+.navigation-menu .glyphicon-menu-hamburger {
+  top: 4px !important;
+}
+.navigation-menu:hover,
+.navigation-menu:focus,
+.site-id-menu:hover,
+.site-id-menu:focus,
+.profile-menu:hover,
+.profile-menu:focus {
+  cursor: pointer;
+  color: #006983;
+  border-color: #006983;
+  background-color: #e5f5e0;
+}
+.site-id-menu-label {
+  font-size: 15px;
+  font-weight: normal;
+  margin-right: 0;
+}
+.dropdown-icon {
+  font-size: 10px;
+}
+.dropdown-menu > li > a:focus,
+.dropdown-menu > li > a:hover {
+  background-color: #e5f5e0;
+  color: #2a2aff;
+  cursor: pointer;
+}
+.dropdown-menu {
+  min-width: 140px;
+  border-color: #00441b;
+  font-size: 15px;
+}
+.dropdown-menu > li > a {
+  padding: 5px 20px;
+  margin-bottom: 5px;
+}
+.dropdown-menu .divider {
+  background-color: #a0a0a0;
+}
+.dim-icon {
+  color: #a2a2a2;
+}
+.disabled {
+  color: #888 !important;
+  pointer-events: none;
+  cursor: default;
+}
+
+/* A horizontal strap just right below the header */
+.strap-container {
+  display: table;
+  height: var(--strap-height1);
+  min-height: var(--strap-height1);
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+.strap-blue, .strap-white, .strap-red {
+  height: var(--strap-height1);
+  margin: 0;
+}
+.strap-blue {
+  background-color: #72c7e7;
+  float: left;
+  width: 88%;
+}
+.strap-white {
+  background-color: #fff;
+  float: left;
+  width: 3px;
+}
+.strap-red {
+  background-color: #a33f1f;
+}
+
+@media (max-width: 990px) {
+  .app-title-panel .title {
+    font-size: 22px;
+  }
+}
+
+/* Special CSS classes defined for small devices such as smart phone (landscape) */
+@media (max-width: 767px) {
+  .header-container {
+    height: var(--header-height2);
+    max-height: var(--header-height2);
+  }
+  .ga-logo-inline {
+    background-image: url(./assets/img/ga-logo-inline.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 155px 38px;
+    height: var(--header-height2);
+    width: 155px;
+  }
+  ga-logo-panel {
+    margin-left: 15px;
+  }
+  .app-title-panel {
+    padding-left: 10px;
+  }
+  .app-title-panel .title {
+    height: var(--header-height2);
+    font-size: 17px;
+    line-height: 1.3;
+    padding-top: 10px;
+  }
+  .dropdown-menu-panel {
+    height: var(--header-height2);
+    padding-top: 6px;
+  }
+  .visible-xs {
+    display: inline-block !important;
+  }
+
+  .strap-container {
+    height: var(--strap-height2);
+    min-height: var(--strap-height2);
+  }
+  .strap-blue,
+  .strap-white,
+  .strap-red {
+    height: var(--strap-height2);
+  }
+}
+
+/* Special CSS classes defined for small devices such as smart phone (portrait) */
+@media (max-width: 550px) {
+  .app-title-panel .title {
+    font-size: 16px;
+    line-height: 1.2;
+    width: 100px;
+  }
+  .dropdown-menu-panel ul {
+    margin-right: 2px;
+  }
+  .site-id-menu,
+  .profile-menu,
+  .navigation-menu {
+    margin: 0 2px;
+  }
+}
+@media (max-width: 450px) {
+  .app-title-panel {
+    padding-left: 5px;
+  }
+  .app-title-panel .title {
+    font-size: 15px;
+    line-height: 1;
+    padding-top: 4px;
+    width: 70px;
+  }
+  .dropdown-menu-panel {
+    margin-top: 0;
+  }
+  .site-id-menu {
+    padding: 5px 4px;
+  }
+  .profile-menu {
+    padding: 5px 7px;
+  }
+}
+@media (max-width: 400px) {
+  .ga-logo-panel {
+    display: none;
+  }
+  .app-title-panel .title {
+    line-height: 1.2;
+    padding-left: 5px;
+    padding-top: 0;
+    width: 100px;
+  }
+}

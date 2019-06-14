@@ -13,7 +13,7 @@ export class CorsNetworkModel {
     constructor(id: number, name: string, description: string, period: any = null) {
         this.id = id;
         this.name = name;
-        this.description = !description ? name : description;
+        this.description = description;
         if (period) {
             this.effectiveFrom = period.from;
             this.effectiveTo = period.to;
@@ -25,7 +25,7 @@ export class CorsNetworkModel {
     clone() {
         let newModel = new CorsNetworkModel(this.id, this.name, this.description);
         newModel.effectiveFrom = this.effectiveFrom;
-        newModel.effectiveFrom = this.effectiveFrom;
+        newModel.effectiveTo = this.effectiveTo;
         return newModel;
     }
 }

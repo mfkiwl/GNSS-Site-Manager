@@ -11,10 +11,11 @@
         </span>
         <span class="pull-right">
             <button class="btn btn-similar btn-xs" title="Add a new {{getItemName()}}"
-                    [disabled]="!isEditable"
+                    id="new-{{getElementName()}}"
+                    [disabled]="!isAuthorised"
                     (click)="addNew($event); miscUtils.showFullView($event);">
             <i class="glyphicon glyphicon-plus-sign"></i>
-            New <span class="hidden-xxs">{{getItemName()}}</span>
+            New
             </button>
         </span>
   </div>
@@ -25,7 +26,6 @@
         <div *ngFor="let collocationInformation of getItems(); let i = index">
             <collocation-information-item #item [groupArray]="parentForm"
                                      [collocationInformation]="collocationInformation"
-                                     [total]="items.length"
                                      [index]="i"
                                      [geodesyEvent]="geodesyEvent"
                                      (returnEvents)="returnEvents($event)"></collocation-information-item>

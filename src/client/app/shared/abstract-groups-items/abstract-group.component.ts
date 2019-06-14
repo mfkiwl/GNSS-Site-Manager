@@ -1,5 +1,5 @@
 import { Input, OnInit, AfterViewInit, OnChanges, SimpleChange, ViewChildren, QueryList, OnDestroy } from '@angular/core';
-import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
+import { FormGroup, FormArray } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
 import { AbstractBaseComponent } from './abstract-base.component';
 import { AbstractItemComponent } from './abstract-item.component';
@@ -9,8 +9,6 @@ import { SiteLogViewModel }  from '../../site-log/site-log-view-model';
 import { MiscUtils } from '../global/misc-utils';
 import * as _ from 'lodash';
 import { SiteLogService } from '../site-log/site-log.service';
-
-export const newItemShouldBeBlank: boolean = true;
 
 export abstract class AbstractGroupComponent<T extends AbstractViewModel>
     extends AbstractBaseComponent
@@ -69,7 +67,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel>
         }
     }
 
-    constructor(protected siteLogService: SiteLogService,  protected formBuilder: FormBuilder) {
+    constructor(protected siteLogService: SiteLogService) {
         super(siteLogService);
     }
 
@@ -196,6 +194,9 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel>
             case EventNames.removeItem:
                 this.removeItem(geodesyEvent.valueNumber, geodesyEvent.valueString);
                 break;
+            case EventNames.undeleteItem:
+                this.undeleteItem(geodesyEvent.valueNumber);
+                break;
             case EventNames.cancelNew:
                 this.cancelNew(geodesyEvent.valueNumber);
                 break;
@@ -209,6 +210,30 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel>
         this.addNewItem();
         this.newItemEvent();
     }
+
+    /**
+     * Add a new GNSS Receiver by copying and updating values from the current one
+     */
+    addNewByCopying(event: UIEvent) {
+        if (!this.hasItems()) {
+            return;
+        }
+
+        this.addNew(event);
+
+        setTimeout(() => {
+            let newItemForm = <FormGroup>this.parentForm.at(0);
+            let currentItemForm = <FormGroup>this.parentForm.at(1);
+            this.copyValuesFromCurrentItem(newItemForm, currentItemForm);
+        });
+    }
+
+    /**
+     * Copy values from the current item to the new item created, and disable key fields if required.
+     *
+     * Note: cannot declare as an abstract method as not all child components will implement the Update function
+     */
+    copyValuesFromCurrentItem(newItemForm: FormGroup, currentItemForm: FormGroup): void {}
 
     /**
      * Setup the form for the group.  It will contain an array of Items.
@@ -237,6 +262,16 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel>
     }
 
     /**
+     * Undelete an item by unmark it from deletion.
+     */
+    public undeleteItem(index: number) {
+        let item: T = this.getItems()[index];
+        item.dateDeleted = null;
+        item.deletedReason = null;
+        item.isDeleted = false;
+    }
+
+    /**
      * Delete a newly added item (ie cancel adding the item).
      *
      * @param {string} itemIndex - the index of the new item to be cancelled.
@@ -254,6 +289,15 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel>
         (<FormGroup>this.parentForm.at(itemIndex)).markAsPristine();
         this.items.splice(itemIndex, 1);
         this.parentForm.removeAt(itemIndex);
+    }
+
+    /**
+     * After a new item is created 'EventNames.newItem' is sent so that item can init itself.
+     */
+    public newItemEvent() {
+        let geodesyEvent: GeodesyEvent = this.getGeodesyEvent();
+        geodesyEvent.name = EventNames.newItem;
+        geodesyEvent.valueNumber = 0;
     }
 
     public isFormDirty(): boolean {
@@ -332,21 +376,12 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel>
 
     private updateEndDate(itemComponent: AbstractItemComponent, date: string, flags: { overwrite: boolean }): void {
         let item = itemComponent.itemGroup;
-        if (item.controls['endDate']) {
+        if (date && item.controls['endDate']) {
             let endDateControl = item.controls.endDate;
             if (!endDateControl.value || flags.overwrite) {
                 endDateControl.setValue(date);
                 endDateControl.markAsDirty();
             }
         }
-    }
-
-    /**
-     * After a new item is created 'EventNames.newItem' is sent so that item can init itself.
-     */
-    private newItemEvent() {
-        let geodesyEvent: GeodesyEvent = this.getGeodesyEvent();
-        geodesyEvent.name = EventNames.newItem;
-        geodesyEvent.valueNumber = 0;
     }
 }

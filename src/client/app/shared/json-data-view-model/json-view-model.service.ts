@@ -151,7 +151,11 @@ let gnssReceiverMap = new ObjectMap()
     .addFieldMap('deletedReason', 'deletedReason')
     .addFieldMap('gnssReceiver.dateInstalled.value[0]', 'startDate', dateMap)
     .addFieldMap('gnssReceiver.dateRemoved.value[0]', 'endDate', dateMap)
-    .addFieldMap('gnssReceiver.igsModelCode.value', 'receiverType')
+
+    .addFieldMap('gnssReceiver.igsModelCode.value', 'receiverType', new ObjectMap()
+        .addTargetPreMap((receiverType: string) => receiverType ? receiverType.toUpperCase() : receiverType)
+    )
+
     .addFieldMap('gnssReceiver.manufacturerSerialNumber', 'manufacturerSerialNumber')
     .addFieldMap('gnssReceiver.firmwareVersion', 'firmwareVersion')
 
@@ -171,7 +175,11 @@ let gnssAntennaMap = new ObjectMap()
     .addFieldMap('deletedReason', 'deletedReason')
     .addFieldMap('gnssAntenna.dateInstalled.value[0]', 'startDate', dateMap)
     .addFieldMap('gnssAntenna.dateRemoved.value[0]', 'endDate', dateMap)
-    .addFieldMap('gnssAntenna.igsModelCode.value', 'antennaType')
+
+    .addFieldMap('gnssAntenna.igsModelCode.value', 'antennaType', new ObjectMap()
+        .addTargetPreMap((antennaType: string) => antennaType ? antennaType.toUpperCase() : antennaType)
+    )
+
     .addFieldMap('gnssAntenna.manufacturerSerialNumber', 'serialNumber')
     .addFieldMap('gnssAntenna.antennaReferencePoint.value', 'antennaReferencePoint')
     .addFieldMap('gnssAntenna.markerArpEastEcc', 'markerArpEastEcc')

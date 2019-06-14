@@ -4,12 +4,12 @@ import { SiteLogService } from '../site-log/site-log.service';
 
 export abstract class AbstractBaseComponent implements OnDestroy {
 
-    public isEditable: boolean;
+    public isAuthorised: boolean;
     private authorisedSubscription: Subscription;
 
     constructor(siteLogService: SiteLogService) {
         this.authorisedSubscription = siteLogService.isUserAuthorisedToEditSite.subscribe(f => {
-            this.isEditable = f;
+            this.isAuthorised = f;
         });
     }
 

@@ -12,21 +12,8 @@ import { SiteAdministrationModel } from '../site-administration/site-administrat
 import { CorsNetworkModel } from '../shared/cors-network/cors-network-model';
 import { UserAuthService } from '../shared/global/user-auth.service';
 import { ApplicationSaveState } from '../shared/site-log/site-log.service';
+import { AbstractGroupComponent } from '../shared/abstract-groups-items/abstract-group.component';
 import { ResponsiblePartyGroupComponent } from '../responsible-party/responsible-party-group.component';
-import { GnssReceiversGroupComponent } from '../gnss-receiver/gnss-receivers-group.component';
-import { CollocationInformationGroupComponent } from '../collocation-information/collocation-information-group.component';
-import { FrequencyStandardGroupComponent } from '../frequency-standard/frequency-standard-group.component';
-import { GnssAntennaGroupComponent } from '../gnss-antenna/gnss-antenna-group.component';
-import { HumiditySensorsGroupComponent } from '../humidity-sensor/humidity-sensors-group.component';
-import { PressureSensorsGroupComponent } from '../pressure-sensor/pressure-sensors-group.component';
-import { LocalEpisodicEffectsGroupComponent } from '../local-episodic-effect/local-episodic-effects-group.component';
-import { SurveyedLocalTiesGroupComponent } from '../surveyed-local-tie/surveyed-local-ties-group.component';
-import { TemperatureSensorsGroupComponent } from '../temperature-sensor/temperature-sensors-group.component';
-import { WaterVaporSensorsGroupComponent } from '../water-vapor-sensor/water-vapor-sensors-group.component';
-import { OtherInstrumentationGroupComponent } from '../other-instrumentation/other-instrumentation-group.component';
-import { RadioInterferenceGroupComponent } from '../radio-interference/radio-interference-group.component';
-import { SignalObstructionGroupComponent } from '../signal-obstruction/signal-obstruction-group.component';
-import { MultipathSourceGroupComponent } from '../multipath-source/multipath-source-group.component';
 
 /**
  * This class represents the SiteLogComponent for viewing and editing the details of site/receiver/antenna.
@@ -403,59 +390,11 @@ export class SiteLogComponent implements OnInit, OnDestroy {
         });
     }
 
-    private  returnAssociatedComparator(itemName: string): any {
-        switch (itemName) {
-            case 'siteLocation':
-                console.warn(`createComparator - ${itemName} does not have a comparator`);
-                // And this should never get called as it isn't an array
-                return null;
-            case 'siteIdentification':
-                console.warn(`createComparator - ${itemName} does not have a comparator`);
-                // And this should never get called as it isn't an array
-                return null;
-            case 'siteAdministration':
-                console.warn(`createComparator - ${itemName} does not have a comparator`);
-                return null;
-            case 'siteOwner':
-                return ResponsiblePartyGroupComponent.compare;
-            case 'siteContacts':
-                return ResponsiblePartyGroupComponent.compare;
-            case 'siteMetadataCustodian':
-                return ResponsiblePartyGroupComponent.compare;
-            case 'siteDataCenters':
-                return ResponsiblePartyGroupComponent.compare;
-            case 'siteDataSource':
-                return ResponsiblePartyGroupComponent.compare;
-            case 'gnssReceivers':
-                return GnssReceiversGroupComponent.compare;
-            case 'gnssAntennas':
-                return GnssAntennaGroupComponent.compare;
-            case 'frequencyStandards':
-                return FrequencyStandardGroupComponent.compare;
-            case 'collocationInformation':
-                return CollocationInformationGroupComponent.compare;
-            case 'humiditySensors':
-                return HumiditySensorsGroupComponent.compare;
-            case 'pressureSensors':
-                return PressureSensorsGroupComponent.compare;
-            case 'localEpisodicEffects':
-                return LocalEpisodicEffectsGroupComponent.compare;
-            case 'surveyedLocalTies':
-                return SurveyedLocalTiesGroupComponent.compare;
-            case 'temperatureSensors':
-                return TemperatureSensorsGroupComponent.compare;
-            case 'waterVaporSensors':
-                return WaterVaporSensorsGroupComponent.compare;
-            case 'otherInstrumentation':
-                return OtherInstrumentationGroupComponent.compare;
-            case 'radioInterferences':
-                return RadioInterferenceGroupComponent.compare;
-            case 'signalObstructions':
-                return SignalObstructionGroupComponent.compare;
-            case 'multipathSources':
-                return MultipathSourceGroupComponent.compare;
-            default:
-                throw new Error(`Unknown item - unable to return comparator for item ${itemName}`);
+    private returnAssociatedComparator(itemName: string): any {
+        if (itemName === 'siteContacts' || itemName === 'siteDataCenters') {
+            return ResponsiblePartyGroupComponent.compare;
+        } else {
+            return AbstractGroupComponent.compare;
         }
     }
 
@@ -531,13 +470,10 @@ export class SiteLogComponent implements OnInit, OnDestroy {
      * @param formValue
      */
     private sortArrays(formValue: any) {
-        let items: string[] = Object.keys(formValue);
-        for (let item of items) {
-            if (Array.isArray(formValue[item])) {
-                let comparator: any = this.returnAssociatedComparator(item);
-                if (comparator) {
-                    formValue[item].sort(comparator);
-                }
+        let itemNames: string[] = Object.keys(formValue);
+        for (let itemName of itemNames) {
+            if (Array.isArray(formValue[itemName])) {
+                formValue[itemName].sort(this.returnAssociatedComparator(itemName));
             }
         }
     }

@@ -6,7 +6,6 @@ import { ResponsiblePartyViewModel } from './responsible-party-view-model';
 import { ResponsiblePartyType } from './responsible-party-group.component';
 import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
 import { DialogService } from '../shared/global/dialog.service';
-import { UserAuthService } from '../shared/global/user-auth.service';
 import { SiteLogService } from '../shared/site-log/site-log.service';
 
 /**
@@ -32,16 +31,18 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
     @Input() responsibleParty: ResponsiblePartyViewModel;
     @Input() partyType: ResponsiblePartyType;
     @Input() isMandatory: boolean;
+    @Input() total: number;
+
     protected isDataType: boolean;
     protected isMetadataCustodian: boolean;
     protected isDataCenter: boolean;
     protected itemIdName: string;
 
-    constructor(protected userAuthService: UserAuthService,
-                protected dialogService: DialogService,
+    constructor(protected dialogService: DialogService,
                 protected siteLogService: SiteLogService,
                 protected formBuilder: FormBuilder) {
-        super(userAuthService, dialogService, siteLogService);
+        super(dialogService, siteLogService);
+        this.isItemEditable = true;
     }
 
     ngOnInit() {
@@ -119,29 +120,23 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
      * Remove an item from the UI and delete if it is an existing record.
      */
     removeItem(index: number): boolean {
-      if (this.isNew) {
-        this.cancelNew(index);
-      } else {
-          this.dialogService.confirmDeleteDialogWithNoReason(
-            this.getItemName(),
-            () => {  // ok callback - no reason needed
-               this.deleteItem(index, null);
-                this.itemGroup.markAsDirty();
-            },
-            () => {  // cancel callback
-              console.log('delete cancelled by user');
-            }
-          );
-      }
-      return false; // same as 'event.preventDefault()` (which I'm having trouble as cant get event parameter)
-    }
-
-    /**
-     * Allow items to deal with total number of items change
-     */
-    protected handleTotalChange(currentValue: number, previousValue: number): void {
-        if (currentValue === 1) {
-            this.isItemOpen = true;
+        if (this.isNew) {
+            this.cancelNew(index);
+        } else if (this.isDeleted) {
+            this.undeleteItem(index);
+            this.itemGroup.enable();
+        } else {
+            this.dialogService.confirmDeleteDialogWithNoReason(
+                this.getItemName(),
+                () => {  // ok callback - no reason needed
+                    this.deleteItem(index, null);
+                    this.itemGroup.markAsDirty();
+                },
+                () => {  // cancel callback
+                    console.log('delete cancelled by user');
+                }
+            );
         }
+        return false; // same as 'event.preventDefault()` (which I'm having trouble as cant get event parameter)
     }
 }

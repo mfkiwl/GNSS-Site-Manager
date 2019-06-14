@@ -32,7 +32,7 @@ export class AppComponent {
   }
 
   /**
-   * Invoke the save() method of SiteLog component triggered by the "Save" button on Toolbar component
+   * Invoke the save() method of SiteLog component triggered by the "Save" button on Header component
    *
    * @event: boolean - true if the selected siteId is not null
    */
@@ -43,7 +43,7 @@ export class AppComponent {
   }
 
   /**
-   * Event triggered by the "Revert" button on Toolbar component.
+   * Event triggered by the "Revert" button on Header component.
    * Reload the page, discarding all user edits to the current record and refreshing it from the database.
    * We had tried to simply restore the model from the database and make the UI pristine,
    * but there are too many known and unknown bugs with that approach so we go with this extreme solution.
@@ -57,7 +57,7 @@ export class AppComponent {
   }
 
   /**
-   * Invoke the goToHomePage() method of SiteLog component triggered by the "Close" button on Toolbar component
+   * Invoke the goToHomePage() method of SiteLog component triggered by the "Close" button on Header component
    *
    * @event: boolean - true if the selected siteId is not null
    */

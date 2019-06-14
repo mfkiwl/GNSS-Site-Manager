@@ -5,8 +5,8 @@ const config = {
     login: [
       './dist/e2e/specs/login/**/*.e2e-spec.js'
     ],
-    toolbar: [
-      './dist/e2e/specs/toolbar/**/*.e2e-spec.js'
+    header: [
+      './dist/e2e/specs/header/**/*.e2e-spec.js'
     ],
     selectSite: [
       './dist/e2e/specs/select-site/**/*.e2e-spec.js'

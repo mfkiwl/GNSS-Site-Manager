@@ -3,7 +3,7 @@ import { LoginActions } from '../utils/login.actions';
 import { SelectSitePage } from '../page-objects/select-site.pageobject';
 import { SiteLogPage } from '../page-objects/site-log.pageobject';
 
-describe('Toolbar', () => {
+describe('Header', () => {
 
     let selectSitePage: SelectSitePage = new SelectSitePage();
     let loginActions: LoginActions = new LoginActions(selectSitePage);

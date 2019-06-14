@@ -12,29 +12,6 @@
         <span *ngIf="isLoading" class="pull-right">
             <img src="../../assets/ajax-loader.gif" class="ajax-loader-img">
         </span>
-        <span [hidden]="isNew || !isDeleted" class="delete-marker"
-              title="It will be deleted when saving all changes for the site">
-            (<span class="hidden-xxxs">marked </span>to delete)
-        </span>
-        <span [hidden]="siteLocation != null" class="pull-right">
-            <button class="btn btn-similar btn-xs"
-                    title="Add a new {{getItemName()}}"
-                    [disabled]="!isEditable"
-                    (click)="addNew($event); miscUtils.showFullView($event);">
-                <i class="glyphicon glyphicon-plus-sign"></i>
-                New <span class="hidden-xxs">{{getItemName()}}</span>
-            </button>
-        </span>
-        <span [hidden]="!isNew || siteLocation == null" class="pull-right">
-            <button type="button"
-                    [disabled]="isDeleteDisabled()"
-                    class="btn btn-danger btn-xs"
-                    title="{{getRemoveOrDeletedText()}} the {{getItemName()}}"
-                    (click)="removeItem()">
-                <i class="glyphicon glyphicon-remove"></i>
-                <span class="hidden-xs">{{getRemoveOrDeletedText()}}</span>
-            </button>
-        </span>
     </div>
     <div class="panel-body item-body" [hidden]="!isOpen">
         <div class="margin-bottom15" [hidden]="siteLocation != null">

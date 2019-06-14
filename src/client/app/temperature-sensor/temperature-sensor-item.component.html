@@ -13,14 +13,27 @@
             title="It will be deleted when saving all changes for the site">
             (<span [ngClass]="{'hidden-xxxs': index != 0}">marked </span>to delete)
         </span>
-        <span class="pull-right" [ngClass]="{'hidden-xs': temperatureSensor.dateDeleted}">
-            <button type="button" [disabled]="isDeleteDisabled()"
-                  class="btn btn-danger btn-xs"
-                  title="{{getRemoveOrDeletedText()}} the temperature sensor"
-                  (click)="removeItem(index)">
-            <i class="glyphicon glyphicon-remove"></i>
-            <span class="hidden-xs">{{getRemoveOrDeletedText()}}</span>
-        </button>
+        <span class="pull-right" [ngClass]="{'hidden-xs': getItem().dateDeleted}">
+            <button *ngIf="!isNew && !isDeleted"
+                    type="button"
+                    [disabled]="isDeleteDisabled()"
+                    class="btn btn-xs"
+                    [ngClass]="{'btn-danger': isItemEditable, 'btn-primary': !isItemEditable}"
+                    title="{{getEditButtonTooltip()}}"
+                    (click)="toggleItemEditFlag()">
+                <i class="glyphicon" [ngClass]="{'glyphicon-share-alt': isItemEditable, 'glyphicon-edit': !isItemEditable}"></i>
+                <span class="hidden-xs">{{getItemEditButtonName()}}</span>
+            </button>
+            <button *ngIf="!isItemEditable"
+                    type="button"
+                    [disabled]="isDeleteDisabled()"
+                    class="btn btn-xs"
+                    [ngClass]="{'btn-primary': isDeleted, 'btn-danger': !isDeleted}"
+                    title="{{getRemoveOrDeletedText()}} the {{getItemName()}}"
+                    (click)="removeItem(index)">
+                <i class="glyphicon" [ngClass]="{'glyphicon-share-alt': isDeleted, 'glyphicon-remove': !isDeleted}"></i>
+                <span class="hidden-xs">{{getRemoveOrDeletedText()}}</span>
+            </button>
         </span>
     </div>
     <div class="panel-body item-body" [hidden]="!isItemOpen">

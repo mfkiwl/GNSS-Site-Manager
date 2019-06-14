@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 import { AbstractGroupComponent } from '../shared/abstract-groups-items/abstract-group.component';
 import { WaterVaporSensorViewModel } from './water-vapor-sensor-view-model';
 import { SiteLogService } from '../shared/site-log/site-log.service';
@@ -9,13 +8,13 @@ import { SiteLogService } from '../shared/site-log/site-log.service';
  */
 @Component({
     moduleId: module.id,
-    selector: 'water-vapor-sensors-group',
-    templateUrl: 'water-vapor-sensors-group.component.html',
+    selector: 'water-vapor-sensor-group',
+    templateUrl: 'water-vapor-sensor-group.component.html',
 })
-export class WaterVaporSensorsGroupComponent extends AbstractGroupComponent<WaterVaporSensorViewModel> {
+export class WaterVaporSensorGroupComponent extends AbstractGroupComponent<WaterVaporSensorViewModel> {
 
-    constructor(protected siteLogService: SiteLogService, formBuilder: FormBuilder) {
-        super(siteLogService, formBuilder);
+    constructor(protected siteLogService: SiteLogService) {
+        super(siteLogService);
     }
 
     getItemName(): string {

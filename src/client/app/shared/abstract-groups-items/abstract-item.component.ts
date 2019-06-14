@@ -1,11 +1,12 @@
 import { EventEmitter, Input, Output, OnInit, OnChanges, AfterViewInit, SimpleChange, OnDestroy } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
+import * as _ from 'lodash';
+
 import { AbstractBaseComponent } from './abstract-base.component';
 import { GeodesyEvent, EventNames } from '../events-messages/Event';
 import { DialogService } from '../index';
 import { MiscUtils } from '../global/misc-utils';
-import { UserAuthService } from '../global/user-auth.service';
 import { AbstractViewModel } from '../json-data-view-model/view-model/abstract-view-model';
 import { SiteLogService, ApplicationState, ApplicationSaveState } from '../site-log/site-log.service';
 
@@ -22,11 +23,6 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
     @Input() index: number;
 
     /**
-     * Total number of items
-     */
-    @Input() total: number;
-
-    /**
      * This is to receive geodesyEvent from parent.
      */
     @Input() geodesyEvent: GeodesyEvent;
@@ -40,6 +36,8 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
 
     protected isNew: boolean = false;
     protected isItemOpen: boolean = false;
+    protected isItemEditable: boolean;
+    protected itemBackup: AbstractViewModel;
 
     private _isDeleted: boolean = false;
     private subscription: Subscription;
@@ -49,15 +47,15 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
      *
      * @param {DialogService} dialogService - The injected DialogService.
      */
-    constructor(protected userAuthService: UserAuthService,
-                protected dialogService: DialogService,
+    constructor(protected dialogService: DialogService,
                 protected siteLogService: SiteLogService) {
         super(siteLogService);
+        this.isItemEditable = false;
     }
 
     ngAfterViewInit(): void {
         setTimeout(() => {
-            if (this.isEditable) {
+            if (this.isAuthorised && (this.isItemEditable || this.isNew)) {
                 this.itemGroup.enable();
             } else {
                 this.itemGroup.disable();
@@ -66,7 +64,7 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
     }
 
     isDeleteDisabled(): boolean {
-        return !this.isEditable || this.isDeleted;
+        return !this.isAuthorised;
     }
 
     set isDeleted(f: boolean) {
@@ -108,12 +106,6 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
      */
     abstract getItemForm(): FormGroup;
 
-    /**
-     * Allow items to deal with total number of items change
-     */
-    protected handleTotalChange(currentValue: number, previousValue: number): void {
-    }
-
     ngOnInit() {
         this.subscription = this.siteLogService.getApplicationState().subscribe((applicationState: ApplicationState) => {
             if (! applicationState.applicationFormModified) {
@@ -149,9 +141,6 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
                     this.handleGeodesyEvents();
                 }
             }
-            if (propName === 'total') {
-                this.handleTotalChange(changedProp.currentValue, changedProp.previousValue);
-            }
         }
     }
 
@@ -176,26 +165,27 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
      * Remove an item from the UI and delete if it is an existing record.
      */
     removeItem(index: number): boolean {
-
-      if (this.isNew) {
-        this.cancelNew(index);
-      } else {
-          this.dialogService.confirmDeleteDialog(
-            this.getItemName(),
-            (deleteReason : string) => {  // ok callback
-               this.deleteItem(index, deleteReason);
-                this.itemGroup.markAsDirty();
-            },
-            () => {  // cancel callback
-              console.log('delete cancelled by user');
-            }
-          );
-      }
+        if (this.isNew) {
+            this.cancelNew(index);
+        } else if (this.isDeleted) {
+            this.undeleteItem(index);
+        } else {
+            this.dialogService.confirmDeleteDialog(
+                this.getItemName(),
+                (deleteReason : string) => {  // ok callback
+                    this.deleteItem(index, deleteReason);
+                    this.itemGroup.markAsDirty();
+                },
+                () => {  // cancel callback
+                    console.log('delete cancelled by user');
+                }
+            );
+        }
       return false; // same as 'event.preventDefault()` (which I'm having trouble as cant get event parameter)
     }
 
     getRemoveOrDeletedText(): string {
-        return this.isNew ? 'Cancel' : 'Delete';
+        return this.isNew ? 'Cancel' : (this.isDeleted ? 'Undelete' : 'Delete');
     }
 
     public isFormDirty(): boolean {
@@ -216,29 +206,33 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
 
         let startDatetime: any = this.itemGroup.controls.startDate.value;
         let endDatetime: any = this.itemGroup.controls.endDate.value;
-
-        let headerHtml: string = '<span class="hidden-xsm">'
-                               + (this.itemGroup.controls['endDate'].value ? 'Previous' : 'Current')
-                               + ' </span>';
-
-        if (startDatetime) {
-            headerHtml += '<span class="hidden-xxs">' + this.getItemName() + ' </span>';
-            let dateRange: string = '';
-            let startDateString: string = MiscUtils.isDate(startDatetime) ? MiscUtils.formatDateToDateString(startDatetime):
-                MiscUtils.getDateComponent(startDatetime);
-            if (endDatetime) {
-                let endDateString: string = MiscUtils.isDate(endDatetime) ? MiscUtils.formatDateToDateString(endDatetime):
-                    MiscUtils.getDateComponent(endDatetime);
-                dateRange = startDateString + ' &ndash; ' + endDateString;
-            } else {
-                dateRange = 'Since ' + startDateString;
-            }
-            headerHtml += '<span class="hidden-xxs">(</span>' + dateRange + '<span class="hidden-xxs">)</span>';
-        } else {
-            headerHtml += '<span>' + this.getItemName() + ' </span>';
+        if (!startDatetime && !endDatetime) {
+            return '<span>' + this.getItemName() + ' </span>';
         }
 
-        return headerHtml;
+        let startDateString: string = MiscUtils.isDate(startDatetime) ? MiscUtils.formatDateToDateString(startDatetime):
+                                      MiscUtils.getDateComponent(startDatetime);
+        let endDateString: string = MiscUtils.isDate(endDatetime) ? MiscUtils.formatDateToDateString(endDatetime):
+                                    MiscUtils.getDateComponent(endDatetime);
+
+        let dateRange: string = startDateString ? startDateString : '?';
+        if (endDateString) {
+            dateRange += ' &ndash; ' + endDateString;
+        } else {
+            dateRange = 'Since ' + dateRange;
+        }
+
+        return '<span class="hidden-xsm">' + (endDateString ? 'Previous' : 'Current') + ' </span>'
+             + '<span class="hidden-xxs">' + this.getItemName() + ' </span>'
+             + '<span class="hidden-xxs">(</span>' + dateRange + '<span class="hidden-xxs">)</span>';
+    }
+
+    public getItemEditButtonName(): string {
+        return !this.isItemEditable ? 'Edit' : (this.itemGroup.dirty ? 'Revert' : 'Cancel');
+    }
+
+    public getEditButtonTooltip(): string {
+        return !this.isItemEditable ? 'Enable editing' : (this.itemGroup.dirty ? 'Discard changes' : 'Cancel editing');
     }
 
     /**
@@ -250,6 +244,28 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
     }
 
     /**
+     * Toggle on/off the edit flag for the item by user
+     */
+    protected toggleItemEditFlag() {
+        if (this.isDeleteDisabled()) {
+            return;
+        }
+
+        this.isItemOpen = true;
+        this.isItemEditable = !this.isItemEditable;
+        if (this.isItemEditable) {
+            this.itemGroup.enable();
+            this.itemBackup = _.cloneDeep(this.itemGroup.getRawValue());
+        } else {
+            if (this.isFormDirty() && this.itemBackup) {
+                this.itemGroup.patchValue(this.itemBackup);
+            }
+            this.itemBackup = null;
+            this.itemGroup.disable();
+        }
+    }
+
+    /**
      *  Mark an item for deletion using the specified reason.
      */
     protected cancelNew(index: number): void {
@@ -257,7 +273,6 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
         this.getReturnEvents().emit(geodesyEvent);
         this.isNew = false;
     }
-
 
     /**
      *  Mark an item for deletion using the specified reason.
@@ -269,6 +284,15 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
         this.itemGroup.disable();
     }
 
+    /**
+     *  Undelete the marked item
+     */
+    protected undeleteItem(index: number): void {
+        this.isDeleted = false;
+        let geodesyEvent: GeodesyEvent = {name: EventNames.undeleteItem, valueNumber: index};
+        this.getReturnEvents().emit(geodesyEvent);
+        this.itemGroup.markAsPristine();
+    }
 
     /**
      * Event Handler - if this item has the given indexOfNew, then update relevant flags for the new item.

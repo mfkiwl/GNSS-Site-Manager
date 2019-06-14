@@ -25,6 +25,10 @@ export class CheckboxesInputComponent extends AbstractInput implements OnInit {
         super.ngOnInit();
         this.parseInputOptions();
         this.addValidatorsToFormControl();
+
+        this.formControl.valueChanges.subscribe((selections) => {
+            this.parseInputOptions();
+        });
     }
 
     protected addValidatorsToFormControl() {
