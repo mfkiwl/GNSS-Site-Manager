@@ -6,7 +6,8 @@
         <gnss-status-info [siteId]="siteId"></gnss-status-info>
         <form [formGroup]="siteLogForm" novalidate class="form-horizontal">
             <div class="panel-group">
-                <gnss-site-administration [parentForm]="corsSiteForm"
+                <gnss-site-administration *ngIf="siteId !== 'newSite'"
+                                          [parentForm]="corsSiteForm"
                                           [corsNetworkList]="corsNetworkList"
                                           [siteAdminModel]="siteAdminModel">
                 </gnss-site-administration>
