@@ -92,10 +92,13 @@ export class SiteLogPage extends BasePage {
     }
 
     /*
-     * Reload the site log page with given siteId, and close the unexpected alert dialog
-     * if occurs when reloading sitelog page
+     * Reload the sitelog page with given siteId.
      *
-     * Note: window.location.reload() won't work here
+     * Sometimes when saving and then immediately reloading the sitelog page, an unexpected alert
+     * dialog may occur, asking: "Reload site? Changes you made may not be saved." We have to click
+     * the "Reload" button to close this alert so that the e2e tests can proceed.
+     *
+     * Note: window.location.reload() and browser.refresh() won't work here
      */
     public reload(siteId: string) {
         let url = '/siteLog/' + siteId;
