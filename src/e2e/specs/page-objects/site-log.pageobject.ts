@@ -92,13 +92,26 @@ export class SiteLogPage extends BasePage {
     }
 
     /*
-     * Reload the site log page with given siteId
+     * Reload the sitelog page with given siteId.
      *
-     * Note: window.location.reload() won't work here
+     * Sometimes when saving and then immediately reloading the sitelog page, an unexpected alert
+     * dialog may occur, asking: "Reload site? Changes you made may not be saved." We have to click
+     * the "Reload" button to close this alert so that the e2e tests can proceed.
+     *
+     * Note: window.location.reload() and browser.refresh() won't work here
      */
     public reload(siteId: string) {
-        browser.get('/siteLog/' + siteId);
-        console.log('Loaded ' + siteId + ' site log page.');
+        let url = '/siteLog/' + siteId;
+        browser.get(url).catch(() => {
+            return browser.switchTo().alert().then((alert) => {
+                alert.accept();
+                return browser.get(url).then(() => {
+                    console.log('    Close "Reload" alert dialog and proceed to reload ' + siteId + ' sitelog page.');
+                });
+            });
+        }).then(() => {
+            console.log('    Reloaded ' + siteId + ' sitelog page.');
+        });
         browser.waitForAngular();
     }
 
