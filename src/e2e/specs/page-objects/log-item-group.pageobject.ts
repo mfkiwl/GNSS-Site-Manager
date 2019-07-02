@@ -1,47 +1,72 @@
-import { browser, by, element, ElementFinder, ElementArrayFinder } from 'protractor';
+import { by, element, ElementFinder, ElementArrayFinder } from 'protractor';
 import * as _ from 'lodash';
-import { TestUtils } from '../utils/test.utils';
+
+export class InputField {
+    public name: string;
+    public type: string;
+    public elem: ElementFinder;
+
+    public constructor(name: string, type: string, elem: ElementFinder = null) {
+        this.name = name;
+        this.type = type;
+        this.elem = elem;
+    }
+
+    public getElementCss(): string {
+        let css: string = this.type + '-input[controlName="' + this.name + '"] ';
+        css += (this.type === 'textarea') ? 'textarea' : 'input';
+        return css;
+    }
+
+    public setValue(value: string | number) {
+        if (!value && value !== 0) {   // false: 0, "", null, undefined, and NaN in typescript
+            this.elem.clear();
+        } else if (typeof value === 'number') {
+            this.elem.sendKeys(value.toString());
+        } else {
+            this.elem.sendKeys(value);
+        }
+    }
+}
 
 export abstract class LogItemGroup {
 
     readonly deletionReasonDialog: ElementFinder = element(by.cssContainingText('.dialog', 'Deletion Reason'));
     readonly deleteReasonInput: ElementFinder = this.deletionReasonDialog.element(by.css('input[type="text"]'));
     readonly confirmDeleteButton: ElementFinder = this.deletionReasonDialog.element(by.buttonText('OK'));
+    readonly confirmYesButton: ElementFinder = element(by.buttonText('Yes'));
     readonly itemGroupHeader: ElementFinder;
     readonly newItemButton: ElementFinder;
-    readonly currentItemContainer: ElementFinder;
-    readonly currentItemHeader: ElementFinder;
-    readonly firstDeleteButton: ElementFinder;
-    readonly newDateInstalledInput: ElementFinder;
     readonly prevDateRemovedInput: ElementFinder;
 
+    public currentItemHeader: ElementFinder;
+    public firstDeleteButton: ElementFinder;
+    public newDateInstalledInput: ElementFinder;
     public items: ElementArrayFinder;
+    public inputFields: InputField[];
+
     public newItemIndex: number;
     public noOfItems: number;
     public itemName: string;
+    public attributeName: string;
     public elementName: string;
-    public timestamp: string;
-    public notes: string;
-    public deleteReason: string;
+    public hasEndDate: boolean;
 
     public constructor(itemName: string) {
         this.newItemIndex = 0;
         this.noOfItems = 0;
         this.itemName = itemName;
+        this.attributeName = _.camelCase(itemName);
         this.elementName = _.kebabCase(itemName);
-
-        this.timestamp = TestUtils.getTimeStamp();
-        this.notes = 'e2e testing - add a new item ' + this.timestamp;
-        this.deleteReason = 'e2e testing - delete an item ' + this.timestamp;
+        this.hasEndDate = true;
 
         this.items = element.all(by.css(this.elementName + '-item'));
         this.newItemButton = element(by.id('new-' + this.elementName));
         this.itemGroupHeader = element(by.cssContainingText('div.group-header>span.panel-title', this.getGroupName()));
-        this.currentItemContainer = element(by.id(this.elementName + '-0'));
-        this.currentItemHeader = this.currentItemContainer.element(by.css('span.panel-title'));
-        this.firstDeleteButton = this.currentItemContainer.element(by.buttonText('Delete'));
-        this.newDateInstalledInput = this.currentItemContainer.element(by.css('datetime-input[controlName="startDate"] input'));
         this.prevDateRemovedInput = element(by.id(this.elementName + '-1')).element(by.css('datetime-input[controlName="endDate"] input'));
+
+        this.setupInputFields();
+        this.updateInputElements();
     }
 
     public getGroupName(): string {
@@ -58,73 +83,24 @@ export abstract class LogItemGroup {
         return itemContainer.element(by.buttonText('Delete'));
     }
 
-    /**
-     * Add a new item and fill out with initial values
-     */
-    public addNewItem() {
-        this.items.count().then((value: number) => {
-            this.noOfItems = value;
-            console.log('    Number of ' + this.itemName + ' items before adding new item: ' + value);
-            this.newItemButton.click().then(() => {
-                console.log('\tAdd a new ' + this.itemName + ' item');
-                this.fillOutNewItemForm();
-            });
-        });
-    }
-
-    /**
-     * Check if the input values are saved correctly
-     */
-    public checkInputValues() {
-        TestUtils.checkItemCount(this.items, 'adding a new ' + this.itemName + ' item', this.noOfItems + 1);
-        this.itemGroupHeader.click().then(() => {
-            console.log('    Open ' + this.itemName + ' group');
-            this.currentItemHeader.click().then(() => {
-                this.checkValues();
-            });
-        });
-    }
-
-    /**
-     * Delete the new item with or without a reason
-     */
-    public deleteItem(deleteReason?: string) {
-        console.log('    Open ' + this.getGroupName() + ' group');
-        this.getDeleteButton().click().then(() => {
-            if(deleteReason) {
-                this.deleteReasonInput.sendKeys(deleteReason);
-                this.confirmDeleteButton.click().then(() => {
-                    console.log('\tDeleted ' + TestUtils.getOrdinalNumber(this.newItemIndex + 1) + ' '
-                                + this.itemName + ' item for the reason: ' + deleteReason);
-                });
-            } else {
-                element(by.buttonText('Yes')).click().then(() => {
-                    console.log('\tDeleted ' + TestUtils.getOrdinalNumber(this.newItemIndex + 1)
-                                + ' ' + this.itemName + ' item.');
-                });
-            }
-        });
-        browser.waitForAngular();
-    }
-
-    public deleteNewItem() {
-        this.deleteItem(this.deleteReason);
-    }
-
-    public checkItemDeleted() {
-        TestUtils.checkItemCount(this.items, 'deleting a ' + this.itemName + ' item', this.noOfItems);
-    }
-
     public enterDateTime(dateInput: ElementFinder, datetimeValue: string) {
         dateInput.sendKeys(datetimeValue);
         let okButton: ElementFinder = element(by.buttonText('OK'));
         okButton.click();
     }
 
-    /**
-     * Abstract methods to be implemented by subclasses
-     */
-    protected abstract fillOutNewItemForm();
+    public updateInputElements(itemIndex: number = 0) {
+        let itemContainer: ElementFinder = this.getItemContainer(itemIndex);
+        this.currentItemHeader = itemContainer.element(by.css('span.panel-title'));
+        this.firstDeleteButton = itemContainer.element(by.buttonText('Delete'));
+        this.newDateInstalledInput = itemContainer.element(by.css('datetime-input[controlName="startDate"] input'));
+        this.inputFields.map((inputField: InputField) => {
+            inputField.elem = itemContainer.element(by.css(inputField.getElementCss()));
+        });
+    }
 
-    protected abstract checkValues(useBackupModel?: boolean);
+    /**
+     * Define all input fieldsAbstract methods to be implemented by subclasses
+     */
+    public abstract setupInputFields();
 }
