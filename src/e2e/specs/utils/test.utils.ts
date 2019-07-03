@@ -62,15 +62,18 @@ export class TestUtils {
         return moment().utc().format('@YYYYMMDDTHHmmss');
     }
 
-    public static checkInputValueEqual(elemFinder: ElementFinder, elemName: string, expectValue: string | number) {
-        elemFinder.getAttribute('value').then((value: string) => {
-            if(typeof expectValue === 'number') {
-                expect(value).toEqual(expectValue.toString());
-                console.log('\tCheck if ' + elemName + ' is "' + value + '": ' + (expectValue.toString() === value));
-            } else {
-                expect(value).toEqual(expectValue);
-                console.log('\tCheck if ' + elemName + ' is "' + value + '": ' + (expectValue === value));
-            }
+    public static checkInputValueEqual(elemFinder: ElementFinder, mockupData: any) {
+        elemFinder.getAttribute('ng-reflect-name').then((name: string) => {
+            let expectValue: string | number = mockupData[name];
+            elemFinder.getAttribute('value').then((value: string) => {
+                if(typeof expectValue === 'number') {
+                    console.log('\tCheck if ' + name + ' is "' + value + '": ' + (expectValue.toString() === value));
+                    expect(value).toEqual(expectValue.toString());
+                } else {
+                    console.log('\tCheck if ' + name + ' is "' + value + '": ' + (expectValue === value));
+                    expect(value).toEqual(expectValue);
+                }
+            });
         });
     }
 
@@ -114,13 +117,28 @@ export class TestUtils {
         });
     }
 
-    public static changeInputValue(elemFinder: ElementFinder, fieldName: string, model: any, backup?: any) {
-        elemFinder.getAttribute('value').then((value: string) => {
-            if (backup) {
-                backup[fieldName] = value;
+    public static changeInputValue(elemFinder: ElementFinder, model: any, backup: any = null) {
+        elemFinder.getAttribute('ng-reflect-name').then((name: string) => {
+            elemFinder.getAttribute('value').then((value: string) => {
+                if (backup) {
+                    backup[name] = value;
+                }
+                elemFinder.clear();
+                elemFinder.sendKeys(model[name]);
+            });
+        });
+    }
+
+    public static setInputElementValue(elemFinder: ElementFinder, mockupData: any) {
+        elemFinder.getAttribute('ng-reflect-name').then((name: string) => {
+            let value: string | number = mockupData[name];
+            if (!value && value !== 0) {   // false: 0, "", null, undefined, and NaN in typescript
+                elemFinder.clear();
+            } else if (typeof value === 'number') {
+                elemFinder.sendKeys(value.toString());
+            } else {
+                elemFinder.sendKeys(value);
             }
-            elemFinder.clear();
-            elemFinder.sendKeys(model[fieldName]);
         });
     }
 

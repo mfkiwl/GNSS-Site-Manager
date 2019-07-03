@@ -1,25 +1,48 @@
-import { InputField, LogItemGroup } from './log-item-group.pageobject';
+import { by, ElementFinder } from 'protractor';
+import { LogItemGroup } from './log-item-group.pageobject';
 
 export class GnssAntennaGroup extends LogItemGroup {
 
+    readonly antennaTypeInput: ElementFinder = this.currentItemContainer
+                    .element(by.css('text-input[controlName="antennaType"] input'));
+    readonly serialNumberInput: ElementFinder = this.currentItemContainer
+                    .element(by.css('text-input[controlName="serialNumber"] input'));
+    readonly antennaReferencePointInput: ElementFinder = this.currentItemContainer
+                    .element(by.css('text-input[controlName="antennaReferencePoint"] input'));
+    readonly markerArpEastEccInput: ElementFinder = this.currentItemContainer
+                    .element(by.css('number-input[controlName="markerArpEastEcc"] input'));
+    readonly markerArpUpEccInput: ElementFinder = this.currentItemContainer
+                    .element(by.css('number-input[controlName="markerArpUpEcc"] input'));
+    readonly markerArpNorthEccInput: ElementFinder = this.currentItemContainer
+                    .element(by.css('number-input[controlName="markerArpNorthEcc"] input'));
+    readonly alignmentFromTrueNorthInput: ElementFinder = this.currentItemContainer
+                    .element(by.css('number-input[controlName="alignmentFromTrueNorth"] input'));
+    readonly antennaRadomeTypeInput: ElementFinder = this.currentItemContainer
+                    .element(by.css('text-input[controlName="antennaRadomeType"] input'));
+    readonly radomeSerialNumberInput: ElementFinder = this.currentItemContainer
+                    .element(by.css('text-input[controlName="radomeSerialNumber"] input'));
+    readonly antennaCableTypeInput: ElementFinder = this.currentItemContainer
+                    .element(by.css('text-input[controlName="antennaCableType"] input'));
+    readonly antennaCableLengthInput: ElementFinder = this.currentItemContainer
+                    .element(by.css('number-input[controlName="antennaCableLength"] input'));
+    readonly notesInput: ElementFinder = this.currentItemContainer
+                    .element(by.css('textarea-input[controlName="notes"] textarea'));
+
     public constructor() {
         super('GNSS Antenna');
-    }
-
-    public setupInputFields() {
-        this.inputFields = [
-            new InputField('antennaType', 'text'),
-            new InputField('serialNumber', 'text'),
-            new InputField('antennaReferencePoint', 'text'),
-            new InputField('markerArpEastEcc', 'number'),
-            new InputField('markerArpUpEcc', 'number'),
-            new InputField('markerArpNorthEcc', 'number'),
-            new InputField('alignmentFromTrueNorth', 'number'),
-            new InputField('antennaRadomeType', 'text'),
-            new InputField('radomeSerialNumber', 'text'),
-            new InputField('antennaCableType', 'text'),
-            new InputField('antennaCableLength', 'number'),
-            new InputField('notes', 'textarea'),
+        this.inputElements = [
+            this.antennaTypeInput,
+            this.serialNumberInput,
+            this.antennaReferencePointInput,
+            this.markerArpEastEccInput,
+            this.markerArpUpEccInput,
+            this.markerArpNorthEccInput,
+            this.alignmentFromTrueNorthInput,
+            this.antennaRadomeTypeInput,
+            this.radomeSerialNumberInput,
+            this.antennaCableTypeInput,
+            this.antennaCableLengthInput,
+            this.notesInput,
         ];
     }
 }

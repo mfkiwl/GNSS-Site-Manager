@@ -1,6 +1,19 @@
 import { browser, by, element, ElementFinder, ElementArrayFinder } from 'protractor';
 import * as _ from 'lodash';
 import { BasePage } from './base.pageobject';
+import { LogItemGroup } from './log-item-group.pageobject';
+import { GnssReceiverGroup } from './gnss-receiver-group.pageobject';
+import { GnssAntennaGroup } from './gnss-antenna-group.pageobject';
+import { SurveyedLocalTieGroup } from './surveyed-local-tie-group.pageobject';
+import { FrequencyStandardGroup } from './frequency-standard-group.pageobject';
+import { CollocationInformationGroup } from './collocation-information-group.pageobject';
+import { LocalEpisodicEffectGroup } from './local-episodic-effect-group.pageobject';
+import { MeteorologicalSensorGroup } from './meteorological-sensor-group.pageobject';
+import { OtherInstrumentationGroup } from './other-instrumentation-group.pageobject';
+import { RadioInterferenceGroup } from './radio-interference-group.pageobject';
+import { ResponsiblePartyGroup } from '../page-objects/responsible-party-group.pageobject';
+import { SignalObstructionGroup } from './signal-obstruction-group.pageobject';
+import { MultipathSourceGroup } from './multipath-source-group.pageobject';
 
 export class SiteLogPage extends BasePage {
     readonly siteInformationHeader: ElementFinder = element(by.cssContainingText('span.panel-title', 'Site Information'));
@@ -9,6 +22,32 @@ export class SiteLogPage extends BasePage {
     readonly siteNameInput: ElementFinder = element(by.css('site-identification text-input[controlName="siteName"] input'));
     readonly confirmYesButton: ElementFinder = element(by.buttonText('Yes'));
     readonly statusInfoBar: ElementFinder = element(by.css('div.status-info-bar'));
+
+    public responsibleParties: ResponsiblePartyGroup[] = [
+        new ResponsiblePartyGroup('Site Owner'),
+        new ResponsiblePartyGroup('Site Contact'),
+        new ResponsiblePartyGroup('Site Metadata Custodian'),
+        new ResponsiblePartyGroup('Site Data Center'),
+        new ResponsiblePartyGroup('Site Data Source'),
+    ];
+
+    // In the same order as shown in web UI
+    public siteLogGroups: LogItemGroup[] = [
+        new GnssReceiverGroup(),
+        new GnssAntennaGroup(),
+        new SurveyedLocalTieGroup(),
+        new FrequencyStandardGroup(),
+        new CollocationInformationGroup(),
+        new LocalEpisodicEffectGroup(),
+        new MeteorologicalSensorGroup('Humidity Sensor'),
+        new MeteorologicalSensorGroup('Pressure Sensor'),
+        new MeteorologicalSensorGroup('Temperature Sensor'),
+        new MeteorologicalSensorGroup('Water Vapor Sensor'),
+        new OtherInstrumentationGroup(),
+        new RadioInterferenceGroup(),
+        new SignalObstructionGroup(),
+        new MultipathSourceGroup(),
+    ];
 
     public identifyingElement(): ElementFinder {
         return this.siteInformationHeader;
@@ -79,7 +118,7 @@ export class SiteLogPage extends BasePage {
             return browser.switchTo().alert().then((alert) => {
                 alert.accept();
                 return browser.get(url).then(() => {
-                    console.log('!!!!Warning: close unexpected "Reload" alert dialog and proceed to reload '
+                    console.log('   !Warning: close unexpected "Reload" alert dialog and proceed to reload '
                                 + siteId + ' sitelog page.');
                 });
             });

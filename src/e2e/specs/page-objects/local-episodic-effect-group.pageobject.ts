@@ -1,14 +1,15 @@
-import { InputField, LogItemGroup } from './log-item-group.pageobject';
+import { by, ElementFinder } from 'protractor';
+import { LogItemGroup } from './log-item-group.pageobject';
 
 export class LocalEpisodicEffectGroup extends LogItemGroup {
 
+    readonly eventInput: ElementFinder = this.currentItemContainer
+                    .element(by.css('textarea-input[controlName="event"] textarea'));
+
     public constructor() {
         super('Local Episodic Effect');
-    }
-
-    public setupInputFields() {
-        this.inputFields = [
-            new InputField('event', 'textarea'),
+        this.inputElements = [
+            this.eventInput,
         ];
     }
 }

@@ -1,20 +1,25 @@
-import { InputField, LogItemGroup } from './log-item-group.pageobject';
+import { by, ElementFinder } from 'protractor';
+import { LogItemGroup } from './log-item-group.pageobject';
 
 export class CollocationInformationGroup extends LogItemGroup {
 
+    readonly instrumentationTypeInput: ElementFinder = this.currentItemContainer
+                    .element(by.css('text-input[controlName="instrumentationType"] input'));
+    readonly statusInput: ElementFinder = this.currentItemContainer
+                    .element(by.css('text-input[controlName="status"] input'));
+    readonly notesInput: ElementFinder = this.currentItemContainer
+                    .element(by.css('textarea-input[controlName="notes"] textarea'));
+
     public constructor() {
         super('Collocation Information');
+        this.inputElements = [
+            this.instrumentationTypeInput,
+            this.statusInput,
+            this.notesInput
+        ];
     }
 
     public getGroupName(): string {
         return this.itemName;
-    }
-
-    public setupInputFields() {
-        this.inputFields = [
-            new InputField('instrumentationType', 'text'),
-            new InputField('status', 'text'),
-            new InputField('notes', 'textarea'),
-        ];
     }
 }
