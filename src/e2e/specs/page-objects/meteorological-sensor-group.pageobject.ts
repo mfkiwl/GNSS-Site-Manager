@@ -6,29 +6,29 @@ import { LogItemGroup } from './log-item-group.pageobject';
  */
 export class MeteorologicalSensorGroup extends LogItemGroup {
 
-    readonly manufacturerInput: ElementFinder = this.currentItemContainer
+    readonly manufacturerInput: ElementFinder = this.newItemContainer
                     .element(by.css('text-input[controlName="manufacturer"] input'));
-    readonly typeInput: ElementFinder = this.currentItemContainer
+    readonly typeInput: ElementFinder = this.newItemContainer
                     .element(by.css('text-input[controlName="type"] input'));
-    readonly serialNumberInput: ElementFinder = this.currentItemContainer
+    readonly serialNumberInput: ElementFinder = this.newItemContainer
                     .element(by.css('text-input[controlName="serialNumber"] input'));
-    readonly dataSamplingIntervalInput: ElementFinder = this.currentItemContainer
+    readonly dataSamplingIntervalInput: ElementFinder = this.newItemContainer
                     .element(by.css('number-input[controlName="dataSamplingInterval"] input'));
-    readonly accuracyHPaInput: ElementFinder = this.currentItemContainer
+    readonly accuracyHPaInput: ElementFinder = this.newItemContainer
                     .element(by.css('number-input[controlName="accuracyHPa"] input'));
     // TODO: rename controlName "accuracyPercentRelativeHumidity" to a shorter string name as the max length of
     // controlNname returned by ElementFinder.getAttribute('ng-reflect-name') is 30 chars, the rest are truncated
-    //readonly accuracyPercentRelativeHumidityInput: ElementFinder = this.currentItemContainer
+    //readonly accuracyPercentRelativeHumidityInput: ElementFinder = this.newItemContainer
     //                .element(by.css('number-input[controlName="accuracyPercentRelativeHumidity"] input'));
-    readonly accuracyDegreesCelciusInput: ElementFinder = this.currentItemContainer
+    readonly accuracyDegreesCelciusInput: ElementFinder = this.newItemContainer
                     .element(by.css('number-input[controlName="accuracyDegreesCelcius"] input'));
-    readonly heightDiffToAntennaInput: ElementFinder = this.currentItemContainer
+    readonly heightDiffToAntennaInput: ElementFinder = this.newItemContainer
                     .element(by.css('number-input[controlName="heightDiffToAntenna"] input'));
-    readonly aspirationInput: ElementFinder = this.currentItemContainer
+    readonly aspirationInput: ElementFinder = this.newItemContainer
                     .element(by.css('text-input[controlName="aspiration"] input'));
-    readonly calibrationDateInput: ElementFinder = this.currentItemContainer
+    readonly calibrationDateInput: ElementFinder = this.newItemContainer
                     .element(by.css('datetime-input[controlName="calibrationDate"] input'));
-    readonly notesInput: ElementFinder = this.currentItemContainer
+    readonly notesInput: ElementFinder = this.newItemContainer
                     .element(by.css('textarea-input[controlName="notes"] textarea'));
 
     public constructor(sensorName: string) {

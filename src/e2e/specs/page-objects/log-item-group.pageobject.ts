@@ -7,15 +7,11 @@ export abstract class LogItemGroup {
     readonly deleteReasonInput: ElementFinder = this.deletionReasonDialog.element(by.css('input[type="text"]'));
     readonly confirmDeleteButton: ElementFinder = this.deletionReasonDialog.element(by.buttonText('OK'));
     readonly confirmYesButton: ElementFinder = element(by.buttonText('Yes'));
-    readonly itemGroupHeader: ElementFinder;
-    readonly newItemButton: ElementFinder;
-    readonly prevDateRemovedInput: ElementFinder;
+    readonly groupHeader: ElementFinder;
+    readonly addNewItemButton: ElementFinder;
 
     public items: ElementArrayFinder;
-    public currentItemContainer: ElementFinder;
-    public currentItemHeader: ElementFinder;
-    public firstDeleteButton: ElementFinder;
-    public newDateInstalledInput: ElementFinder;
+    public newItemContainer: ElementFinder;
     public inputElements: ElementFinder[];
 
     public newItemIndex: number;
@@ -23,37 +19,57 @@ export abstract class LogItemGroup {
     public itemName: string;
     public attributeName: string;
     public elementName: string;
-    public hasEndDateInputField: boolean;
+    public hasEndDateInput: boolean;
 
     public constructor(itemName: string) {
-        this.newItemIndex = 0;
+        this.newItemIndex = 0;    // by fedault, the new item is the first one
         this.noOfItems = 0;
         this.itemName = itemName;
         this.attributeName = _.camelCase(itemName);
         this.elementName = _.kebabCase(itemName);
-        this.hasEndDateInputField = true;
+        this.hasEndDateInput = true;
 
         this.items = element.all(by.css(this.elementName + '-item'));
-        this.itemGroupHeader = element(by.cssContainingText('div.group-header>span.panel-title', this.getGroupName()));
-        this.newItemButton = element(by.id('new-' + this.elementName));
-        this.currentItemContainer = element(by.id(this.elementName + '-0'));
-        this.currentItemHeader = this.currentItemContainer.element(by.css('span.panel-title'));
-        this.firstDeleteButton = this.currentItemContainer.element(by.buttonText('Delete'));
-        this.newDateInstalledInput = this.currentItemContainer.element(by.css('datetime-input[controlName="startDate"] input'));
-        this.prevDateRemovedInput = element(by.id(this.elementName + '-1')).element(by.css('datetime-input[controlName="endDate"] input'));
+        this.groupHeader = element(by.cssContainingText('div.group-header>span.panel-title', this.getGroupName()));
+        this.addNewItemButton = element(by.id('new-' + this.elementName));
+        this.newItemContainer = this.getNewItemContainer();
     }
 
     public getGroupName(): string {
         return this.itemName + 's';
     }
 
+    public getNewItemContainer(): ElementFinder {
+        return this.getItemContainer(this.newItemIndex);
+    }
+
     public getItemContainer(index: number): ElementFinder {
-        this.newItemIndex = index;
         return element(by.id(this.elementName + '-' + index));
     }
 
+    public getNewItemHeader(): ElementFinder {
+        let itemContainer: ElementFinder = this.getNewItemContainer();
+        return itemContainer.element(by.css('span.panel-title'));
+    }
+
+    public getNewItemStartDateInput(): ElementFinder {
+        let itemContainer: ElementFinder = this.getNewItemContainer();
+        return itemContainer.element(by.css('datetime-input[controlName="startDate"] input'));
+    }
+
+    /**
+     * Return the EndDate input element of the previous item.
+     *
+     * When adding a new item, the EndDate input field of the second item will be entered
+     * a datetime value which is the same value as the StartDate field of the new item (first item).
+     */
+    public getSecondItemEndDateInput(): ElementFinder {
+        let itemContainer: ElementFinder = this.getItemContainer(1);
+        return itemContainer.element(by.css('datetime-input[controlName="endDate"] input'));
+    }
+
     public getDeleteButton(): ElementFinder {
-        let itemContainer: ElementFinder = this.getItemContainer(this.newItemIndex);
+        let itemContainer: ElementFinder = this.getNewItemContainer();
         return itemContainer.element(by.buttonText('Delete'));
     }
 

@@ -3,9 +3,9 @@ import { LogItemGroup } from './log-item-group.pageobject';
 
 export class MultipathSourceGroup extends LogItemGroup {
 
-    readonly possibleProblemSourceInput: ElementFinder = this.currentItemContainer
+    readonly possibleProblemSourceInput: ElementFinder = this.newItemContainer
                     .element(by.css('text-input[controlName="possibleProblemSource"] input'));
-    readonly notesInput: ElementFinder = this.currentItemContainer
+    readonly notesInput: ElementFinder = this.newItemContainer
                     .element(by.css('textarea-input[controlName="notes"] textarea'));
 
     public constructor() {

@@ -3,7 +3,7 @@ import { LogItemGroup } from './log-item-group.pageobject';
 
 export class LocalEpisodicEffectGroup extends LogItemGroup {
 
-    readonly eventInput: ElementFinder = this.currentItemContainer
+    readonly eventInput: ElementFinder = this.newItemContainer
                     .element(by.css('textarea-input[controlName="event"] textarea'));
 
     public constructor() {

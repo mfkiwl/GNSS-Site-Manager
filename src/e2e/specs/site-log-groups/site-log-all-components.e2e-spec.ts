@@ -42,7 +42,7 @@ describe('All Site Log Components', () => {
                 siteLogGroup.noOfItems = value;
                 console.log('    Number of ' + siteLogGroup.itemName
                             + ' items before adding new item: ' + value);
-                siteLogGroup.newItemButton.click().then(() => {
+                siteLogGroup.addNewItemButton.click().then(() => {
                     console.log('\tAdd a new ' + siteLogGroup.itemName + ' item');
                     siteLogGroup.inputElements.map((inputElement: ElementFinder) => {
                         TestUtils.setInputElementValue(inputElement, mockupData);
@@ -62,15 +62,15 @@ describe('All Site Log Components', () => {
             TestUtils.checkItemCount(siteLogGroup.items, 'adding a new '
                                     + siteLogGroup.itemName
                                     + ' item', siteLogGroup.noOfItems + 1);
-            siteLogGroup.itemGroupHeader.click().then(() => {
+            siteLogGroup.groupHeader.click().then(() => {
                 console.log('    Open ' + siteLogGroup.itemName + ' group');
-                siteLogGroup.currentItemHeader.click().then(() => {
+                siteLogGroup.getNewItemHeader().click().then(() => {
                     siteLogGroup.inputElements.map((inputElement: ElementFinder) => {
                         TestUtils.checkInputValueEqual(inputElement, mockupData);
                     });
-                    TestUtils.checkInputValueNotNull(siteLogGroup.newDateInstalledInput, 'current StartDate');
-                    if(siteLogGroup.noOfItems > 0 && siteLogGroup.hasEndDateInputField) {
-                        TestUtils.checkInputValueNotNull(siteLogGroup.prevDateRemovedInput, 'previous EndDate');
+                    TestUtils.checkInputValueNotNull(siteLogGroup.getNewItemStartDateInput(), 'current StartDate');
+                    if(siteLogGroup.noOfItems > 0 && siteLogGroup.hasEndDateInput) {
+                        TestUtils.checkInputValueNotNull(siteLogGroup.getSecondItemEndDateInput(), 'previous EndDate');
                     }
                 });
             });

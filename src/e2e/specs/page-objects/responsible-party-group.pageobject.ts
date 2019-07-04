@@ -31,7 +31,7 @@ export class ResponsiblePartyGroup extends LogItemGroup {
 
     public constructor(partyName: string) {
         super(partyName);
-        this.hasEndDateInputField = false;
+        this.hasEndDateInput = false;
         this.canAddNewItem = false;
 
         this.items = element(by.cssContainingText('.panel-level-2', this.getGroupName()))
@@ -77,25 +77,20 @@ export class ResponsiblePartyGroup extends LogItemGroup {
     }
 
     private setInputElements(): void {
-        this.currentItemContainer = this.getItemContainer(this.newItemIndex);
-        if (this.newItemIndex !== 0) {
-            this.currentItemHeader = this.currentItemContainer.element(by.css('span.panel-title'));
-            this.firstDeleteButton = this.currentItemContainer.element(by.buttonText('Delete'));
-            this.newDateInstalledInput = this.currentItemContainer.element(by.css('datetime-input[controlName="startDate"] input'));
-        }
-        this.individualNameInput = this.currentItemContainer.element(by.css('text-input[controlName="individualName"] input'));
-        this.organisationNameInput = this.currentItemContainer.element(by.css('text-input[controlName="organisationName"] input'));
-        this.positionNameInput = this.currentItemContainer.element(by.css('text-input[controlName="positionName"] input'));
-        this.deliveryPointInput = this.currentItemContainer.element(by.css('textarea-input[controlName="deliveryPoint"] textarea'));
-        this.cityInput = this.currentItemContainer.element(by.css('text-input[controlName="city"] input'));
-        this.administrativeAreaInput = this.currentItemContainer.element(by.css('text-input[controlName="administrativeArea"] input'));
-        this.postalCodeInput = this.currentItemContainer.element(by.css('text-input[controlName="postalCode"] input'));
-        this.countryInput = this.currentItemContainer.element(by.css('text-input[controlName="country"] input'));
-        this.emailInput = this.currentItemContainer.element(by.css('email-input[controlName="email"] input'));
-        this.primaryPhoneInput = this.currentItemContainer.element(by.css('text-input[controlName="primaryPhone"] input'));
-        this.secondaryPhoneInput = this.currentItemContainer.element(by.css('text-input[controlName="secondaryPhone"] input'));
-        this.faxInput = this.currentItemContainer.element(by.css('text-input[controlName="fax"] input'));
-        this.urlInput = this.currentItemContainer.element(by.css('url-input[controlName="url"] input'));
+        this.newItemContainer = this.getNewItemContainer();
+        this.individualNameInput = this.newItemContainer.element(by.css('text-input[controlName="individualName"] input'));
+        this.organisationNameInput = this.newItemContainer.element(by.css('text-input[controlName="organisationName"] input'));
+        this.positionNameInput = this.newItemContainer.element(by.css('text-input[controlName="positionName"] input'));
+        this.deliveryPointInput = this.newItemContainer.element(by.css('textarea-input[controlName="deliveryPoint"] textarea'));
+        this.cityInput = this.newItemContainer.element(by.css('text-input[controlName="city"] input'));
+        this.administrativeAreaInput = this.newItemContainer.element(by.css('text-input[controlName="administrativeArea"] input'));
+        this.postalCodeInput = this.newItemContainer.element(by.css('text-input[controlName="postalCode"] input'));
+        this.countryInput = this.newItemContainer.element(by.css('text-input[controlName="country"] input'));
+        this.emailInput = this.newItemContainer.element(by.css('email-input[controlName="email"] input'));
+        this.primaryPhoneInput = this.newItemContainer.element(by.css('text-input[controlName="primaryPhone"] input'));
+        this.secondaryPhoneInput = this.newItemContainer.element(by.css('text-input[controlName="secondaryPhone"] input'));
+        this.faxInput = this.newItemContainer.element(by.css('text-input[controlName="fax"] input'));
+        this.urlInput = this.newItemContainer.element(by.css('url-input[controlName="url"] input'));
 
         this.inputElements = [
             this.individualNameInput,

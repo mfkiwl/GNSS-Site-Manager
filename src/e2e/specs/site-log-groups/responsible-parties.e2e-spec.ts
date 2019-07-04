@@ -38,13 +38,13 @@ describe('Site Information Component', () => {
         console.log('a) Add new items or backup values for existing items');
         siteLogPage.siteInformationHeader.click().then(() => {
             siteLogPage.responsibleParties.map((responsibleParty: ResponsiblePartyGroup) => {
-                responsibleParty.itemGroupHeader.click().then(() => {
+                responsibleParty.groupHeader.click().then(() => {
                     if (responsibleParty.canAddNewItem) {
                         responsibleParty.items.count().then((value: number) => {
                             responsibleParty.noOfItems = value;
                             console.log('    Number of ' + responsibleParty.itemName
                                         + ' items before adding new item: ' + value);
-                            responsibleParty.newItemButton.click().then(() => {
+                            responsibleParty.addNewItemButton.click().then(() => {
                                 console.log('\tAdd a new ' + responsibleParty.itemName + ' item');
                                 responsibleParty.inputElements.map((inputElement: ElementFinder) => {
                                     TestUtils.setInputElementValue(inputElement, responsiblePartyMockup);
@@ -77,9 +77,9 @@ describe('Site Information Component', () => {
                     console.log('    Open ' + responsibleParty.itemName + ' group for checking modified values');
                 }
 
-                responsibleParty.itemGroupHeader.click().then(() => {
+                responsibleParty.groupHeader.click().then(() => {
                     if (responsibleParty.canAddNewItem && responsibleParty.noOfItems > 0) {
-                        responsibleParty.currentItemHeader.click();
+                        responsibleParty.getNewItemHeader().click();
                     }
                     responsibleParty.inputElements.map((inputElement: ElementFinder) => {
                         TestUtils.checkInputValueEqual(inputElement, responsiblePartyMockup);
@@ -117,7 +117,7 @@ describe('Site Information Component', () => {
                                              'deleting a ' + responsibleParty.itemName + ' item',
                                              responsibleParty.noOfItems);
                 } else {
-                    responsibleParty.itemGroupHeader.click().then(() => {
+                    responsibleParty.groupHeader.click().then(() => {
                         console.log('    Open ' + responsibleParty.itemName + ' group for checking backup values');
                         responsibleParty.inputElements.map((inputElement: ElementFinder) => {
                             TestUtils.checkInputValueEqual(inputElement, responsibleParty.backupModel);
