@@ -6,7 +6,7 @@ const timestamp: string = TestUtils.getTimeStamp();
 /**
  * Test data for five Responsible Parties, including Site Owner, Contacts, Metadata Custodian,  Data Centers and Data Source.
  */
-export const responsiblePartyMockup = {
+export const responsiblePartyTestData = {
     individualName: 'Homer Simpson',
     organisationName: 'Geoscience Australia',
     positionName: 'Manager ' + timestamp,
@@ -24,7 +24,7 @@ export const responsiblePartyMockup = {
 /**
  * Test data for all site-log instrument components in the order same as in web UI
  */
-export const siteLogMockups = {
+export const siteLogTestData = {
     gnssReceiver: {
         receiverType: 'ASHTECH Z-XII3',
         manufacturerSerialNumber: '8888',

@@ -27,12 +27,14 @@ export class ResponsiblePartyGroup extends LogItemGroup {
     public urlInput: ElementFinder;
 
     public canAddNewItem: boolean;
-    public backupModel: any = {};
+    public backupModel: any;
 
     public constructor(partyName: string) {
         super(partyName);
         this.hasEndDateInput = false;
         this.canAddNewItem = false;
+        this.getInputElements();
+        this.backupModel = {};
 
         this.items = element(by.cssContainingText('.panel-level-2', this.getGroupName()))
                             .all(by.css('gnss-responsible-party-item'));
@@ -44,7 +46,6 @@ export class ResponsiblePartyGroup extends LogItemGroup {
                 this.canAddNewItem = true;
             }
         });
-        this.setInputElements();
     }
 
     public getGroupName(): string {
@@ -59,38 +60,37 @@ export class ResponsiblePartyGroup extends LogItemGroup {
      * Find out the new responsibleParty item by its unique position name appended with timestamp
      */
     public updateNewItemElements(positionNameValue: string): void {
-        if (this.noOfItems === 0 || !positionNameValue) {
-            this.setInputElements();
-        } else {
+        if (this.noOfItems > 0) {
             let positionNameInputs: ElementArrayFinder = element(by.cssContainingText('.panel-level-2', this.getGroupName()))
                                                          .all(by.css('text-input[controlName="positionName"] input'));
             positionNameInputs.each((element: ElementFinder, index: number) => {
                 element.getAttribute('value').then((value: string) => {
                     if (value === positionNameValue) {
                         this.newItemIndex = index;
-                        this.setInputElements();
-                        console.log('\tNew item index for ' + this.getGroupName() + ': ' + index);
+                        this.getInputElements();
+                        console.log('\tNote: the index for the new ' + this.getGroupName()
+                                    + ' after saving/reloading is: ' + index);
                     }
                 });
             });
         }
     }
 
-    private setInputElements(): void {
+    public getInputElements() {
         this.newItemContainer = this.getNewItemContainer();
-        this.individualNameInput = this.newItemContainer.element(by.css('text-input[controlName="individualName"] input'));
-        this.organisationNameInput = this.newItemContainer.element(by.css('text-input[controlName="organisationName"] input'));
-        this.positionNameInput = this.newItemContainer.element(by.css('text-input[controlName="positionName"] input'));
-        this.deliveryPointInput = this.newItemContainer.element(by.css('textarea-input[controlName="deliveryPoint"] textarea'));
-        this.cityInput = this.newItemContainer.element(by.css('text-input[controlName="city"] input'));
-        this.administrativeAreaInput = this.newItemContainer.element(by.css('text-input[controlName="administrativeArea"] input'));
-        this.postalCodeInput = this.newItemContainer.element(by.css('text-input[controlName="postalCode"] input'));
-        this.countryInput = this.newItemContainer.element(by.css('text-input[controlName="country"] input'));
-        this.emailInput = this.newItemContainer.element(by.css('email-input[controlName="email"] input'));
-        this.primaryPhoneInput = this.newItemContainer.element(by.css('text-input[controlName="primaryPhone"] input'));
-        this.secondaryPhoneInput = this.newItemContainer.element(by.css('text-input[controlName="secondaryPhone"] input'));
-        this.faxInput = this.newItemContainer.element(by.css('text-input[controlName="fax"] input'));
-        this.urlInput = this.newItemContainer.element(by.css('url-input[controlName="url"] input'));
+        this.individualNameInput = this.newItemContainer.element(by.css('text-input[controlName="individualName"]'));
+        this.organisationNameInput = this.newItemContainer.element(by.css('text-input[controlName="organisationName"]'));
+        this.positionNameInput = this.newItemContainer.element(by.css('text-input[controlName="positionName"]'));
+        this.deliveryPointInput = this.newItemContainer.element(by.css('textarea-input[controlName="deliveryPoint"]'));
+        this.cityInput = this.newItemContainer.element(by.css('text-input[controlName="city"]'));
+        this.administrativeAreaInput = this.newItemContainer.element(by.css('text-input[controlName="administrativeArea"]'));
+        this.postalCodeInput = this.newItemContainer.element(by.css('text-input[controlName="postalCode"]'));
+        this.countryInput = this.newItemContainer.element(by.css('text-input[controlName="country"]'));
+        this.emailInput = this.newItemContainer.element(by.css('email-input[controlName="email"]'));
+        this.primaryPhoneInput = this.newItemContainer.element(by.css('text-input[controlName="primaryPhone"]'));
+        this.secondaryPhoneInput = this.newItemContainer.element(by.css('text-input[controlName="secondaryPhone"]'));
+        this.faxInput = this.newItemContainer.element(by.css('text-input[controlName="fax"]'));
+        this.urlInput = this.newItemContainer.element(by.css('url-input[controlName="url"]'));
 
         this.inputElements = [
             this.individualNameInput,

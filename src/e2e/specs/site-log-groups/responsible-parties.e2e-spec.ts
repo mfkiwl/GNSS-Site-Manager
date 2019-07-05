@@ -5,7 +5,7 @@ import { LoginActions } from '../utils/login.actions';
 import { SelectSitePage } from '../page-objects/select-site.pageobject';
 import { SiteLogPage } from '../page-objects/site-log.pageobject';
 import { ResponsiblePartyGroup } from '../page-objects/responsible-party-group.pageobject';
-import { responsiblePartyMockup } from './test-data';
+import { responsiblePartyTestData } from './test-data';
 
 /**
  * Test of adding/deleting new responsible parties if it is allowed
@@ -42,18 +42,19 @@ describe('Site Information Component', () => {
                     if (responsibleParty.canAddNewItem) {
                         responsibleParty.items.count().then((value: number) => {
                             responsibleParty.noOfItems = value;
-                            console.log('    Number of ' + responsibleParty.itemName
+                            console.log('\tNumber of ' + responsibleParty.itemName
                                         + ' items before adding new item: ' + value);
                             responsibleParty.addNewItemButton.click().then(() => {
                                 console.log('\tAdd a new ' + responsibleParty.itemName + ' item');
                                 responsibleParty.inputElements.map((inputElement: ElementFinder) => {
-                                    TestUtils.setInputElementValue(inputElement, responsiblePartyMockup);
+                                    TestUtils.changeInputValue(inputElement, responsiblePartyTestData);
                                 });
                             });
                         });
                     } else {
+                        console.log('\tOpen ' + responsibleParty.itemName + ' to modify/backup values');
                         responsibleParty.inputElements.map((inputElement: ElementFinder) => {
-                            TestUtils.changeInputValue(inputElement, responsiblePartyMockup, responsibleParty.backupModel);
+                            TestUtils.changeInputValue(inputElement, responsiblePartyTestData, responsibleParty.backupModel);
                         });
                     }
                 });
@@ -68,21 +69,23 @@ describe('Site Information Component', () => {
         siteLogPage.siteInformationHeader.click().then(() => {
             siteLogPage.responsibleParties.map((responsibleParty: ResponsiblePartyGroup) => {
                 if (responsibleParty.canAddNewItem) {
-                    responsibleParty.updateNewItemElements(responsiblePartyMockup.positionName);
+                    responsibleParty.updateNewItemElements(responsiblePartyTestData.positionName);
                     TestUtils.checkItemCount(responsibleParty.items,
                                              'adding a new ' + responsibleParty.itemName + ' item',
                                              responsibleParty.noOfItems + 1);
-                    console.log('    Open ' + responsibleParty.itemName + ' group');
-                } else {
-                    console.log('    Open ' + responsibleParty.itemName + ' group for checking modified values');
                 }
 
                 responsibleParty.groupHeader.click().then(() => {
+                    let message: string = '\tOpen ' + responsibleParty.itemName + ' group to check input values ';
+                    message += responsibleParty.canAddNewItem ? 'saved' : 'modified';
+                    console.log(message);
+
                     if (responsibleParty.canAddNewItem && responsibleParty.noOfItems > 0) {
                         responsibleParty.getNewItemHeader().click();
                     }
+
                     responsibleParty.inputElements.map((inputElement: ElementFinder) => {
-                        TestUtils.checkInputValueEqual(inputElement, responsiblePartyMockup);
+                        TestUtils.checkInputValueEqual(inputElement, responsiblePartyTestData);
                     });
                 });
             });
@@ -93,15 +96,15 @@ describe('Site Information Component', () => {
         console.log('c) Delete new items saved or restore backup values for existing items');
         siteLogPage.responsibleParties.map((responsibleParty: ResponsiblePartyGroup) => {
             if (responsibleParty.canAddNewItem) {
-                console.log('    Open ' + responsibleParty.getGroupName() + ' group');
                 responsibleParty.getDeleteButton().click().then(() => {
+                    console.log('\tOpen ' + responsibleParty.getGroupName() + ' group to delete the new item saved');
                     responsibleParty.confirmYesButton.click().then(() => {
-                        console.log('\tDeleted ' + TestUtils.getOrdinalNumber(responsibleParty.newItemIndex + 1)
+                        console.log('\t\tDeleted ' + TestUtils.getOrdinalNumber(responsibleParty.newItemIndex + 1)
                                     + ' ' + responsibleParty.itemName + ' item.');
                     });
                 });
             } else {
-                console.log('    Open ' + responsibleParty.itemName + ' group for restoring backup values');
+                console.log('\tOpen ' + responsibleParty.itemName + ' group to restore backup values');
                 responsibleParty.inputElements.map((inputElement: ElementFinder) => {
                     TestUtils.changeInputValue(inputElement, responsibleParty.backupModel);
                 });
@@ -118,7 +121,7 @@ describe('Site Information Component', () => {
                                              responsibleParty.noOfItems);
                 } else {
                     responsibleParty.groupHeader.click().then(() => {
-                        console.log('    Open ' + responsibleParty.itemName + ' group for checking backup values');
+                        console.log('\tOpen ' + responsibleParty.itemName + ' group to check backup values restored');
                         responsibleParty.inputElements.map((inputElement: ElementFinder) => {
                             TestUtils.checkInputValueEqual(inputElement, responsibleParty.backupModel);
                         });

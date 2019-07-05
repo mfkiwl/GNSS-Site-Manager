@@ -4,14 +4,18 @@ import { LogItemGroup } from './log-item-group.pageobject';
 export class FrequencyStandardGroup extends LogItemGroup {
 
     readonly standardTypeInput: ElementFinder = this.newItemContainer
-                    .element(by.css('text-input[controlName="standardType"] input'));
+                    .element(by.css('text-input[controlName="standardType"]'));
     readonly inputFrequencyInput: ElementFinder = this.newItemContainer
-                    .element(by.css('number-input[controlName="inputFrequency"] input'));
+                    .element(by.css('number-input[controlName="inputFrequency"]'));
     readonly notesInput: ElementFinder = this.newItemContainer
-                    .element(by.css('textarea-input[controlName="notes"] textarea'));
+                    .element(by.css('textarea-input[controlName="notes"]'));
 
     public constructor() {
         super('Frequency Standard');
+        this.getInputElements();
+    }
+
+    public getInputElements() {
         this.inputElements = [
             this.standardTypeInput,
             this.inputFrequencyInput,

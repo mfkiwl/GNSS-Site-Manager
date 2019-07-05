@@ -17,15 +17,15 @@ export abstract class LogItemGroup {
     public newItemIndex: number;
     public noOfItems: number;
     public itemName: string;
-    public attributeName: string;
+    public controlName: string;
     public elementName: string;
     public hasEndDateInput: boolean;
 
     public constructor(itemName: string) {
-        this.newItemIndex = 0;    // by fedault, the new item is the first one
+        this.newItemIndex = 0;    // by default, the new item is the first one
         this.noOfItems = 0;
         this.itemName = itemName;
-        this.attributeName = _.camelCase(itemName);
+        this.controlName = _.camelCase(itemName);
         this.elementName = _.kebabCase(itemName);
         this.hasEndDateInput = true;
 
@@ -78,4 +78,9 @@ export abstract class LogItemGroup {
         let okButton: ElementFinder = element(by.buttonText('OK'));
         okButton.click();
     }
+
+    /**
+     * Define abstract methods to be implemented by subclasses
+     */
+    public abstract getInputElements(): void;
 }

@@ -4,32 +4,36 @@ import { LogItemGroup } from './log-item-group.pageobject';
 export class GnssAntennaGroup extends LogItemGroup {
 
     readonly antennaTypeInput: ElementFinder = this.newItemContainer
-                    .element(by.css('text-input[controlName="antennaType"] input'));
+                    .element(by.css('text-input[controlName="antennaType"]'));
     readonly serialNumberInput: ElementFinder = this.newItemContainer
-                    .element(by.css('text-input[controlName="serialNumber"] input'));
+                    .element(by.css('text-input[controlName="serialNumber"]'));
     readonly antennaReferencePointInput: ElementFinder = this.newItemContainer
-                    .element(by.css('text-input[controlName="antennaReferencePoint"] input'));
+                    .element(by.css('text-input[controlName="antennaReferencePoint"]'));
     readonly markerArpEastEccInput: ElementFinder = this.newItemContainer
-                    .element(by.css('number-input[controlName="markerArpEastEcc"] input'));
+                    .element(by.css('number-input[controlName="markerArpEastEcc"]'));
     readonly markerArpUpEccInput: ElementFinder = this.newItemContainer
-                    .element(by.css('number-input[controlName="markerArpUpEcc"] input'));
+                    .element(by.css('number-input[controlName="markerArpUpEcc"]'));
     readonly markerArpNorthEccInput: ElementFinder = this.newItemContainer
-                    .element(by.css('number-input[controlName="markerArpNorthEcc"] input'));
+                    .element(by.css('number-input[controlName="markerArpNorthEcc"]'));
     readonly alignmentFromTrueNorthInput: ElementFinder = this.newItemContainer
-                    .element(by.css('number-input[controlName="alignmentFromTrueNorth"] input'));
+                    .element(by.css('number-input[controlName="alignmentFromTrueNorth"]'));
     readonly antennaRadomeTypeInput: ElementFinder = this.newItemContainer
-                    .element(by.css('text-input[controlName="antennaRadomeType"] input'));
+                    .element(by.css('text-input[controlName="antennaRadomeType"]'));
     readonly radomeSerialNumberInput: ElementFinder = this.newItemContainer
-                    .element(by.css('text-input[controlName="radomeSerialNumber"] input'));
+                    .element(by.css('text-input[controlName="radomeSerialNumber"]'));
     readonly antennaCableTypeInput: ElementFinder = this.newItemContainer
-                    .element(by.css('text-input[controlName="antennaCableType"] input'));
+                    .element(by.css('text-input[controlName="antennaCableType"]'));
     readonly antennaCableLengthInput: ElementFinder = this.newItemContainer
-                    .element(by.css('number-input[controlName="antennaCableLength"] input'));
+                    .element(by.css('number-input[controlName="antennaCableLength"]'));
     readonly notesInput: ElementFinder = this.newItemContainer
-                    .element(by.css('textarea-input[controlName="notes"] textarea'));
+                    .element(by.css('textarea-input[controlName="notes"]'));
 
     public constructor() {
         super('GNSS Antenna');
+        this.getInputElements();
+    }
+
+    public getInputElements() {
         this.inputElements = [
             this.antennaTypeInput,
             this.serialNumberInput,

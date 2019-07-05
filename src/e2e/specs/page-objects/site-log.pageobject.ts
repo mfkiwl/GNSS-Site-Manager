@@ -85,7 +85,7 @@ export class SiteLogPage extends BasePage {
         this.siteIdMenu.click().then(() => {
             this.saveSiteLink.click().then(() => {
                 this.confirmYesButton.click().then(() => {
-                    console.log('    Save all changes made.');
+                    console.log('\tSave all changes made.');
                 });
             });
         });
@@ -96,7 +96,7 @@ export class SiteLogPage extends BasePage {
         this.siteIdMenu.click().then(() => {
             this.revertSiteLink.click().then(() => {
                 this.confirmYesButton.click().then(() => {
-                    console.log('\tRevert the site log page');
+                    console.log('\t\tRevert the site log page');
                 });
             });
         });
@@ -118,12 +118,12 @@ export class SiteLogPage extends BasePage {
             return browser.switchTo().alert().then((alert) => {
                 alert.accept();
                 return browser.get(url).then(() => {
-                    console.log('   !Warning: close unexpected "Reload" alert dialog and proceed to reload '
+                    console.log('\tWarning: close unexpected "Reload" alert dialog and proceed to reload '
                                 + siteId + ' sitelog page.');
                 });
             });
         }).then(() => {
-            console.log('    Reloaded ' + siteId + ' sitelog page.');
+            console.log('\tReloaded ' + siteId + ' sitelog page.');
         });
         browser.waitForAngular();
     }
@@ -132,9 +132,9 @@ export class SiteLogPage extends BasePage {
         this.siteIdMenu.click().then(() => {
             this.closeSiteLink.click().then(() => {
                 if (message) {
-                    console.log('\t' + message + ' Closed the site log page.');
+                    console.log('\t\t' + message + ' Closed the site log page.');
                 } else {
-                    console.log('\tClosed the site log page.');
+                    console.log('\t\tClosed the site log page.');
                 }
             });
         });
