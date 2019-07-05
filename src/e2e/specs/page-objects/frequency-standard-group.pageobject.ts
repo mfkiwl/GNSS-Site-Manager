@@ -1,16 +1,25 @@
 import { by, ElementFinder } from 'protractor';
-import { LogItemGroup } from '../page-objects/log-item-group.pageobject';
+import { LogItemGroup } from './log-item-group.pageobject';
 
 export class FrequencyStandardGroup extends LogItemGroup {
 
-    readonly standardTypeInput: ElementFinder = this.currentItemContainer
-                    .element(by.css('text-input[controlName="standardType"] input'));
-    readonly inputFrequencyInput: ElementFinder = this.currentItemContainer
-                    .element(by.css('number-input[controlName="inputFrequency"] input'));
-    readonly notesInput: ElementFinder = this.currentItemContainer
-                    .element(by.css('textarea-input[controlName="notes"] textarea'));
+    readonly standardTypeInput: ElementFinder = this.newItemContainer
+                    .element(by.css('text-input[controlName="standardType"]'));
+    readonly inputFrequencyInput: ElementFinder = this.newItemContainer
+                    .element(by.css('number-input[controlName="inputFrequency"]'));
+    readonly notesInput: ElementFinder = this.newItemContainer
+                    .element(by.css('textarea-input[controlName="notes"]'));
 
     public constructor() {
         super('Frequency Standard');
+        this.getInputElements();
+    }
+
+    public getInputElements() {
+        this.inputElements = [
+            this.standardTypeInput,
+            this.inputFrequencyInput,
+            this.notesInput,
+        ];
     }
 }

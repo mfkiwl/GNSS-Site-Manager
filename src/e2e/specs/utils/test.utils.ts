@@ -1,4 +1,4 @@
-import { ElementArrayFinder, ElementFinder } from 'protractor';
+import { by, ElementArrayFinder, ElementFinder } from 'protractor';
 import { promise } from 'selenium-webdriver';
 import * as moment from 'moment';
 
@@ -62,35 +62,43 @@ export class TestUtils {
         return moment().utc().format('@YYYYMMDDTHHmmss');
     }
 
-    public static checkInputValueEqual(elemFinder: ElementFinder, elemName: string, expectValue: string | number) {
-        elemFinder.getAttribute('value').then((value: string) => {
-            if(typeof expectValue === 'number') {
-                expect(value).toEqual(expectValue.toString());
-                console.log('Check if ' + elemName + ' is "' + value + '": ' + (expectValue.toString() === value));
-            } else {
-                expect(value).toEqual(expectValue);
-                console.log('Check if ' + elemName + ' is "' + value + '": ' + (expectValue === value));
-            }
+    public static checkInputValueEqual(elemFinder: ElementFinder, testData: any) {
+        elemFinder.getTagName().then((tagName: string) => {
+            let inputElem: ElementFinder = TestUtils.getInputElement(elemFinder, tagName);
+            elemFinder.getAttribute('controlname').then((controlName: string) => {
+                let expectValue: string | number = testData[controlName];
+                if (!expectValue && expectValue !== 0) {
+                    console.log('\t\tSkip checking ' + controlName + ' as its expected value is null!');
+                } else {
+                    let expectString: string = (typeof expectValue === 'number') ? expectValue.toString() : expectValue;
+                    inputElem.getAttribute('value').then((value: string) => {
+                        console.log('\t\tCheck if ' + controlName + ' value is "'
+                                    + expectString + '": ' + (expectString === value));
+                        expect(value).toEqual(expectString);
+                    });
+                }
+            });
         });
     }
 
     public static checkInputValueContain(elemFinder: ElementFinder, elemName: string, expectValue: string) {
         elemFinder.getAttribute('value').then((value: string) => {
-            console.log('Check if ' + elemName + ' "' + value + '" contains "' + expectValue + '": ' + (value.indexOf(expectValue) !== -1));
+            console.log('\t\tCheck if ' + elemName + ' "' + value + '" contains "' + expectValue + '": '
+                        + (value.indexOf(expectValue) !== -1));
             expect(value).toContain(expectValue);
         });
     }
 
     public static checkInputValueNotNull(elemFinder: ElementFinder, elemName: string) {
         elemFinder.getAttribute('value').then((value: string) => {
-            console.log('Check if ' + elemName + ' is not null (value=' + value + ')');
+            console.log('\t\tCheck if ' + elemName + ' is not null (value=' + value + ')');
             expect(value).not.toBeNull();
         });
     }
 
     public static checkItemCount(elemArrayFinder: ElementArrayFinder, action: string, expectCount: number) {
         elemArrayFinder.count().then((count: number) => {
-            console.log('Number of items after ' + action + ': ' + count);
+            console.log('\tNumber of items after ' + action + ': ' + count);
             expect(count).toBe(expectCount);
         });
     }
@@ -106,21 +114,24 @@ export class TestUtils {
         });
     }
 
-    public static cacheInputValue(elemFinder: ElementFinder, fieldName: string, viewModel: any) {
-        elemFinder.getAttribute('value').then((value: string) => {
-            viewModel[fieldName] = value;
-            console.log('Cache value for ' + fieldName + ': ' + value);
-        });
-    }
+    public static changeInputValue(elemFinder: ElementFinder, model: any, backup?: any) {
+        elemFinder.getTagName().then((tagName: string) => {
+            let inputElem: ElementFinder = TestUtils.getInputElement(elemFinder, tagName);
+            elemFinder.getAttribute('controlname').then((controlName: string) => {
+                if (backup) {
+                    inputElem.getAttribute('value').then((value: string) => {
+                        console.log('\t\tBackup ' + controlName + ' value "' + value);
+                        backup[controlName] = value;
+                    });
+                }
 
-    public static changeInputValue(elemFinder: ElementFinder, fieldName: string, viewModel: any, backupModel?: any) {
-        elemFinder.getAttribute('value').then((value: string) => {
-            if (backupModel) {
-                backupModel[fieldName] = value;
-            }
-            elemFinder.clear();
-            elemFinder.sendKeys(viewModel[fieldName]);
-            console.log('Change value for ' + fieldName + ' from "' + value + '" to "' + viewModel[fieldName] + '"');
+                let value: string | number = model[controlName];
+                let valueString: string = (typeof value === 'number') ? value.toString() : value;
+                inputElem.clear().then(() => {
+                    console.log('\t\tChange ' + controlName + ' value to "' + value + '"');
+                    inputElem.sendKeys(valueString);
+                });
+            });
         });
     }
 
@@ -134,5 +145,16 @@ export class TestUtils {
         } else {
             return index + 'th';
         }
+    }
+
+    /**
+     * Note: ElementFinder.all(by.tagName()) is safer than ElementFinder.element(by.tagName())
+     * because calibrationDate has a <datetime-input> tag with 4 <input> tags inside and may throw warning:
+     * "more than one element found for locator By(css selector, input) - the first result will be used"
+     */
+    private static getInputElement(parentElemFinder: ElementFinder, parentTagName: string): ElementFinder {
+        let inputTagName: string = (parentTagName === 'textarea-input') ? 'textarea' : 'input';
+        let inputElements: ElementArrayFinder = parentElemFinder.all(by.tagName(inputTagName));
+        return inputElements.first();
     }
 }
