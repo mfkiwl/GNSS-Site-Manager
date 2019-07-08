@@ -42,10 +42,10 @@ export class SelectSitePage extends BasePage {
     }
 
     /**
-     * Enter a site Id for quick search and click on the selected site to open its site log page
+     * Enter a site Id for quick search and click on the selected site to open its site page
      *
-     * @param siteId - the Id of a site log
-     * @return the page object of the site log with given siteId
+     * @param siteId - the Id of a site
+     * @return the page object of the site with given siteId
      */
     public openSite(siteId: string): SiteLogPage {
         this.enterSearchText(siteId);
