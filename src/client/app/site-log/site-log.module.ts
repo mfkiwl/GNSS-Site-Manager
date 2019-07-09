@@ -3,13 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { SharedModule } from '../shared/shared.module';
 import { SiteLogComponent } from './site-log.component';
-import { SiteLogRoutingModule } from './site-log-routing.module';
-import { PrefetchSiteLogResolver } from '../shared/site-log/prefetch-site-log.service';
-import { PrefetchCorsSiteResolver } from '../shared/cors-site/prefetch-cors-site.service';
-import { PrefetchCorsNetworkResolver } from '../shared/cors-network/prefetch-cors-network.service';
-import { ConfirmDeactivateSiteLogGuard } from './site-log-deactivate.module';
+import { FormInputModule } from '../shared/form-input/form-input.module';
 
-import { SiteAdministrationModule } from '../site-administration/site-administration.module';
 import { SiteInformationModule } from '../site-information/site-information.module';
 import { GnssReceiverModule } from '../gnss-receiver/gnss-receiver.module';
 import { GnssAntennaModule } from '../gnss-antenna/gnss-antenna.module';
@@ -22,18 +17,15 @@ import { PressureSensorModule } from '../pressure-sensor/pressure-sensor.module'
 import { TemperatureSensorModule } from '../temperature-sensor/temperature-sensor.module';
 import { WaterVaporSensorModule } from '../water-vapor-sensor/water-vapor-sensor.module';
 import { OtherInstrumentationModule } from '../other-instrumentation/other-instrumentation.module';
-import { FormInputModule } from '../shared/form-input/form-input.module';
 import { RadioInterferenceModule } from '../radio-interference/radio-interference.module';
 import { SignalObstructionModule } from '../signal-obstruction/signal-obstruction.module';
 import { MultipathSourceModule } from '../multipath-source/multipath-source.module';
 
 @NgModule({
     imports: [
-        SiteLogRoutingModule,
         CommonModule,
         SharedModule,
         FormInputModule,
-        SiteAdministrationModule,
         SiteInformationModule,
         GnssReceiverModule,
         GnssAntennaModule,
@@ -52,11 +44,6 @@ import { MultipathSourceModule } from '../multipath-source/multipath-source.modu
     ],
     declarations: [SiteLogComponent],
     exports: [SiteLogComponent],
-    providers: [
-        PrefetchSiteLogResolver,
-        PrefetchCorsSiteResolver,
-        PrefetchCorsNetworkResolver,
-        ConfirmDeactivateSiteLogGuard,
-    ],
+    providers: [],
 })
 export class SiteLogModule { }

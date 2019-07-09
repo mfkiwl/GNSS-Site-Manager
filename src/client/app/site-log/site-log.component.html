@@ -1,78 +1,63 @@
-<div class="container centered clear-pad overlay" *ngIf="isLoading">
-    <div class="loading-img"></div>
-</div>
-<div class="container centered clear-pad">
-    <div class="col-md-12 col-sm-12 col-xs-12 col-xxs-12 pad-sm">
-        <gnss-status-info [siteId]="siteId"></gnss-status-info>
-        <form [formGroup]="siteLogForm" novalidate class="form-horizontal">
-            <div class="panel-group">
-                <gnss-site-administration *ngIf="siteId !== 'newSite'"
-                                          [parentForm]="corsSiteForm"
-                                          [corsNetworkList]="corsNetworkList"
-                                          [siteAdminModel]="siteAdminModel">
-                </gnss-site-administration>
+<div [formGroup]="siteLogForm" class="form-horizontal">
+    <div class="panel-group">
+        <gnss-site-information [parentForm]="siteLogForm"
+                               [siteLogModel]="siteLogModel">
+        </gnss-site-information>
 
-                <gnss-site-information [parentForm]="siteLogForm"
+        <gnss-receiver-group [parentForm]="siteLogForm.controls.gnssReceivers"
+                             [siteLogModel]="siteLogModel">
+        </gnss-receiver-group>
+
+        <gnss-antenna-group [parentForm]="siteLogForm.controls.gnssAntennas"
+                            [siteLogModel]="siteLogModel">
+        </gnss-antenna-group>
+
+        <surveyed-local-tie-group [parentForm]="siteLogForm.controls.surveyedLocalTies"
+                                  [siteLogModel]="siteLogModel">
+        </surveyed-local-tie-group>
+
+        <frequency-standard-group [parentForm]="siteLogForm.controls.frequencyStandards"
+                                  [siteLogModel]="siteLogModel">
+        </frequency-standard-group>
+
+        <collocation-information-group [parentForm]="siteLogForm.controls.collocationInformation"
                                        [siteLogModel]="siteLogModel">
-                </gnss-site-information>
+        </collocation-information-group>
 
-                <gnss-receiver-group [parentForm]="siteLogForm.controls.gnssReceivers"
-                                      [siteLogModel]="siteLogModel">
-                </gnss-receiver-group>
+        <local-episodic-effect-group [parentForm]="siteLogForm.controls.localEpisodicEffects"
+                                     [siteLogModel]="siteLogModel">
+        </local-episodic-effect-group>
 
-                <gnss-antenna-group [parentForm]="siteLogForm.controls.gnssAntennas"
-                                    [siteLogModel]="siteLogModel">
-                </gnss-antenna-group>
+        <humidity-sensor-group [parentForm]="siteLogForm.controls.humiditySensors"
+                               [siteLogModel]="siteLogModel">
+        </humidity-sensor-group>
 
-                <surveyed-local-tie-group [parentForm]="siteLogForm.controls.surveyedLocalTies"
-                                           [siteLogModel]="siteLogModel">
-                </surveyed-local-tie-group>
+        <pressure-sensor-group [parentForm]="siteLogForm.controls.pressureSensors"
+                               [siteLogModel]="siteLogModel">
+        </pressure-sensor-group>
 
-                <frequency-standard-group [parentForm]="siteLogForm.controls.frequencyStandards"
-                                          [siteLogModel]="siteLogModel">
-                </frequency-standard-group>
+        <temperature-sensor-group [parentForm]="siteLogForm.controls.temperatureSensors"
+                                  [siteLogModel]="siteLogModel">
+        </temperature-sensor-group>
 
-                <collocation-information-group [parentForm]="siteLogForm.controls.collocationInformation"
-                                          [siteLogModel]="siteLogModel">
-                </collocation-information-group>
+        <water-vapor-sensor-group [parentForm]="siteLogForm.controls.waterVaporSensors"
+                                  [siteLogModel]="siteLogModel">
+        </water-vapor-sensor-group>
 
-                <local-episodic-effect-group [parentForm]="siteLogForm.controls.localEpisodicEffects"
-                                              [siteLogModel]="siteLogModel">
-                </local-episodic-effect-group>
+        <other-instrumentation-group [parentForm]="siteLogForm.controls.otherInstrumentation"
+                                     [siteLogModel]="siteLogModel">
+        </other-instrumentation-group>
 
-                <humidity-sensor-group [parentForm]="siteLogForm.controls.humiditySensors"
-                                        [siteLogModel]="siteLogModel">
-                </humidity-sensor-group>
+        <radio-interferences-group [parentForm]="siteLogForm.controls.radioInterferences"
+                                   [siteLogModel]="siteLogModel">
+        </radio-interferences-group>
 
-                <pressure-sensor-group [parentForm]="siteLogForm.controls.pressureSensors"
-                                        [siteLogModel]="siteLogModel">
-                </pressure-sensor-group>
+        <signal-obstructions-group [parentForm]="siteLogForm.controls.signalObstructions"
+                                   [siteLogModel]="siteLogModel">
+        </signal-obstructions-group>
 
-                <temperature-sensor-group [parentForm]="siteLogForm.controls.temperatureSensors"
-                                           [siteLogModel]="siteLogModel">
-                </temperature-sensor-group>
-
-                <water-vapor-sensor-group [parentForm]="siteLogForm.controls.waterVaporSensors"
-                                           [siteLogModel]="siteLogModel">
-                </water-vapor-sensor-group>
-
-                <other-instrumentation-group [parentForm]="siteLogForm.controls.otherInstrumentation"
-                                           [siteLogModel]="siteLogModel">
-                </other-instrumentation-group>
-
-                <radio-interferences-group [parentForm]="siteLogForm.controls.radioInterferences"
-                                           [siteLogModel]="siteLogModel">
-                </radio-interferences-group>
-
-                <signal-obstructions-group [parentForm]="siteLogForm.controls.signalObstructions"
-                                           [siteLogModel]="siteLogModel">
-                </signal-obstructions-group>
-
-                <multipath-source-group [parentForm]="siteLogForm.controls.multipathSources"
-                                           [siteLogModel]="siteLogModel">
-                </multipath-source-group>
-
-            </div>
-        </form>
+        <multipath-source-group [parentForm]="siteLogForm.controls.multipathSources"
+                                [siteLogModel]="siteLogModel">
+        </multipath-source-group>
     </div>
 </div>

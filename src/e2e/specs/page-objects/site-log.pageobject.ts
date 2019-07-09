@@ -96,7 +96,7 @@ export class SiteLogPage extends BasePage {
         this.siteIdMenu.click().then(() => {
             this.revertSiteLink.click().then(() => {
                 this.confirmYesButton.click().then(() => {
-                    console.log('\t\tRevert the site log page');
+                    console.log('\t\tRevert the site page');
                 });
             });
         });
@@ -113,7 +113,7 @@ export class SiteLogPage extends BasePage {
      * Note: window.location.reload() and browser.refresh() won't work here
      */
     public reload(siteId: string) {
-        let url = '/siteLog/' + siteId;
+        let url = '/site/' + siteId;
         browser.get(url).catch(() => {
             return browser.switchTo().alert().then((alert) => {
                 alert.accept();
@@ -132,9 +132,9 @@ export class SiteLogPage extends BasePage {
         this.siteIdMenu.click().then(() => {
             this.closeSiteLink.click().then(() => {
                 if (message) {
-                    console.log('\t\t' + message + ' Closed the site log page.');
+                    console.log('\t\t' + message + ' Closed the site page.');
                 } else {
-                    console.log('\t\tClosed the site log page.');
+                    console.log('\t\tClosed the site page.');
                 }
             });
         });

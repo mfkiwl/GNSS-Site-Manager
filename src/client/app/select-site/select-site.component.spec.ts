@@ -19,7 +19,7 @@ export function main() {
     describe('SelectSite component', () => {
         let config: Route[] = [
             {path: '', component: SelectSiteComponent},
-            {path: 'siteLog', component: SelectSiteComponent}
+            {path: 'site', component: SelectSiteComponent}
         ];
 
         let fakeCorsSiteService = {

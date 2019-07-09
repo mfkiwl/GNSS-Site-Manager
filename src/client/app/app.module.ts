@@ -10,7 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AboutModule } from './about/about.module';
 import { SharedModule } from './shared/shared.module';
-import { SiteLogModule } from './site-log/site-log.module';
+import { SiteModule } from './site/site.module';
 import { SelectSiteModule } from './select-site/select-site.module';
 import { UserRegistrationModule } from './user-registration/user-registration.module';
 import { AutoHeightDirective } from './shared/global/auto-height.directive';
@@ -23,7 +23,7 @@ import { AutoHeightDirective } from './shared/global/auto-height.directive';
         ReactiveFormsModule,
         ModalModule,
         AboutModule,
-        SiteLogModule,
+        SiteModule,
         SelectSiteModule,
         UserRegistrationModule,
         SharedModule.forRoot()

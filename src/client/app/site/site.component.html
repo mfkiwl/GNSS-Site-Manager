@@ -1,0 +1,24 @@
+<div class="container centered clear-pad overlay" *ngIf="isLoading">
+    <div class="loading-img"></div>
+</div>
+<div class="container centered clear-pad">
+    <div class="col-md-12 col-sm-12 col-xs-12 col-xxs-12 pad-sm">
+        <gnss-status-info [siteId]="siteId"></gnss-status-info>
+        <form [formGroup]="siteForm" novalidate class="form-horizontal">
+            <div class="panel-group">
+                <gnss-site-administration [parentForm]="siteForm"
+                                          [siteId]="siteId"
+                                          [corsNetworkList]="corsNetworkList"
+                                          [siteAdminModel]="siteAdminModel"
+                                          (runningStatusEmitter)="updateLoadingStatus($event)">
+                </gnss-site-administration>
+
+                <gnss-site-log [parentForm]="siteForm"
+                               [siteId]="siteId"
+                               [siteLogModel]="siteLogModel"
+                               (runningStatusEmitter)="updateLoadingStatus($event)">
+                </gnss-site-log>
+            </div>
+        </form>
+    </div>
+</div>
