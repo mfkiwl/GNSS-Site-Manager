@@ -9,6 +9,7 @@ export abstract class LogItemGroup {
     readonly confirmYesButton: ElementFinder = element(by.buttonText('Yes'));
     readonly groupHeader: ElementFinder;
     readonly addNewItemButton: ElementFinder;
+    readonly updateItemButton: ElementFinder;
 
     public items: ElementArrayFinder;
     public newItemContainer: ElementFinder;
@@ -31,6 +32,7 @@ export abstract class LogItemGroup {
         this.items = element.all(by.css(this.elementName + '-item'));
         this.groupHeader = element(by.cssContainingText('div.group-header>span.panel-title', this.getGroupName()));
         this.addNewItemButton = element(by.id('new-' + this.elementName));
+        this.updateItemButton = element(by.id('update-' + this.elementName));
         this.newItemContainer = this.getNewItemContainer();
     }
 

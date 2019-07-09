@@ -24,6 +24,12 @@ export class GnssReceiverGroup extends LogItemGroup {
         return [
             this.receiverTypeInput,
             this.manufacturerSerialNumberInput,
+        ]
+        .concat(this.getUpdatableInputFields());
+    }
+
+    public getUpdatableInputFields(): ElementFinder[] {
+        return [
             this.firmwareVersionInput,
             this.elevationCutoffSettingInput,
             this.temperatureStabilizationInput,

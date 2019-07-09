@@ -43,6 +43,7 @@ describe('All Site Log Components', () => {
                 siteLogGroup.noOfItems = value;
                 console.log('\tNumber of ' + siteLogGroup.itemName
                             + ' items before adding new item: ' + value);
+
                 siteLogGroup.addNewItemButton.click().then(() => {
                     console.log('\tAdd a new ' + siteLogGroup.itemName + ' item');
                     siteLogGroup.getAllInputFields().map((inputField: ElementFinder) => {
@@ -69,6 +70,7 @@ describe('All Site Log Components', () => {
                     siteLogGroup.getAllInputFields().map((inputField: ElementFinder) => {
                         TestUtils.checkInputValueEqual(inputField, testData);
                     });
+
                     TestUtils.checkInputValueNotNull(siteLogGroup.getNewItemStartDateInput(), 'current StartDate');
                     if(siteLogGroup.noOfItems > 0 && siteLogGroup.hasEndDateInput) {
                         TestUtils.checkInputValueNotNull(siteLogGroup.getSecondItemEndDateInput(), 'previous EndDate');
