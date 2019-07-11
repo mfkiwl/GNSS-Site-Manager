@@ -81,6 +81,13 @@ export abstract class LogItemGroup {
     }
 
     /**
+     * Define fields used by update function. Must be override by Antenna and Receiver groups
+     */
+    public getUpdatableInputFields(): ElementFinder[] {
+        return [];
+    }
+
+    /**
      * Define abstract methods to be implemented by subclasses
      */
     public abstract getAllInputFields(): ElementFinder[];

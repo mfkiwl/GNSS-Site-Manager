@@ -31,7 +31,7 @@ export class SiteLogPage extends BasePage {
         new ResponsiblePartyGroup('Site Data Source'),
     ];
 
-    // In the same order as shown in web UI
+    // Test add new items. Instrument groups are in the same order as shown in web UI
     public siteLogGroups: LogItemGroup[] = [
         new GnssReceiverGroup(),
         new GnssAntennaGroup(),
@@ -47,6 +47,12 @@ export class SiteLogPage extends BasePage {
         new RadioInterferenceGroup(),
         new SignalObstructionGroup(),
         new MultipathSourceGroup(),
+    ];
+
+    // Test update current items
+    public siteLogUpdateGroups: LogItemGroup[] = [
+        new GnssReceiverGroup(),
+        new GnssAntennaGroup(),
     ];
 
     public identifyingElement(): ElementFinder {
