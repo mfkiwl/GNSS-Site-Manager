@@ -31,11 +31,10 @@ export class MeteorologicalSensorGroup extends LogItemGroup {
 
     public constructor(sensorName: string) {
         super(sensorName);
-        this.getInputElements();
     }
 
-    public getInputElements() {
-        this.inputElements = [
+    public getAllInputFields(): ElementFinder[] {
+        let inputFields: ElementFinder[] = [
             this.manufacturerInput,
             this.typeInput,
             this.serialNumberInput,
@@ -45,17 +44,19 @@ export class MeteorologicalSensorGroup extends LogItemGroup {
         ];
 
         if (this.itemName === 'Humidity Sensor') {
-            this.inputElements.push(this.accuracyPercentRelativeHumidityInput);
-            this.inputElements.push(this.aspirationInput);
+            inputFields.push(this.accuracyPercentRelativeHumidityInput);
+            inputFields.push(this.aspirationInput);
         } else if(this.itemName === 'Pressure Sensor') {
-            this.inputElements.push(this.accuracyHPaInput);
+            inputFields.push(this.accuracyHPaInput);
         } else if (this.itemName === 'Temperature Sensor') {
-            this.inputElements.push(this.accuracyDegreesCelciusInput);
-            this.inputElements.push(this.aspirationInput);
+            inputFields.push(this.accuracyDegreesCelciusInput);
+            inputFields.push(this.aspirationInput);
         }
 
         if (this.itemName !== 'Water Vapor Sensor') {
-            this.inputElements.push(this.dataSamplingIntervalInput);
+            inputFields.push(this.dataSamplingIntervalInput);
         }
+
+        return inputFields;
     }
 }

@@ -18,11 +18,10 @@ export class GnssReceiverGroup extends LogItemGroup {
 
     public constructor() {
         super('GNSS Receiver');
-        this.getInputElements();
     }
 
-    public getInputElements() {
-        this.inputElements = [
+    public getAllInputFields(): ElementFinder[] {
+        return [
             this.receiverTypeInput,
             this.manufacturerSerialNumberInput,
             this.firmwareVersionInput,

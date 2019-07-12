@@ -12,11 +12,10 @@ export class FrequencyStandardGroup extends LogItemGroup {
 
     public constructor() {
         super('Frequency Standard');
-        this.getInputElements();
     }
 
-    public getInputElements() {
-        this.inputElements = [
+    public getAllInputFields(): ElementFinder[] {
+        return [
             this.standardTypeInput,
             this.inputFrequencyInput,
             this.notesInput,

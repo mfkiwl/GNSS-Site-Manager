@@ -8,15 +8,14 @@ export class OtherInstrumentationGroup extends LogItemGroup {
 
     public constructor() {
         super('Other Instrumentation');
-        this.getInputElements();
     }
 
     public getGroupName(): string {
         return this.itemName;
     }
 
-    public getInputElements() {
-        this.inputElements = [
+    public getAllInputFields(): ElementFinder[] {
+        return [
             this.instrumentationInput,
         ];
     }

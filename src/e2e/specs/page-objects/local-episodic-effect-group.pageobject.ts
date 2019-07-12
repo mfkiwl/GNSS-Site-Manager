@@ -8,11 +8,10 @@ export class LocalEpisodicEffectGroup extends LogItemGroup {
 
     public constructor() {
         super('Local Episodic Effect');
-        this.getInputElements();
     }
 
-    public getInputElements() {
-        this.inputElements = [
+    public getAllInputFields(): ElementFinder[] {
+        return [
             this.eventInput,
         ];
     }

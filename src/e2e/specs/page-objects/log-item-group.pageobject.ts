@@ -12,7 +12,6 @@ export abstract class LogItemGroup {
 
     public items: ElementArrayFinder;
     public newItemContainer: ElementFinder;
-    public inputElements: ElementFinder[];
 
     public newItemIndex: number;
     public noOfItems: number;
@@ -82,5 +81,5 @@ export abstract class LogItemGroup {
     /**
      * Define abstract methods to be implemented by subclasses
      */
-    public abstract getInputElements(): void;
+    public abstract getAllInputFields(): ElementFinder[];
 }

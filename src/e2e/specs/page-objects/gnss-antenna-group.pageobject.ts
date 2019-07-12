@@ -30,11 +30,10 @@ export class GnssAntennaGroup extends LogItemGroup {
 
     public constructor() {
         super('GNSS Antenna');
-        this.getInputElements();
     }
 
-    public getInputElements() {
-        this.inputElements = [
+    public getAllInputFields(): ElementFinder[] {
+        return [
             this.antennaTypeInput,
             this.serialNumberInput,
             this.antennaReferencePointInput,

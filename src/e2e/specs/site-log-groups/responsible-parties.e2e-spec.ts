@@ -46,15 +46,15 @@ describe('Site Information Component', () => {
                                         + ' items before adding new item: ' + value);
                             responsibleParty.addNewItemButton.click().then(() => {
                                 console.log('\tAdd a new ' + responsibleParty.itemName + ' item');
-                                responsibleParty.inputElements.map((inputElement: ElementFinder) => {
-                                    TestUtils.changeInputValue(inputElement, responsiblePartyTestData);
+                                responsibleParty.getAllInputFields().map((inputField: ElementFinder) => {
+                                    TestUtils.changeInputValue(inputField, responsiblePartyTestData);
                                 });
                             });
                         });
                     } else {
                         console.log('\tOpen ' + responsibleParty.itemName + ' to modify/backup values');
-                        responsibleParty.inputElements.map((inputElement: ElementFinder) => {
-                            TestUtils.changeInputValue(inputElement, responsiblePartyTestData, responsibleParty.backupModel);
+                        responsibleParty.getAllInputFields().map((inputField: ElementFinder) => {
+                            TestUtils.changeInputValue(inputField, responsiblePartyTestData, responsibleParty.backupModel);
                         });
                     }
                 });
@@ -84,8 +84,8 @@ describe('Site Information Component', () => {
                         responsibleParty.getNewItemHeader().click();
                     }
 
-                    responsibleParty.inputElements.map((inputElement: ElementFinder) => {
-                        TestUtils.checkInputValueEqual(inputElement, responsiblePartyTestData);
+                    responsibleParty.getAllInputFields().map((inputField: ElementFinder) => {
+                        TestUtils.checkInputValueEqual(inputField, responsiblePartyTestData);
                     });
                 });
             });
@@ -105,8 +105,8 @@ describe('Site Information Component', () => {
                 });
             } else {
                 console.log('\tOpen ' + responsibleParty.itemName + ' group to restore backup values');
-                responsibleParty.inputElements.map((inputElement: ElementFinder) => {
-                    TestUtils.changeInputValue(inputElement, responsibleParty.backupModel);
+                responsibleParty.getAllInputFields().map((inputField: ElementFinder) => {
+                    TestUtils.changeInputValue(inputField, responsibleParty.backupModel);
                 });
             }
         });
@@ -122,8 +122,8 @@ describe('Site Information Component', () => {
                 } else {
                     responsibleParty.groupHeader.click().then(() => {
                         console.log('\tOpen ' + responsibleParty.itemName + ' group to check backup values restored');
-                        responsibleParty.inputElements.map((inputElement: ElementFinder) => {
-                            TestUtils.checkInputValueEqual(inputElement, responsibleParty.backupModel);
+                        responsibleParty.getAllInputFields().map((inputField: ElementFinder) => {
+                            TestUtils.checkInputValueEqual(inputField, responsibleParty.backupModel);
                         });
                     });
                 }
