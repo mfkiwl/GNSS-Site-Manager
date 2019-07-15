@@ -32,6 +32,7 @@ describe('Site Information Component', () => {
 
     afterAll(() => {
         jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
+        loginActions.logout();
     });
 
     it('expect should be able to add new items or backup values for existing items', () => {

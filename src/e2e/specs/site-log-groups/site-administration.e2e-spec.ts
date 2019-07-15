@@ -23,8 +23,13 @@ describe('All Site Log Components', () => {
         browser.waitForAngular();
         loginActions.login(adminUser, adminPassword);
         browser.waitForAngular();
+
         siteLogPage = selectSitePage.openSite(siteId);
         siteAdminPage = new SiteAdministrationPage();
+    });
+
+    afterAll(() => {
+        loginActions.logout();
     });
 
     it('expect should be able to change data permission flag and add/remove networks', () => {
