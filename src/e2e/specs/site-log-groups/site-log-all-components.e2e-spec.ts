@@ -32,6 +32,7 @@ describe('All Site Log Components', () => {
 
     afterAll(() => {
         jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
+        loginActions.logout();
     });
 
     it('expect should be able to add and save new items', () => {
