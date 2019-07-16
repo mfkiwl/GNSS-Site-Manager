@@ -12,15 +12,14 @@ export class CollocationInformationGroup extends LogItemGroup {
 
     public constructor() {
         super('Collocation Information');
-        this.getInputElements();
     }
 
     public getGroupName(): string {
         return this.itemName;
     }
 
-    public getInputElements() {
-        this.inputElements = [
+    public getAllInputFields(): ElementFinder[] {
+        return [
             this.instrumentationTypeInput,
             this.statusInput,
             this.notesInput

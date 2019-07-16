@@ -10,11 +10,10 @@ export class MultipathSourceGroup extends LogItemGroup {
 
     public constructor() {
         super('Multipath Source');
-        this.getInputElements();
     }
 
-    public getInputElements() {
-        this.inputElements = [
+    public getAllInputFields(): ElementFinder[] {
+        return [
             this.possibleProblemSourceInput,
             this.notesInput,
         ];

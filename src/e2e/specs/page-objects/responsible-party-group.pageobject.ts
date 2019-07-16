@@ -33,8 +33,8 @@ export class ResponsiblePartyGroup extends LogItemGroup {
         super(partyName);
         this.hasEndDateInput = false;
         this.canAddNewItem = false;
-        this.getInputElements();
         this.backupModel = {};
+        this.updateInputFields();
 
         this.items = element(by.cssContainingText('.panel-level-2', this.getGroupName()))
                             .all(by.css('gnss-responsible-party-item'));
@@ -67,7 +67,7 @@ export class ResponsiblePartyGroup extends LogItemGroup {
                 element.getAttribute('value').then((value: string) => {
                     if (value === positionNameValue) {
                         this.newItemIndex = index;
-                        this.getInputElements();
+                        this.updateInputFields();
                         console.log('\tNote: the index for the new ' + this.getGroupName()
                                     + ' after saving/reloading is: ' + index);
                     }
@@ -76,7 +76,27 @@ export class ResponsiblePartyGroup extends LogItemGroup {
         }
     }
 
-    public getInputElements() {
+    public getAllInputFields(): ElementFinder[] {
+        return [
+            this.individualNameInput,
+            this.organisationNameInput,
+            this.positionNameInput,
+            this.deliveryPointInput,
+            this.cityInput,
+            this.administrativeAreaInput,
+            this.postalCodeInput,
+            this.countryInput,
+            this.emailInput,
+            this.primaryPhoneInput,
+            this.secondaryPhoneInput,
+            this.faxInput,
+        ];
+    }
+
+    /**
+     * Update all input fields as new item may change its position after saving
+     */
+    private updateInputFields(): void {
         this.newItemContainer = this.getNewItemContainer();
         this.individualNameInput = this.newItemContainer.element(by.css('text-input[controlName="individualName"]'));
         this.organisationNameInput = this.newItemContainer.element(by.css('text-input[controlName="organisationName"]'));
@@ -91,20 +111,5 @@ export class ResponsiblePartyGroup extends LogItemGroup {
         this.secondaryPhoneInput = this.newItemContainer.element(by.css('text-input[controlName="secondaryPhone"]'));
         this.faxInput = this.newItemContainer.element(by.css('text-input[controlName="fax"]'));
         this.urlInput = this.newItemContainer.element(by.css('url-input[controlName="url"]'));
-
-        this.inputElements = [
-            this.individualNameInput,
-            this.organisationNameInput,
-            this.positionNameInput,
-            this.deliveryPointInput,
-            this.cityInput,
-            this.administrativeAreaInput,
-            this.postalCodeInput,
-            this.countryInput,
-            this.emailInput,
-            this.primaryPhoneInput,
-            this.secondaryPhoneInput,
-            this.faxInput,
-        ];
     }
 }

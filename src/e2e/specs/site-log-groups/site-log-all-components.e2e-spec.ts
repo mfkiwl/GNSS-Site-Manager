@@ -44,8 +44,8 @@ describe('All Site Log Components', () => {
                             + ' items before adding new item: ' + value);
                 siteLogGroup.addNewItemButton.click().then(() => {
                     console.log('\tAdd a new ' + siteLogGroup.itemName + ' item');
-                    siteLogGroup.inputElements.map((inputElement: ElementFinder) => {
-                        TestUtils.changeInputValue(inputElement, testData);
+                    siteLogGroup.getAllInputFields().map((inputField: ElementFinder) => {
+                        TestUtils.changeInputValue(inputField, testData);
                     });
                 });
             });
@@ -65,8 +65,8 @@ describe('All Site Log Components', () => {
             siteLogGroup.groupHeader.click().then(() => {
                 console.log('\tOpen ' + siteLogGroup.itemName + ' group to check input values saved');
                 siteLogGroup.getNewItemHeader().click().then(() => {
-                    siteLogGroup.inputElements.map((inputElement: ElementFinder) => {
-                        TestUtils.checkInputValueEqual(inputElement, testData);
+                    siteLogGroup.getAllInputFields().map((inputField: ElementFinder) => {
+                        TestUtils.checkInputValueEqual(inputField, testData);
                     });
                     TestUtils.checkInputValueNotNull(siteLogGroup.getNewItemStartDateInput(), 'current StartDate');
                     if(siteLogGroup.noOfItems > 0 && siteLogGroup.hasEndDateInput) {

@@ -10,11 +10,10 @@ export class SignalObstructionGroup extends LogItemGroup {
 
     public constructor() {
         super('Signal Obstruction');
-        this.getInputElements();
     }
 
-    public getInputElements() {
-        this.inputElements = [
+    public getAllInputFields(): ElementFinder[] {
+        return [
             this.possibleProblemSourceInput,
             this.notesInput,
         ];

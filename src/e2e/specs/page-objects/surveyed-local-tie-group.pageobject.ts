@@ -27,11 +27,10 @@ export class SurveyedLocalTieGroup extends LogItemGroup {
     public constructor() {
         super('Surveyed Local Tie');
         this.hasEndDateInput = false;
-        this.getInputElements();
     }
 
-    public getInputElements() {
-        this.inputElements = [
+    public getAllInputFields(): ElementFinder[] {
+        return [
             this.tiedMarkerNameInput,
             this.tiedMarkerUsageInput,
             this.tiedMarkerCDPNumberInput,

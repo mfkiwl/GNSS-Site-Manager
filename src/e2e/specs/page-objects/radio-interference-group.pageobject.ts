@@ -12,11 +12,10 @@ export class RadioInterferenceGroup extends LogItemGroup {
 
     public constructor() {
         super('Radio Interference');
-        this.getInputElements();
     }
 
-    public getInputElements() {
-        this.inputElements = [
+    public getAllInputFields(): ElementFinder[] {
+        return [
             this.possibleProblemSourceInput,
             this.observedDegradationInput,
             this.notesInput,
