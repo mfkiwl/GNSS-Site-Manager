@@ -2,6 +2,7 @@ import { element, by, ElementFinder, ElementArrayFinder, browser } from 'protrac
 import { TestUtils } from '../utils/test.utils';
 import { HeaderPage } from './header.pageobject';
 import { SiteLogPage } from './site-log.pageobject';
+import { SiteAdministrationPage } from './site-administration.pageobject';
 
 export class SelectSitePage extends HeaderPage {
     readonly url: string = '/';
@@ -50,5 +51,12 @@ export class SelectSitePage extends HeaderPage {
     public openSite(siteId: string): SiteLogPage {
         this.enterSearchText(siteId);
         return this.clickOnSite(siteId);
+    }
+
+    public openSiteAdministrationPage(siteId: string): SiteAdministrationPage {
+        this.enterSearchText(siteId);
+        this.selectSiteListItems.get(0).click();
+        browser.waitForAngular();
+        return new SiteAdministrationPage();
     }
 }
