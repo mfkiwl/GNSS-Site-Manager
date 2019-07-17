@@ -1,7 +1,7 @@
 import { by, element, ElementFinder, ElementArrayFinder } from 'protractor';
-import { BasePage } from './base.pageobject';
+import { HeaderPage } from './header.pageobject';
 
-export class SiteAdministrationPage extends BasePage {
+export class SiteAdministrationPage extends HeaderPage {
     readonly siteAdministrationHeader: ElementFinder = element(by.cssContainingText('span.panel-title', 'Site Administration'));
     readonly dataPermissionHeader: ElementFinder = element(by.cssContainingText('span.panel-title', 'Data Permission'));
     readonly networksHeader: ElementFinder = element(by.cssContainingText('span.panel-title', 'Networks'));

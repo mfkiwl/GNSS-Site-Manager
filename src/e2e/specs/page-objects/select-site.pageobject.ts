@@ -1,9 +1,10 @@
 import { element, by, ElementFinder, ElementArrayFinder, browser } from 'protractor';
 import { TestUtils } from '../utils/test.utils';
-import { BasePage } from './base.pageobject';
+import { HeaderPage } from './header.pageobject';
 import { SiteLogPage } from './site-log.pageobject';
+import { SiteAdministrationPage } from './site-administration.pageobject';
 
-export class SelectSitePage extends BasePage {
+export class SelectSitePage extends HeaderPage {
     readonly url: string = '/';
     readonly selectSiteList: ElementFinder = element(by.id('select-site-sites-table'));
     readonly selectSiteListItems: ElementArrayFinder = element.all(by.css('td[name="siteId"'));
@@ -47,8 +48,15 @@ export class SelectSitePage extends BasePage {
      * @param siteId - the Id of a site
      * @return the page object of the site with given siteId
      */
-    public openSite(siteId: string): SiteLogPage {
+    public openSiteLogPage(siteId: string): SiteLogPage {
         this.enterSearchText(siteId);
         return this.clickOnSite(siteId);
+    }
+
+    public openSiteAdministrationPage(siteId: string): SiteAdministrationPage {
+        this.enterSearchText(siteId);
+        this.selectSiteListItems.get(0).click();
+        browser.waitForAngular();
+        return new SiteAdministrationPage();
     }
 }

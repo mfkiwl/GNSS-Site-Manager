@@ -1,7 +1,6 @@
 import { browser } from 'protractor';
 import { LoginActions } from '../utils/login.actions';
 import { SelectSitePage } from '../page-objects/select-site.pageobject';
-import { SiteLogPage } from '../page-objects/site-log.pageobject';
 import { SiteAdministrationPage } from '../page-objects/site-administration.pageobject';
 
 describe('All Site Log Components', () => {
@@ -10,7 +9,6 @@ describe('All Site Log Components', () => {
     let siteId: string = 'ADE1';
     let selectSitePage: SelectSitePage = new SelectSitePage();
     let loginActions: LoginActions = new LoginActions(selectSitePage);
-    let siteLogPage: SiteLogPage;
     let siteAdminPage: SiteAdministrationPage;
 
     let isOpenData: boolean;
@@ -23,9 +21,7 @@ describe('All Site Log Components', () => {
         browser.waitForAngular();
         loginActions.login(adminUser, adminPassword);
         browser.waitForAngular();
-
-        siteLogPage = selectSitePage.openSite(siteId);
-        siteAdminPage = new SiteAdministrationPage();
+        siteAdminPage = selectSitePage.openSiteAdministrationPage(siteId);
     });
 
     afterAll(() => {
@@ -70,12 +66,12 @@ describe('All Site Log Components', () => {
             });
         });
 
-        siteLogPage.save();
+        siteAdminPage.save();
     });
 
     it('expect should be able to verify all changes saved', () => {
         console.log('b) Verify all changes saved');
-        siteLogPage.reload(siteId);
+        siteAdminPage.reload(siteId);
 
         siteAdminPage.siteAdministrationHeader.click().then(() => {
             siteAdminPage.openDataRadioButton.getAttribute('checked').then((value: string) => {
@@ -124,12 +120,12 @@ describe('All Site Log Components', () => {
             });
         });
 
-        siteLogPage.save();
+        siteAdminPage.save();
     });
 
     it('expect should be able to verify all changes restored', () => {
         console.log('d) Verify all changes restored');
-        siteLogPage.reload(siteId);
+        siteAdminPage.reload(siteId);
 
         siteAdminPage.siteAdministrationHeader.click().then(() => {
             siteAdminPage.openDataRadioButton.getAttribute('checked').then((value: string) => {

@@ -27,7 +27,7 @@ describe('Site Information Component', () => {
         browser.waitForAngular();
         loginActions.login('user.a', 'gumby123A');
         browser.waitForAngular();
-        siteLogPage = selectSitePage.openSite(siteId);
+        siteLogPage = selectSitePage.openSiteLogPage(siteId);
     });
 
     afterAll(() => {

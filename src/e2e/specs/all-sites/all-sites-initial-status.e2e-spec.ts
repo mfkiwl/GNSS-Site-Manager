@@ -49,7 +49,7 @@ describe('All GNSS sites', () => {
         let count: number = 0;
         allSiteIds.forEach((siteId: string) => {
             browser.waitForAngular();
-            let siteLogPage: SiteLogPage = selectSitePage.openSite(siteId);
+            let siteLogPage: SiteLogPage = selectSitePage.openSiteLogPage(siteId);
             browser.waitForAngular();
 
             siteLogPage.statusInfoBar.getText().then((statusInfo) => {
