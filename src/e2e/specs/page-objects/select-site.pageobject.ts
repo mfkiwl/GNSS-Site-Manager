@@ -48,7 +48,7 @@ export class SelectSitePage extends HeaderPage {
      * @param siteId - the Id of a site
      * @return the page object of the site with given siteId
      */
-    public openSite(siteId: string): SiteLogPage {
+    public openSiteLogPage(siteId: string): SiteLogPage {
         this.enterSearchText(siteId);
         return this.clickOnSite(siteId);
     }

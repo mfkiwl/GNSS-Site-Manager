@@ -28,7 +28,7 @@ describe('Header', () => {
     it('should have the correct menus when logged out and viewing a site', () => {
         loginActions.logout();
 
-        let siteLogPage: SiteLogPage = selectSitePage.openSite('ADE1');
+        let siteLogPage: SiteLogPage = selectSitePage.openSiteLogPage('ADE1');
 
         expect(siteLogPage.siteIdMenu.isPresent()).toEqual(true);
         expect(siteLogPage.saveSiteLink.isPresent()).toEqual(true);
@@ -50,7 +50,7 @@ describe('Header', () => {
     it('should have the correct menus when logged in and viewing a site', () => {
         loginActions.login('user.a', 'gumby123A');
 
-        let siteLogPage: SiteLogPage = selectSitePage.openSite('ADE1');
+        let siteLogPage: SiteLogPage = selectSitePage.openSiteLogPage('ADE1');
 
         expect(siteLogPage.siteIdMenu.isPresent()).toEqual(true);
         expect(siteLogPage.saveSiteLink.isPresent()).toEqual(true);

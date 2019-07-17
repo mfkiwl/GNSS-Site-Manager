@@ -13,7 +13,7 @@ describe('Authorization/Authentication', () => {
 
     it('should allow edits when a user is logged in with right roles', () => {
         loginActions.login('user.a', 'gumby123A');
-        let siteLogPage: SiteLogPage = selectSitePage.openSite('ADE1');
+        let siteLogPage: SiteLogPage = selectSitePage.openSiteLogPage('ADE1');
         siteLogPage.siteInformationHeader.click();
         siteLogPage.siteIdentificationHeader.click();
         expect(siteLogPage.siteNameInput.isEnabled()).toBe(true, 'siteNameInput should be enabled');
@@ -21,7 +21,7 @@ describe('Authorization/Authentication', () => {
 
     it('should be able to login as a different user with different authorization', () => {
         loginActions.loginAs('user.a', 'gumby123A');
-        let siteLogPage: SiteLogPage = selectSitePage.openSite('ADE2');
+        let siteLogPage: SiteLogPage = selectSitePage.openSiteLogPage('ADE2');
         siteLogPage.siteInformationHeader.click();
         siteLogPage.siteIdentificationHeader.click();
         expect(siteLogPage.siteNameInput.isEnabled()).toBe(false, 'SiteName Input should not be enabled');
@@ -29,7 +29,7 @@ describe('Authorization/Authentication', () => {
 
         browser.waitForAngular();
         loginActions.loginAs('user.b', 'gumby123B');
-        siteLogPage = selectSitePage.openSite('ADE2');
+        siteLogPage = selectSitePage.openSiteLogPage('ADE2');
         siteLogPage.siteInformationHeader.click();
         siteLogPage.siteIdentificationHeader.click();
         expect(siteLogPage.siteNameInput.isEnabled()).toBe(true, 'SiteName Input should be enabled');
@@ -38,7 +38,7 @@ describe('Authorization/Authentication', () => {
 
     it('should not allow edits when a user is not logged in', () => {
         loginActions.logout();
-        let siteLogPage: SiteLogPage = selectSitePage.openSite('ADE1');
+        let siteLogPage: SiteLogPage = selectSitePage.openSiteLogPage('ADE1');
         siteLogPage.siteInformationHeader.click();
         siteLogPage.siteIdentificationHeader.click();
         expect(siteLogPage.siteNameInput.isEnabled()).toBe(false, 'siteNameInput should not be enabled');
