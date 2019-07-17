@@ -1,6 +1,6 @@
 import { ElementFinder, element, by } from 'protractor';
 
-export class BasePage {
+export class HeaderPage {
 
     readonly loginMenu: ElementFinder = element(by.css('nav.profile-menu'));
     readonly loginLink: ElementFinder = element(by.cssContainingText('a', 'Login'));

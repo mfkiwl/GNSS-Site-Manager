@@ -1,5 +1,5 @@
 import { browser, protractor } from 'protractor';
-import { BasePage } from '../page-objects/base.pageobject';
+import { HeaderPage } from '../page-objects/header.pageobject';
 import { OpenAmLoginPage } from '../page-objects/openam.pageobject';
 
 /**
@@ -8,7 +8,7 @@ import { OpenAmLoginPage } from '../page-objects/openam.pageobject';
 export class LoginActions {
     private openAmPage: OpenAmLoginPage = new OpenAmLoginPage();
 
-    constructor(private caller: BasePage) {
+    constructor(private caller: HeaderPage) {
     }
 
     /**

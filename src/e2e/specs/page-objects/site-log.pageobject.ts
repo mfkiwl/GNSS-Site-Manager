@@ -1,6 +1,6 @@
 import { browser, by, element, ElementFinder, ElementArrayFinder } from 'protractor';
 import * as _ from 'lodash';
-import { BasePage } from './base.pageobject';
+import { HeaderPage } from './header.pageobject';
 import { LogItemGroup } from './log-item-group.pageobject';
 import { GnssReceiverGroup } from './gnss-receiver-group.pageobject';
 import { GnssAntennaGroup } from './gnss-antenna-group.pageobject';
@@ -15,7 +15,7 @@ import { ResponsiblePartyGroup } from '../page-objects/responsible-party-group.p
 import { SignalObstructionGroup } from './signal-obstruction-group.pageobject';
 import { MultipathSourceGroup } from './multipath-source-group.pageobject';
 
-export class SiteLogPage extends BasePage {
+export class SiteLogPage extends HeaderPage {
     readonly siteInformationHeader: ElementFinder = element(by.cssContainingText('span.panel-title', 'Site Information'));
     readonly siteIdentificationHeader: ElementFinder = element(by.cssContainingText('span.panel-title', 'Site Identification'));
     readonly levelOneDirtyHeaders: ElementArrayFinder = element.all(by.css('div.panel-level-1.ng-dirty'));

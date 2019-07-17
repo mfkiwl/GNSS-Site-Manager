@@ -1,9 +1,9 @@
 import { element, by, ElementFinder, ElementArrayFinder, browser } from 'protractor';
 import { TestUtils } from '../utils/test.utils';
-import { BasePage } from './base.pageobject';
+import { HeaderPage } from './header.pageobject';
 import { SiteLogPage } from './site-log.pageobject';
 
-export class SelectSitePage extends BasePage {
+export class SelectSitePage extends HeaderPage {
     readonly url: string = '/';
     readonly selectSiteList: ElementFinder = element(by.id('select-site-sites-table'));
     readonly selectSiteListItems: ElementArrayFinder = element.all(by.css('td[name="siteId"'));
