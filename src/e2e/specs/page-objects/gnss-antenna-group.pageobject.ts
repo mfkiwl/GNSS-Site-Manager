@@ -37,12 +37,18 @@ export class GnssAntennaGroup extends LogItemGroup {
             this.antennaTypeInput,
             this.serialNumberInput,
             this.antennaReferencePointInput,
+            this.antennaRadomeTypeInput,
+            this.radomeSerialNumberInput,
+        ]
+        .concat(this.getUpdatableInputFields());
+    }
+
+    public getUpdatableInputFields(): ElementFinder[] {
+        return [
             this.markerArpEastEccInput,
             this.markerArpUpEccInput,
             this.markerArpNorthEccInput,
             this.alignmentFromTrueNorthInput,
-            this.antennaRadomeTypeInput,
-            this.radomeSerialNumberInput,
             this.antennaCableTypeInput,
             this.antennaCableLengthInput,
             this.notesInput,
