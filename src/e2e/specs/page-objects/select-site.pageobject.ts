@@ -49,11 +49,13 @@ export class SelectSitePage extends HeaderPage {
      * @return the page object of the site with given siteId
      */
     public openSiteLogPage(siteId: string): SiteLogPage {
+        console.log('\tOpen "' + siteId + '" Site Log panel');
         this.enterSearchText(siteId);
         return this.clickOnSite(siteId);
     }
 
     public openSiteAdministrationPage(siteId: string): SiteAdministrationPage {
+        console.log('\tOpen "' + siteId + '" Site Administration panel');
         this.enterSearchText(siteId);
         this.selectSiteListItems.get(0).click();
         browser.waitForAngular();
