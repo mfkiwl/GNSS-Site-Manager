@@ -79,9 +79,9 @@ export class HeaderPage {
         this.siteIdMenu.click().then(() => {
             this.closeSiteLink.click().then(() => {
                 if (message) {
-                    console.log('\t\t' + message + ' Closed the site page.');
+                    console.log('\t' + message + ' Closed the site page.');
                 } else {
-                    console.log('\t\tClosed the site page.');
+                    console.log('\tClosed the site page.');
                 }
             });
         });
