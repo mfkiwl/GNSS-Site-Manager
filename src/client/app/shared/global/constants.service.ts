@@ -16,10 +16,15 @@ export class ConstantsService {
 
     public static webUrlLinks: Link[] = Config.WEB_URL_LINKS;
 
+    private codelistS3BucketURL: string = Config.CODELIST_S3_BUCKET_URL;
     private webServiceURL: string = Config.WEB_SERVICE_URL;
     private wfsGeoserverURL: string = Config.WFS_GEOSERVER_URL;
     private openAMServerURL: string = Config.OPENAM_SERVER_URL;
     private clientURL: string = Config.CLIENT_URL;
+
+    public getCodelistS3BucketURL(): string {
+        return this.codelistS3BucketURL;
+    }
 
     public getWebServiceURL(): string {
         return this.webServiceURL;
