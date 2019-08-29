@@ -5,6 +5,8 @@ import { ConfirmDeactivateSiteGuard } from './site-deactivate.module';
 import { PrefetchSiteLogResolver } from '../shared/site-log/prefetch-site-log.service';
 import { PrefetchCorsSiteResolver } from '../shared/cors-site/prefetch-cors-site.service';
 import { PrefetchCorsNetworkResolver } from '../shared/cors-network/prefetch-cors-network.service';
+import { PrefetchAntennaRadomeCodelist } from '../shared/geodesyml-codelist/prefetch-antenna-radome-codelist.service';
+import { PrefetchReceiverCodelist } from '../shared/geodesyml-codelist/prefetch-receiver-codelist.service';
 
 @NgModule({
     imports: [
@@ -16,6 +18,8 @@ import { PrefetchCorsNetworkResolver } from '../shared/cors-network/prefetch-cor
                     siteLogModel: PrefetchSiteLogResolver,
                     siteAdminModel: PrefetchCorsSiteResolver,
                     corsNetworkList: PrefetchCorsNetworkResolver,
+                    antennaRadomeCodelist: PrefetchAntennaRadomeCodelist,
+                    receiverCodelist: PrefetchReceiverCodelist,
                 },
                 canDeactivate: [ConfirmDeactivateSiteGuard],
             }
@@ -26,6 +30,8 @@ import { PrefetchCorsNetworkResolver } from '../shared/cors-network/prefetch-cor
         PrefetchSiteLogResolver,
         PrefetchCorsSiteResolver,
         PrefetchCorsNetworkResolver,
+        PrefetchAntennaRadomeCodelist,
+        PrefetchReceiverCodelist,
     ]
 })
 export class SiteRoutingModule { }

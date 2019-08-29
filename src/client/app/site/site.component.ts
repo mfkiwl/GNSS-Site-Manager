@@ -24,6 +24,8 @@ export class SiteComponent implements OnInit, OnDestroy {
     public siteLogModel: SiteLogViewModel;
     public siteAdminModel: SiteAdministrationModel;
     public corsNetworkList: CorsNetworkModel[];
+    public antennaRadomeCodelist: string[];
+    public receiverCodelist: string[];
 
     private siteId: string;
     private isLoading: boolean = false;
@@ -69,7 +71,9 @@ export class SiteComponent implements OnInit, OnDestroy {
         this.isLoading = true;
         this.route.data.subscribe((data: {siteLogModel: SiteLogViewModel,
                                           siteAdminModel: SiteAdministrationModel,
-                                          corsNetworkList: CorsNetworkModel[]}) => {
+                                          corsNetworkList: CorsNetworkModel[],
+                                          antennaRadomeCodelist: string[],
+                                          receiverCodelist: string[]}) => {
             // if we already have a siteForm then this looks like a good place to reload the page
             // TODO possibly work out a way to clear out all the data instead
             if (this.siteForm) {
@@ -79,6 +83,8 @@ export class SiteComponent implements OnInit, OnDestroy {
             this.corsNetworkList = data.corsNetworkList;
             this.siteAdminModel = data.siteAdminModel;
             this.siteLogModel = data.siteLogModel;
+            this.antennaRadomeCodelist = data.antennaRadomeCodelist;
+            this.receiverCodelist = data.receiverCodelist;
 
             this.setupForm();
             this.siteLogService.sendApplicationStateMessage({
