@@ -2,7 +2,7 @@ import { EnvConfig } from './env-config.interface';
 
 const E2EConfig: EnvConfig = {
   ENV: 'E2E',
-  CODELIST_S3_BUCKET_URL: 'https://geodesyml-codelists-dev.s3.ap-southeast-2.amazonaws.com',
+  CODELIST_URL: 'https://geodesyml-codelists-dev.s3.ap-southeast-2.amazonaws.com',
   WEB_SERVICE_URL: 'https://devgeodesy-webservices.geodesy.ga.gov.au',
   WFS_GEOSERVER_URL: 'https://devgeodesy-geoserver.geodesy.ga.gov.au/geoserver/wfs',
   OPENAM_SERVER_URL: 'https://devgeodesy-openam.geodesy.ga.gov.au/openam',
