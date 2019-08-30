@@ -2,6 +2,7 @@ import { EnvConfig } from './env-config.interface';
 
 const LocalConfig: EnvConfig = {
   ENV: 'LOCAL',
+  CODELIST_URL: 'https://geodesyml-codelists-dev.s3.ap-southeast-2.amazonaws.com',
   WEB_SERVICE_URL: 'http://localhost:8081',
   WFS_GEOSERVER_URL: 'http://localhost:8082/wfs',
   OPENAM_SERVER_URL: 'http://localhost:8083/openam',

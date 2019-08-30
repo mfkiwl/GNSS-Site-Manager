@@ -8,6 +8,7 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { StatusInfoComponent } from './status-info/status-info.component';
 import { CorsSiteService } from './cors-site/index';
+import { GeodesyMLCodelistService } from './geodesyml-codelist/geodesyml-codelist.service';
 import { CorsNetworkService } from './cors-network/index';
 import { SiteLogService } from './site-log/index';
 import { JsonixService } from './jsonix/index';
@@ -46,7 +47,7 @@ export class SharedModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: SharedModule,
-      providers: [MiscUtils, JsonixService, SiteLogService, DialogService,
+      providers: [MiscUtils, JsonixService, SiteLogService, DialogService, GeodesyMLCodelistService,
                   CorsSiteService, CorsNetworkService, WFSService, ConstantsService,
                   HttpUtilsService, JsonViewModelService, UserAuthService,
                  ]
