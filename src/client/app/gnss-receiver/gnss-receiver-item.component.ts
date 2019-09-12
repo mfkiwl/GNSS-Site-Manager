@@ -54,4 +54,9 @@ export class GnssReceiverItemComponent extends AbstractItemComponent {
     getItemName(): string {
         return 'GNSS Receiver';
     }
+
+    onReceiverTypeChange(event:any) {
+        this.gnssReceiver.receiverType = event.value;
+        this.itemGroup.controls.receiverType.setValue(this.gnssReceiver.receiverType);
+    }
 }
