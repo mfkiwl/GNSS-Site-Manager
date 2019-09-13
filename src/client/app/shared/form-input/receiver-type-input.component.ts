@@ -39,7 +39,7 @@ export class ReceiverTypeInputComponent extends AbstractInput implements Control
         super.ngOnInit();
         this.geodesyMLCodelistService.getCodelist('Receiver').subscribe(codeList => {
             this.allReceiverCodes = codeList;
-        })
+        });
     }
 
     writeValue(value: string) {}

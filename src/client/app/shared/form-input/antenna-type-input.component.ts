@@ -39,7 +39,7 @@ export class AntennaTypeInputComponent extends AbstractInput implements ControlV
         super.ngOnInit();
         this.geodesyMLCodelistService.getCodelist('AntennaRadome').subscribe(codeList => {
             this.allAntennaCodes = codeList;
-        })
+        });
     }
 
     writeValue(value: string) { }

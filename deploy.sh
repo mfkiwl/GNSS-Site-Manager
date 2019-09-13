@@ -20,4 +20,4 @@ backupBucket=${bucket}-backup-$(date +%s)
 aws s3 --profile geodesy mb "s3://${backupBucket}"
 aws s3 --profile geodesy sync "s3://${bucket}" "s3://${backupBucket}"
 aws s3 --profile geodesy rm "s3://${bucket}" --recursive
-aws --profile geodesy s3 sync dist/prod "s3://${bucket}" --acl public-read
+aws --profile geodesy s3 sync dist/${env} "s3://${bucket}" --acl public-read
