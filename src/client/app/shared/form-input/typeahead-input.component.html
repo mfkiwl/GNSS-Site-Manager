@@ -11,6 +11,8 @@
                [typeahead]="codelist"
                [typeaheadOptionsLimit]="10"
                [typeaheadMinLength]="0"
+               [typeaheadItemTemplate]="codelistItemTemplate"
+
                (typeaheadOnSelect)="onSelect($event)"
                class="form-control"
                minlength="{{minlength}}"
@@ -18,3 +20,37 @@
         <small [hidden]="!formControl.errors" class="alert alert-danger">{{getErrorReport()}}</small>
     </div>
 </div>
+<!--   [optionsListTemplate]="codelistDropdownTemplate"-->
+<ng-template #codelistItemTemplate let-match="match" let-query="query">
+    <span [innerHtml]="match.value"></span>
+</ng-template>
+
+<!--
+<ng-template #codelistItemTemplate let-match="match" let-query="query">
+    <span [innerHtml]="(match: any, query: string[] | string): string => {
+        let itemStr: string = match.value.toUpperCase();
+        let startIdx: number = 0;
+        let tokenLen: number = 0;
+        if (Arrays.isArray(query) {
+            var queryLen = query.length;
+            for (var i = 0; i < queryLen; i += 1) {
+                tokenLen = query[i].length;
+                startIdx = itemStr.indexOf(query[i].toUpperCase(), startIdx + tokenLen);
+                if (startIdx >= 0 && tokenLen > 0) {
+                    itemStr = itemStr.substring(0, startIdx) + '<strong>|' + itemStr.substring(startIdx,
+                        startIdx + tokenLen) + '|</strong>' + itemStr.substring(startIdx + tokenLen);
+                    startIdx += 17;
+                }
+            }
+        } else if (query) {
+            startIdx = itemStr.indexOf(query.toUpperCase());
+            tokenLen = query.length;
+            if (startIdx >= 0 && tokenLen > 0) {
+            itemStr = itemStr.substring(0, startIdx) + '<strong>|' + itemStr.substring(startIdx,
+                startIdx + tokenLen) + '|</strong>' + itemStr.substring(startIdx + tokenLen);
+            }
+        }
+        return itemStr;
+    };"></span>
+</ng-template>
+-->
