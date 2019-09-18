@@ -19,6 +19,7 @@ export class GnssAntennaItemComponent extends AbstractItemComponent {
      * The GNSS Antenna in question.
      */
     @Input() antenna: GnssAntennaViewModel;
+    @Input() antennaRadomeCodelist: string[];
 
     constructor(protected dialogService: DialogService,
                 protected siteLogService: SiteLogService,
@@ -40,7 +41,7 @@ export class GnssAntennaItemComponent extends AbstractItemComponent {
     getItemForm(): FormGroup {
         return this.formBuilder.group({
             id: [null],
-            antennaType: ['', [Validators.maxLength(100)]],
+            antennaType: ['', [Validators.minLength(20), Validators.maxLength(20)]],
             serialNumber: ['', [Validators.maxLength(50)]],
             startDate: [''],
             endDate: [''],
@@ -49,7 +50,7 @@ export class GnssAntennaItemComponent extends AbstractItemComponent {
             markerArpUpEcc: ['', [Validators.maxLength(50)]],
             markerArpNorthEcc: ['', [Validators.maxLength(50)]],
             alignmentFromTrueNorth: ['', [Validators.maxLength(50)]],
-            antennaRadomeType: ['', [Validators.maxLength(50)]],
+            antennaRadomeType: ['', [Validators.minLength(4), Validators.maxLength(4)]],
             radomeSerialNumber: ['', [Validators.maxLength(50)]],
             antennaCableType: ['', [Validators.maxLength(100)]],
             antennaCableLength: ['', [Validators.maxLength(25)]],
