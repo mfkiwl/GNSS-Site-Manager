@@ -10,3 +10,4 @@ export * from './checkboxes-input.component';
 export * from './radiobuttons-input.component';
 export * from './multi-select-boxes.component';
 export * from './list-box.component';
+export * from './typeahead-input.component';
