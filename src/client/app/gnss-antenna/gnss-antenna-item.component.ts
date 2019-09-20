@@ -40,7 +40,7 @@ export class GnssAntennaItemComponent extends AbstractItemComponent {
     getItemForm(): FormGroup {
         return this.formBuilder.group({
             id: [null],
-            antennaType: ['', [Validators.maxLength(100)]],
+            antennaType: ['', [Validators.minLength(20), Validators.maxLength(20)]],
             serialNumber: ['', [Validators.maxLength(50)]],
             startDate: [''],
             endDate: [''],
@@ -49,12 +49,19 @@ export class GnssAntennaItemComponent extends AbstractItemComponent {
             markerArpUpEcc: ['', [Validators.maxLength(50)]],
             markerArpNorthEcc: ['', [Validators.maxLength(50)]],
             alignmentFromTrueNorth: ['', [Validators.maxLength(50)]],
-            antennaRadomeType: ['', [Validators.maxLength(50)]],
+            antennaRadomeType: ['', [Validators.minLength(4), Validators.maxLength(4)]],
             radomeSerialNumber: ['', [Validators.maxLength(50)]],
             antennaCableType: ['', [Validators.maxLength(100)]],
             antennaCableLength: ['', [Validators.maxLength(25)]],
             notes: ['', [Validators.maxLength(2000)]],
             objectMap: [''],
         });
+    }
+
+    onAntennaRadomeTypeChange(event:any) {
+        this.antenna.antennaType = event.value;
+        this.antenna.antennaRadomeType = event.value.substring(16, 20);
+        this.itemGroup.controls.antennaType.setValue(this.antenna.antennaType);
+        this.itemGroup.controls.antennaRadomeType.setValue(this.antenna.antennaRadomeType);
     }
 }

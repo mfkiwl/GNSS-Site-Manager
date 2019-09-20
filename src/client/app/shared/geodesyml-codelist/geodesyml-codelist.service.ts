@@ -43,7 +43,6 @@ export class GeodesyMLCodelistService {
             let codeValue = codeEntry.codeDefinition['gmx:CodeDefinition'].identifier.value;
             codelist.push(codeValue);
         }
-        console.log('Number of codes retrieved: ', codelist.length);
         return codelist;
     }
 }
