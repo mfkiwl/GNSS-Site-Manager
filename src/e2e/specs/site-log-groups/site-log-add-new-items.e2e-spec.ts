@@ -46,7 +46,7 @@ describe('All Site Log Components', () => {
 
                 siteLogGroup.addNewItemButton.click().then(() => {
                     console.log('\tAdd a new ' + siteLogGroup.itemName + ' item');
-                    siteLogGroup.getAllInputFields().map((inputField: ElementFinder) => {
+                    siteLogGroup.getAllInputFieldsEditable().map((inputField: ElementFinder) => {
                         TestUtils.changeInputValue(inputField, testData);
                     });
                 });
