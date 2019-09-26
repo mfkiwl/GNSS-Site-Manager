@@ -3,6 +3,8 @@ import { LogItemGroup } from './log-item-group.pageobject';
 
 export class GnssAntennaGroup extends LogItemGroup {
 
+    readonly antennaTypeInputEditable: ElementFinder = this.newItemContainer
+                    .element(by.css('antenna-type-input[controlName="antennaType"]'));
     readonly antennaTypeInput: ElementFinder = this.newItemContainer
                     .element(by.css('text-input[controlName="antennaType"]'));
     readonly serialNumberInput: ElementFinder = this.newItemContainer
@@ -32,12 +34,21 @@ export class GnssAntennaGroup extends LogItemGroup {
         super('GNSS Antenna');
     }
 
+    public getAllInputFieldsEditable(): ElementFinder[] {
+        return [
+            this.antennaTypeInputEditable,
+            this.serialNumberInput,
+            this.antennaReferencePointInput,
+            this.radomeSerialNumberInput,
+        ]
+        .concat(this.getUpdatableInputFields());
+    }
+
     public getAllInputFields(): ElementFinder[] {
         return [
             this.antennaTypeInput,
             this.serialNumberInput,
             this.antennaReferencePointInput,
-            this.antennaRadomeTypeInput,
             this.radomeSerialNumberInput,
         ]
         .concat(this.getUpdatableInputFields());
