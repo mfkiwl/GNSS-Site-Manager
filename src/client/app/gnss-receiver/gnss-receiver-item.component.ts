@@ -19,6 +19,7 @@ export class GnssReceiverItemComponent extends AbstractItemComponent {
      * The GnssReceiver in question.
      */
     @Input() gnssReceiver: GnssReceiverViewModel;
+    pattern: string = '^[A-Z0-9._-]+( [A-Z0-9._-]+)*$';
 
     public satelliteSystemList: string[] = ['GPS', 'GLO', 'GAL', 'BDS', 'QZSS', 'SBAS', 'IRNSS'];
 
@@ -34,7 +35,7 @@ export class GnssReceiverItemComponent extends AbstractItemComponent {
     getItemForm(): FormGroup {
         return this.formBuilder.group({
             id: [null],
-            receiverType: [' ', [Validators.maxLength(25)]],
+            receiverType: [' ', [Validators.minLength(1), Validators.maxLength(20), Validators.pattern(this.pattern)]],
             manufacturerSerialNumber: ['', [Validators.maxLength(25)]],
             startDate: [''],
             endDate: [''],

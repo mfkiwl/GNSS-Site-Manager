@@ -19,6 +19,7 @@ export class GnssAntennaItemComponent extends AbstractItemComponent {
      * The GNSS Antenna in question.
      */
     @Input() antenna: GnssAntennaViewModel;
+    pattern: string = '^[A-Z0-9._-]+( [A-Z0-9._-]+)* +[A-Z]{4}$';
 
     constructor(protected dialogService: DialogService,
                 protected siteLogService: SiteLogService,
@@ -40,7 +41,7 @@ export class GnssAntennaItemComponent extends AbstractItemComponent {
     getItemForm(): FormGroup {
         return this.formBuilder.group({
             id: [null],
-            antennaType: ['', [Validators.minLength(20), Validators.maxLength(20)]],
+            antennaType: ['', [Validators.minLength(20), Validators.maxLength(20), Validators.pattern(this.pattern)]],
             serialNumber: ['', [Validators.maxLength(50)]],
             startDate: [''],
             endDate: [''],
