@@ -56,7 +56,7 @@ export class ReceiverTypeInputComponent extends AbstractInput implements Control
         return this.readonly;
     }
 
-    onEnter(event: any) {
+    onKeyUp(event: any) {
         event.value = event.currentTarget.value;
         this.receiverTypeChange.emit(event);
     }

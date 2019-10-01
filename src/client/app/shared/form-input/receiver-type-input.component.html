@@ -4,7 +4,7 @@
         <ng-content></ng-content>
     </label>
     <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
-        <input (keyup.enter)="onEnter($event)"
+        <input (keyup)="onKeyUp($event)"
             type="text"
             [readonly]="getReadonlyAttribute()"
             [formControlName]="controlName"
