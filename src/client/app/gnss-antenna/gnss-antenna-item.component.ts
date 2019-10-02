@@ -19,7 +19,7 @@ export class GnssAntennaItemComponent extends AbstractItemComponent {
      * The GNSS Antenna in question.
      */
     @Input() antenna: GnssAntennaViewModel;
-    pattern: string = '^[A-Z0-9._-]+( [A-Z0-9._-]+)* +[A-Z]{4}$';
+    pattern: string = '^[A-Z0-9._-]+( [A-Z0-9._-]+)* +[A-Z0-9]{4}$';
 
     constructor(protected dialogService: DialogService,
                 protected siteLogService: SiteLogService,
