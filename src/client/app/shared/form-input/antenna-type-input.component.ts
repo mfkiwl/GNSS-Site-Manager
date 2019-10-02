@@ -56,6 +56,11 @@ export class AntennaTypeInputComponent extends AbstractInput implements ControlV
         return this.readonly;
     }
 
+    onKeyUp(event: any) {
+        event.value = event.currentTarget.value;
+        this.antennaRadomeTypeChange.emit(event);
+    }
+
     onSelect(event: any) {
         this.antennaRadomeTypeChange.emit(event);
     }
