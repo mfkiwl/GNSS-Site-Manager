@@ -11,67 +11,61 @@
             <span class="title">GNSS Site Manager</span>
         </div>
         <div class="dropdown-menu-panel" id="dropdown-menu-panel">
-            <span dropdown *ngIf="siteId" id="site-id-dropdown-menu">
-                <nav dropdownToggle class="site-id-menu">
+            <span dropdown *ngIf="siteId" id="site-id-dropdown-menu" class="dropdown">
+                <nav dropdownToggle class="site-id-menu dropdown-toggle">
                     <span class="site-id-menu-label">{{siteId == 'newSite' ? 'New Site' : siteId}}</span>
                     <i class="glyphicon glyphicon-triangle-bottom dropdown-icon"></i>
                 </nav>
-                <ul dropdownMenu role="menu" aria-labelledby="menu-button" class="dropdown-menu-right">
+                <ul *dropdownMenu role="menu" aria-labelledby="menu-button" class="dropdown-menu dropdown-menu-right">
                     <li role="menuitem" title="Save changes">
-                        <a (click)="save()" [ngClass]="{'disabled': isSaveDisabled()}">Save</a>
+                        <a class="dropdown-item" (click)="save()" [ngClass]="{'disabled': isSaveDisabled()}">Save</a>
                     </li>
                     <li role="menuitem" title="Discard changes">
-                        <a (click)="revert()" [ngClass]="{'disabled': isRevertDisabled()}">Revert</a>
+                        <a class="dropdown-item" (click)="revert()" [ngClass]="{'disabled': isRevertDisabled()}">Revert</a>
                     </li>
                     <li class="divider dropdown-divider"></li>
                     <li role="menuitem" title="Close current page and go back to Home page">
-                        <a (click)="close()">Close</a>
+                        <a class="dropdown-item" (click)="close()">Close</a>
                     </li>
                 </ul>
             </span>
-            <span dropdown id="profile-dropdown-menu">
-                <nav dropdownToggle class="profile-menu">
+            <span dropdown id="profile-dropdown-menu" class="dropdown">
+                <nav dropdownToggle class="profile-menu dropdown-toggle">
                     <i class="glyphicon glyphicon-user" [ngClass]="{'dim-icon': !user}"></i>
                     <i class="glyphicon glyphicon-triangle-bottom dropdown-icon"></i>
                 </nav>
-                <ul *ngIf="!user" dropdownMenu role="menu" aria-labelledby="menu-button" class="dropdown-menu-right">
+                <ul *dropdownMenu role="menu" aria-labelledby="menu-button" class="dropdown-menu dropdown-menu-right">
                     <li role="menuitem">
-                        <a (click)="login()">Login</a>
+                        <a *ngIf="!user" class="dropdown-item" (click)="login()">Login</a>
+                        <a *ngIf="user" class="dropdown-item" (click)="showUserProfile()">{{user.profile.sub}} Profile</a>
                     </li>
                     <li role="menuitem">
-                        <a [routerLink]="['/userRegistration']">Register</a>
+                        <a *ngIf="!user" class="dropdown-item" [routerLink]="['/userRegistration']">Register</a>
+                        <a *ngIf="user" class="dropdown-item" (click)="changePassword()">Change Password</a>
                     </li>
-                </ul>
-                <ul *ngIf="user" dropdownMenu role="menu" aria-labelledby="menu-button" class="dropdown-menu-right">
-                    <li role="menuitem">
-                        <a (click)="showUserProfile()">{{user.profile.sub}} Profile</a>
-                    </li>
-                    <li role="menuitem">
-                        <a (click)="changePassword()">Change Password</a>
-                    </li>
-                    <li class="divider dropdown-divider"></li>
-                    <li role="menuitem">
-                        <a (click)="logout()">Logout</a>
+                    <li *ngIf="user" class="divider dropdown-divider"></li>
+                    <li *ngIf="user" role="menuitem">
+                        <a class="dropdown-item" (click)="logout()">Logout</a>
                     </li>
                 </ul>
             </span>
-            <span dropdown id="navigation-dropdown-menu">
-                <nav dropdownToggle class="navigation-menu">
+            <span dropdown id="navigation-dropdown-menu" class="dropdown">
+                <nav dropdownToggle class="navigation-menu dropdown-toggle">
                     <i class="glyphicon glyphicon-menu-hamburger"></i>
                 </nav>
-                <ul dropdownMenu role="menu" aria-labelledby="menu-button" class="dropdown-menu-right">
+                <ul *dropdownMenu role="menu" aria-labelledby="menu-button" class="dropdown-menu dropdown-menu-right">
                     <li role="menuitem" title="Navigate to the Search and Select Sites page">
-                        <a [routerLink]="['/']">Select Site</a>
+                        <a class="dropdown-item" [routerLink]="['/']">Select Site</a>
                     </li>
                     <li role="menuitem" title="Create a new site log">
-                        <a [routerLink]="['site/newSite']" [ngClass]="{'disabled': !user}">New Site</a>
+                        <a class="dropdown-item" [routerLink]="['site/newSite']" [ngClass]="{'disabled': !user}">New Site</a>
                     </li>
                     <li role="menuitem" title="Navigate to the About GNSS Site Manager page">
-                        <a [routerLink]="['/about']">About</a>
+                        <a class="dropdown-item" [routerLink]="['/about']">About</a>
                     </li>
                     <!-- TODO: Disable service worker for now -->
                     <!-- <li class="divider dropdown-divider"></li> -->
-                    <!-- <li role="menuitem"><a (click)="clearCache()">Update Application</a></li> -->
+                    <!-- <li role="menuitem"><a class="dropdown-item" (click)="clearCache()">Update Application</a></li> -->
                     <li class="divider dropdown-divider"></li>
                     <li role="menuitem" *ngFor="let link of webUrlLinks">
                         <a class="dropdown-item" href="{{link.url}}" target="_blank">{{link.name}}</a>
