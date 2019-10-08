@@ -1,0 +1,19 @@
+<div *ngIf="!showFullSizeImage"
+     class="thumbnail-image-container">
+    <div class="thumbnail-image-panel"
+         [ngStyle]="{'height':imagePanelHeight + 'px'}">
+        <div class="thumbnail-image"
+             [ngClass]="{'allow-popup-full-image': allowPopupFullImage}"
+             [ngStyle]="{'height':thumbImageHeight + 'px', 'width':thumbImageWidth + 'px'}"
+             *ngFor="let img of images; let i = index"
+             (click)="viewFullImage(i)">
+            <img [src]="img.thumbImage" [alt]="img.title" [title]="img.title">
+            <div class="img-title" *ngIf="img.title">{{ img.title }}<br/>{{ img.dateUpload }}</div>
+        </div>
+    </div>
+</div>
+<full-size-image *ngIf="showFullSizeImage"
+                   [images]="images"
+                   [currentImageIndex]="fullImageIndex"
+                   (closeEvent)="closeFullSizeImage()">
+</full-size-image>
