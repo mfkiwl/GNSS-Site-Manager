@@ -5,6 +5,7 @@ import { GnssAntennaViewModel } from './gnss-antenna-view-model';
 import { DialogService } from '../shared/index';
 import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
 import { SiteLogService } from '../shared/site-log/site-log.service';
+import { AntennaRadomeTypeValidator } from '../shared/form-input-validators/antenna-radome-type-validator';
 
 /**
  * This class represents a single item of GNSS Antennas.
@@ -19,7 +20,6 @@ export class GnssAntennaItemComponent extends AbstractItemComponent {
      * The GNSS Antenna in question.
      */
     @Input() antenna: GnssAntennaViewModel;
-    pattern: string = '^[A-Z0-9._-]+( [A-Z0-9._-]+)* +[A-Z0-9]{4}$';
 
     constructor(protected dialogService: DialogService,
                 protected siteLogService: SiteLogService,
@@ -41,7 +41,7 @@ export class GnssAntennaItemComponent extends AbstractItemComponent {
     getItemForm(): FormGroup {
         return this.formBuilder.group({
             id: [null],
-            antennaType: ['', [Validators.minLength(20), Validators.maxLength(20), Validators.pattern(this.pattern)]],
+            antennaType: ['', [Validators.minLength(20), Validators.maxLength(20), new AntennaRadomeTypeValidator()]],
             serialNumber: ['', [Validators.maxLength(50)]],
             startDate: [''],
             endDate: [''],
