@@ -13,10 +13,10 @@ export class ReceiverTypeValidator implements Validator {
         const value: string = formControl.value;
         if (value && value.length > 0) {
             const matches = value.match(receiverTypePattern);
-            return matches && matches.length > 0 ? null: { 
-                invalid_receiver_type: 
-                'Receiver type consists of capital letters, number, symbols ., _, and -, ' + 
-                ' no consecutive or trailing spaces.' };
+            return matches && matches.length > 0 ? null: {
+                invalid_receiver_type:
+                'IGS unrecognized receiver type consists of capital letters, number, ' +
+                'underscores (_), hyphens (-), and periods (.), no consecutive spaces.' };
         }
 
         return null;
