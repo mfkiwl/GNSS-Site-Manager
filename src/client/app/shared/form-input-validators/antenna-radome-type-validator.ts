@@ -18,7 +18,8 @@ export class AntennaRadomeTypeValidator implements Validator {
                 'IGS unrecognized antenna type consists of capital letters, number, ' +
                 'underscores (_), hyphens (-), and periods (.), no consecutive spaces. ' +
                 'Radome type consists of 4 capital letters or numbers. ' +
-                'Separate antenna type and radome type with one or more spaces' };
+                'Concatenate antenna type and radome type with one or more spaces to ' +
+                'form a 20 character Antenna Radome Type.' };
         }
 
         return null;
