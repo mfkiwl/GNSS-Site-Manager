@@ -22,12 +22,12 @@ export class AntennaRadomeTypeValidator implements Validator {
                 return index >= 0 ? null : {
                     invalid_antenna_radome_type:
                         'Receiver "' + receiver + '" plus radome "' + radome +
-                        '" is not an IGS recognized antenna radome combination.'
+                        '" is not an IGS recognised antenna radome combination.'
                 };
             } else {
                 return {
                     invalid_antenna_radome_type:
-                        'IGS unrecognized antenna type consists of capital letters, number, ' +
+                        'IGS unrecognised antenna type consists of capital letters, number, ' +
                         'underscores (_), hyphens (-), and periods (.), no consecutive spaces. ' +
                         'Radome type consists of 4 capital letters or numbers. ' +
                         'Concatenate antenna type and radome type with one or more spaces to ' +

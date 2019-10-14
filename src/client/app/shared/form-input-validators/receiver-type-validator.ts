@@ -19,11 +19,11 @@ export class ReceiverTypeValidator implements Validator {
                 const index = codeList.indexOf(value);
                 return index >= 0 ? null : {
                     invalid_receiver_type:
-                        '"' + value + '" is not an IGS recognized receiver type.' };
+                        '"' + value + '" is not an IGS recognised receiver type.' };
             } else {
                 return {
                     invalid_receiver_type:
-                        'IGS unrecognized receiver type consists of capital letters, number, ' +
+                        'IGS unrecognised receiver type consists of capital letters, number, ' +
                         'underscores (_), hyphens (-), and periods (.), no consecutive spaces.' };
             }
         }

@@ -40,7 +40,7 @@ export abstract class AbstractInput implements OnInit {
                 } else if (e === 'required') {
                     errString += 'Field required';
                 } else if (e === 'invalid_antenna_radome_type') {
-                    errString += error;
+                    errString = error;
                 } else if (e === 'invalid_receiver_type') {
                     errString += error;
                 } else if (e === 'invalid_datetime_format') {
