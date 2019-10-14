@@ -1,7 +1,7 @@
 import { FormControl, Validator } from '@angular/forms';
 import { GeodesyMLCodelistService } from '../geodesyml-codelist/geodesyml-codelist.service';
 
-const antennaRadomeTypePattern = /^[A-Z0-9._-]+( [A-Z0-9._-]+)* +[A-Z0-9]{4}$/;
+const antennaRadomeTypePattern = /^[A-Z0-9\/._-]+( [A-Z0-9\/._-]+)* +[A-Z0-9]{4}$/;
 
 /**
  * A Validator class for antenna and radome type input component.
@@ -28,7 +28,7 @@ export class AntennaRadomeTypeValidator implements Validator {
                 return {
                     invalid_antenna_radome_type:
                         'IGS unrecognised antenna type consists of capital letters, number, ' +
-                        'underscores (_), hyphens (-), and periods (.), no consecutive spaces. ' +
+                        'underscores (_), hyphens (-), forward slashes (/), and periods (.), no consecutive spaces. ' +
                         'Radome type consists of 4 capital letters or numbers. ' +
                         'Concatenate antenna type and radome type with one or more spaces to ' +
                         'form a 20 character Antenna Radome Type.' };
