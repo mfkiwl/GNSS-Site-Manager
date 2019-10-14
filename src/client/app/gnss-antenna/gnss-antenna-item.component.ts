@@ -5,6 +5,7 @@ import { GnssAntennaViewModel } from './gnss-antenna-view-model';
 import { DialogService } from '../shared/index';
 import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
 import { SiteLogService } from '../shared/site-log/site-log.service';
+import { GeodesyMLCodelistService } from '../shared/geodesyml-codelist/geodesyml-codelist.service';
 import { AntennaRadomeTypeValidator } from '../shared/form-input-validators/antenna-radome-type-validator';
 
 /**
@@ -23,6 +24,7 @@ export class GnssAntennaItemComponent extends AbstractItemComponent {
 
     constructor(protected dialogService: DialogService,
                 protected siteLogService: SiteLogService,
+                private geodesyMLCodelistService: GeodesyMLCodelistService,
                 protected formBuilder: FormBuilder) {
         super(dialogService, siteLogService);
     }
@@ -41,7 +43,8 @@ export class GnssAntennaItemComponent extends AbstractItemComponent {
     getItemForm(): FormGroup {
         return this.formBuilder.group({
             id: [null],
-            antennaType: ['', [Validators.minLength(20), Validators.maxLength(20), new AntennaRadomeTypeValidator()]],
+            antennaType: ['', [Validators.minLength(20), Validators.maxLength(20),
+                new AntennaRadomeTypeValidator(this.geodesyMLCodelistService)]],
             serialNumber: ['', [Validators.maxLength(50)]],
             startDate: [''],
             endDate: [''],

@@ -12,6 +12,10 @@ import { JsonixService } from '../jsonix/jsonix.service';
 @Injectable()
 export class GeodesyMLCodelistService {
 
+    private static allReceiverCodes: string[] = [];
+
+    private static allAntennaRadomeCodes: string[] = [];
+
     constructor(private http: Http,
                 private jsonixService: JsonixService,
                 private constantsService: ConstantsService) {}
@@ -23,9 +27,17 @@ export class GeodesyMLCodelistService {
         return this.http.get(url)
             .map((response: Response) => {
                 let json = this.jsonixService.geodesyMLToJson(response.text());
-                return this.jsonToCodelist(json);
+                return this.jsonToCodelist(json, codeName);
             })
             .catch(this.handleError);
+    }
+
+    public getReceiverCodes(): string[] {
+        return GeodesyMLCodelistService.allReceiverCodes;
+    }
+
+    public getAntennaRadomeCodes(): string[] {
+        return GeodesyMLCodelistService.allAntennaRadomeCodes;
     }
 
     private handleError(error: any): ErrorObservable {
@@ -36,13 +48,19 @@ export class GeodesyMLCodelistService {
         return Observable.throw(errorMsg);
     }
 
-    private jsonToCodelist(json: any): string[] {
-        let codelist = [];
+    private jsonToCodelist(json: any, codeName: string): string[] {
+        let codeList = [];
         let codeEntries = json['gmx:CodeListDictionary']['codeEntry'];
         for (let codeEntry of codeEntries) {
             let codeValue = codeEntry.codeDefinition['gmx:CodeDefinition'].identifier.value;
-            codelist.push(codeValue);
+            codeList.push(codeValue);
         }
-        return codelist;
+        if (codeName.includes('Receiver')) {
+            GeodesyMLCodelistService.allReceiverCodes = codeList;
+        }
+        if (codeName.includes('Antenna')) {
+            GeodesyMLCodelistService.allAntennaRadomeCodes = codeList;
+        }
+        return codeList;
     }
 }
