@@ -14,7 +14,7 @@ export class RadomeTypeValidator implements Validator {
         const value: string = formControl.value;
         if (value && value.length > 0) {
             const matches = value.match(radomeTypePattern);
-            const warning = 'Not a recognised IGS Radome type.';
+            const warning = 'Not a recognised IGS radome type';
             if (matches && matches.length > 0) {
                 const codeList: string[] = this.geodesyMLCodelistService.getRadomeCodes();
                 const index = codeList.indexOf(value);
