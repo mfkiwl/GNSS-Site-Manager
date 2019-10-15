@@ -14,17 +14,13 @@ export class ReceiverTypeValidator implements Validator {
         const value: string = formControl.value;
         if (value && value.length > 0) {
             const matches = value.match(receiverTypePattern);
+            const warning = 'Not a recognised IGS Receiver type.';
             if (matches && matches.length > 0) {
                 const codeList: string[] = this.geodesyMLCodelistService.getReceiverCodes();
                 const index = codeList.indexOf(value);
-                return index >= 0 ? null : {
-                    invalid_receiver_type:
-                        '"' + value + '" is not an IGS recognised receiver type.' };
+                return index >= 0 ? null : { invalid_receiver_type : warning };
             } else {
-                return {
-                    invalid_receiver_type:
-                        'IGS unrecognised receiver type consists of capital letters, number, ' +
-                        'underscores (_), hyphens (-), and periods (.), no consecutive spaces.' };
+                return { invalid_receiver_type : warning };
             }
         }
 

@@ -42,7 +42,7 @@ export abstract class AbstractInput implements OnInit {
                 } else if (e === 'invalid_antenna_radome_type') {
                     errString = error;
                 } else if (e === 'invalid_receiver_type') {
-                    errString += error;
+                    errString = error;
                 } else if (e === 'invalid_datetime_format') {
                     errString += error;
                 } else if (e === 'url' && error) {
