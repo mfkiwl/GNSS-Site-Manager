@@ -14,7 +14,7 @@ export class ReceiverTypeValidator implements Validator {
         const value: string = formControl.value;
         if (value && value.length > 0) {
             const matches = value.match(receiverTypePattern);
-            const warning = 'Not a recognised IGS receiver type';
+            const warning = 'Unrecognised IGS receiver type';
             if (matches && matches.length > 0) {
                 const codeList: string[] = this.geodesyMLCodelistService.getReceiverCodes();
                 const index = codeList.indexOf(value);

@@ -14,7 +14,7 @@ export class AntennaRadomeTypeValidator implements Validator {
         const value: string = formControl.value;
         if (value && value.length > 0) {
             const matches = value.match(antennaRadomeTypePattern);
-            const warning = 'Not a recognised IGS antenna and radome type combination';
+            const warning = 'Unrecognised IGS antenna and radome type combination';
             if (matches && matches.length > 0) {
                 const codeList: string[] = this.geodesyMLCodelistService.getAntennaRadomeCodes();
                 const index = codeList.indexOf(value);
