@@ -16,6 +16,8 @@ export class GeodesyMLCodelistService {
 
     private static allAntennaRadomeCodes: string[] = [];
 
+    private static allRadomeCodes: string[] = [];
+
     constructor(private http: Http,
                 private jsonixService: JsonixService,
                 private constantsService: ConstantsService) {}
@@ -40,6 +42,10 @@ export class GeodesyMLCodelistService {
         return GeodesyMLCodelistService.allAntennaRadomeCodes;
     }
 
+    public getRadomeCodes(): string[] {
+        return GeodesyMLCodelistService.allRadomeCodes;
+    }
+
     private handleError(error: any): ErrorObservable {
         let errorMsg = error.message ? error.message : error.status ?
             error.status + ' - ' + error.statusText : 'Server error';
@@ -60,6 +66,11 @@ export class GeodesyMLCodelistService {
         }
         if (codeName.includes('Antenna')) {
             GeodesyMLCodelistService.allAntennaRadomeCodes = codeList;
+            let codeSet = new Set<string>();
+            codeList.forEach((combination) => {
+                codeSet.add(combination.slice(16, 20));
+            });
+            GeodesyMLCodelistService.allRadomeCodes = Array.from(codeSet);
         }
         return codeList;
     }

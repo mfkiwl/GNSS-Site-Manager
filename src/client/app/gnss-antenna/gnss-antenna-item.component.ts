@@ -7,6 +7,7 @@ import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abs
 import { SiteLogService } from '../shared/site-log/site-log.service';
 import { GeodesyMLCodelistService } from '../shared/geodesyml-codelist/geodesyml-codelist.service';
 import { AntennaRadomeTypeValidator } from '../shared/form-input-validators/antenna-radome-type-validator';
+import { RadomeTypeValidator } from '../shared/form-input-validators/radome-type-validator';
 
 /**
  * This class represents a single item of GNSS Antennas.
@@ -53,7 +54,8 @@ export class GnssAntennaItemComponent extends AbstractItemComponent {
             markerArpUpEcc: ['', [Validators.maxLength(50)]],
             markerArpNorthEcc: ['', [Validators.maxLength(50)]],
             alignmentFromTrueNorth: ['', [Validators.maxLength(50)]],
-            antennaRadomeType: ['', [Validators.minLength(4), Validators.maxLength(4)]],
+            antennaRadomeType: ['', [Validators.minLength(4), Validators.maxLength(4),
+                new RadomeTypeValidator(this.geodesyMLCodelistService)]],
             radomeSerialNumber: ['', [Validators.maxLength(50)]],
             antennaCableType: ['', [Validators.maxLength(100)]],
             antennaCableLength: ['', [Validators.maxLength(25)]],
