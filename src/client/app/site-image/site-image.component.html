@@ -1,0 +1,146 @@
+<div [formGroup]="siteImageForm" class="panel panel-level-2">
+    <div class="panel-heading item-header">
+        <span class="panel-title cursor-ptr" tabindex="0"
+              (keyup.space)="isOpen = miscUtils.scrollIntoView($event, isOpen)"
+              (keyup.enter)="isOpen = miscUtils.scrollIntoView($event, isOpen)"
+              (click)="isOpen = miscUtils.scrollIntoView($event, isOpen)">
+            <i class="glyphicon"
+               [ngClass]="{'glyphicon-minus-sign': isOpen, 'glyphicon-plus-sign': !isOpen}">
+            </i>
+            {{getItemName()}}
+        </span>
+    </div>
+    <div class="panel-body item-body" [hidden]="!isOpen">
+        <div class="panel panel-level-3">
+            <div class="panel-heading item-header">
+                <span class="panel-title cursor-ptr" tabindex="0"
+                      (keyup.space)="isCurrentImgPanelOpen = miscUtils.scrollIntoView($event, isCurrentImgPanelOpen)"
+                      (keyup.enter)="isCurrentImgPanelOpen = miscUtils.scrollIntoView($event, isCurrentImgPanelOpen)"
+                      (click)="isCurrentImgPanelOpen = miscUtils.scrollIntoView($event, isCurrentImgPanelOpen)">
+                    <i class="glyphicon"
+                       [ngClass]="{'glyphicon-minus-sign': isCurrentImgPanelOpen, 'glyphicon-plus-sign': !isCurrentImgPanelOpen}">
+                    </i>
+                    Current Site Images
+                </span>
+            </div>
+            <div class="panel-body item-body" [hidden]="!isCurrentImgPanelOpen">
+                <div class="form-group">
+                    <thumbnail-image [images]="currentImageObjects"
+                                     [imageSize]="imageSize"></thumbnail-image>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel panel-level-3">
+            <div class="panel-heading item-header">
+                <span class="panel-title cursor-ptr" tabindex="0"
+                      (keyup.space)="isHistoricImgPanelOpen = miscUtils.scrollIntoView($event, isHistoricImgPanelOpen)"
+                      (keyup.enter)="isHistoricImgPanelOpen = miscUtils.scrollIntoView($event, isHistoricImgPanelOpen)"
+                      (click)="isHistoricImgPanelOpen = miscUtils.scrollIntoView($event, isHistoricImgPanelOpen)">
+                    <i class="glyphicon"
+                       [ngClass]="{'glyphicon-minus-sign': isHistoricImgPanelOpen, 'glyphicon-plus-sign': !isHistoricImgPanelOpen}">
+                    </i>
+                    Historic Site Images ({{ historicImageObjects.length }})
+                </span>
+            </div>
+            <div class="panel-body item-body" [hidden]="!isHistoricImgPanelOpen">
+                <div class="form-group">
+                    <thumbnail-image [images]="historicImageObjects"
+                                     [imageSize]="imageSize"></thumbnail-image>
+                </div>
+            </div>
+        </div>
+
+        <div [formGroup]="imageUploadForm" class="panel panel-level-3">
+            <div class="panel-heading item-header">
+                <span class="panel-title cursor-ptr" tabindex="0"
+                      (keyup.space)="isUploadPanelOpen = miscUtils.scrollIntoView($event, isUploadPanelOpen)"
+                      (keyup.enter)="isUploadPanelOpen = miscUtils.scrollIntoView($event, isUploadPanelOpen)"
+                      (click)="isUploadPanelOpen = miscUtils.scrollIntoView($event, isUploadPanelOpen)">
+                    <i class="glyphicon"
+                       [ngClass]="{'glyphicon-minus-sign': isUploadPanelOpen, 'glyphicon-plus-sign': !isUploadPanelOpen}">
+                    </i>
+                    {{useUploadMethod ? "Upload Site Images" : "Add Site Image Links"}}
+                </span>
+            <div class="panel-body item-body" [hidden]="!isUploadPanelOpen">
+                <div class="form-group">
+                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label required">
+                        Upload Method
+                    </label>
+                    <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+                        <div class="gray-border">
+                            <span class="img-upload-radio">
+                                <input type="radio"
+                                       formControlName="useUploadMethod"
+                                       id="uploadImages"
+                                       [value]="true">&nbsp;<label for="uploadImages">Upload Images</label>
+                            </span>
+                            <span class="img-upload-radio">
+                                <input type="radio"
+                                       formControlName="useUploadMethod"
+                                       id="addImageLinks"
+                                       [value]="false">&nbsp;<label for="addImageLinks">Add Image Links</label>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label required">
+                        Image Description
+                    </label>
+                    <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+                        <ng-select [allowClear]="true"
+                                   required="true"
+                                   [items]="imageTypes"
+                                   [disabled]="imageUploadForm.disabled"
+                                   (data)="setUploadImageType($event)">
+                        </ng-select>
+                    </div>
+                </div>
+                <datetime-input [form]="imageUploadForm"
+                                controlName="imageTakenDate"
+                                [required]="true">Date Taken (UTC)</datetime-input>
+                <div class="form-group">
+                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label required">
+                        {{useUploadMethod ? 'Select Image' : 'Image Link'}}
+                    </label>
+                    <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+                        <input *ngIf="useUploadMethod" #imageInput
+                               type='file'
+                               accept="image/*"
+                               [disabled]="imageUploadForm.disabled"
+                               (change)="selectImage(imageInput)">
+                        <input *ngIf="!useUploadMethod" type="text"
+                               class="form-control"
+                               formControlName="imageUrl"
+                               (input)="setImageUrl($event)"
+                               (paste)="setImageUrl($event)">
+                        <small *ngIf="imageUploadErrorMsg" class="alert alert-danger">{{imageUploadErrorMsg}}</small>
+                    </div>
+                </div>
+                <div class="form-group" *ngIf="isValidImage()">
+                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">
+                        Preview Image
+                    </label>
+                    <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+                        <div class="gray-border">
+                            <img [src]="selectedImageContent" width="100%" alt="Invalid site image path or URL.">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">
+                    </label>
+                    <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12 extra-v-margin">
+                        <button class="btn btn-primary btn-long-xxs"
+                                [ngClass]="{'disabled': !isValidImage()}"
+                                (click)="uploadImage()">
+                            <i class="glyphicon glyphicon-upload"></i>
+                            {{useUploadMethod ? 'Upload' : 'Add Link'}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
