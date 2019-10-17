@@ -129,9 +129,11 @@ export class SiteImageComponent extends AbstractBaseComponent implements OnInit,
             if (authorised) {
                 this.siteImageForm.enable();
                 this.imageUploadForm.enable();
+                this.isUserAuthorisedToEdit = true;
             } else {
                 this.siteImageForm.disable();
                 this.imageUploadForm.disable();
+                this.isUserAuthorisedToEdit = false;
             }
         });
         this.parentForm.addControl('siteImage', this.siteImageForm);

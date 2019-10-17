@@ -68,20 +68,12 @@
                         Upload Method
                     </label>
                     <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
-                        <div class="gray-border">
-                            <span class="img-upload-radio">
-                                <input type="radio"
-                                       formControlName="useUploadMethod"
-                                       id="uploadImages"
-                                       [value]="true">&nbsp;<label for="uploadImages">Upload Images</label>
-                            </span>
-                            <span class="img-upload-radio">
-                                <input type="radio"
-                                       formControlName="useUploadMethod"
-                                       id="addImageLinks"
-                                       [value]="false">&nbsp;<label for="addImageLinks">Add Image Links</label>
-                            </span>
-                        </div>
+                        <ng-select [allowClear]="true"
+                                   required="true"
+                                   [items]="imageTypes"
+                                   [disabled]="!isUserAuthorisedToEdit"
+                                   (data)="setUploadImageType($event.id)">
+                        </ng-select>
                     </div>
                 </div>
                 <div class="form-group">
@@ -133,7 +125,7 @@
                     </label>
                     <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12 extra-v-margin">
                         <button class="btn btn-primary btn-long-xxs"
-                                [ngClass]="{'disabled': !isValidImage()}"
+                                [ngClass]="{'disabled': !canUploadImage()}"
                                 (click)="uploadImage()">
                             <i class="glyphicon glyphicon-upload"></i>
                             {{useUploadMethod ? 'Upload' : 'Add Link'}}
