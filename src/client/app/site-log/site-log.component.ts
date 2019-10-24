@@ -1,15 +1,12 @@
-import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Component, EventEmitter, Input, OnInit, OnDestroy, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Rx';
 import { User } from 'oidc-client';
 import * as _ from 'lodash';
 
-import { DialogService, MiscUtils, CorsSiteService, SiteLogService } from '../shared/index';
+import { DialogService, MiscUtils, SiteLogService } from '../shared/index';
 import { SiteLogViewModel }  from '../site-log/site-log-view-model';
-import { SiteAdministrationModel } from '../site-administration/site-administration-model';
-import { CorsNetworkModel } from '../shared/cors-network/cors-network-model';
 import { UserAuthService } from '../shared/global/user-auth.service';
 import { ApplicationSaveState } from '../shared/site-log/site-log.service';
 import { AbstractGroupComponent } from '../shared/abstract-groups-items/abstract-group.component';
@@ -20,82 +17,40 @@ import { ResponsiblePartyGroupComponent } from '../responsible-party/responsible
  */
 @Component({
     moduleId: module.id,
-    selector: 'sd-site-log',
+    selector: 'gnss-site-log',
     templateUrl: 'site-log.component.html'
 })
 export class SiteLogComponent implements OnInit, OnDestroy {
+    @Input() parentForm: FormGroup;
+    @Input() siteId: string;
+    @Input() siteLogModel: SiteLogViewModel;
+    @Output() runningStatusEmitter = new EventEmitter<boolean>();
+
     public miscUtils: any = MiscUtils;
     public siteLogForm: FormGroup;
-    public corsSiteForm: FormGroup;
-    public siteLogModel: SiteLogViewModel;
-    public siteAdminModel: SiteAdministrationModel;
-    public siteAdminModelOrigin: SiteAdministrationModel;
-    public corsNetworkList: CorsNetworkModel[];
 
-    private siteId: string;
-    private isLoading: boolean = false;
-    private reverting: boolean = false;
     private unsubscribe: Subject<void> = new Subject<void>();
 
     /**
-     * Creates an instance of the SiteLogComponent with the injected Router/ActivatedRoute/CorsSite Services.
+     * Creates an instance of the SiteLogComponent with the injected services.
      *
-     * @param {Router} router - The injected Router.
-     * @param {ActivatedRoute} route - The injected ActivatedRoute.
      * @param {DialogService} dialogService - The injected DialogService.
      * @param {SiteLogService} siteLogService - The injected SiteLogService.
+     * @param {UserAuthService} userAuthService - The injected UserAuthService.
      */
     constructor(private router: Router,
-                private route: ActivatedRoute,
                 private dialogService: DialogService,
                 private siteLogService: SiteLogService,
-                private corsSiteService: CorsSiteService,
                 private userAuthService: UserAuthService,
                 private formBuilder: FormBuilder) {
-    }
-
-    @HostListener('window:beforeunload', ['$event'])
-    public onBeforeUnload($event: UIEvent): void {
-        if (this.isFormDirty() && !this.reverting) {
-            $event.returnValue = false;
-        }
     }
 
     /**
      * Initialise all data on loading the site-log page
      */
     public ngOnInit() {
-        this.route.params.forEach((params: Params) => {
-            let id: string = params['id'];
-            this.siteId = id;
-        });
-
-        this.isLoading = true;
-        this.route.data.subscribe((data: {siteLogModel: SiteLogViewModel,
-                                          siteAdminModel: SiteAdministrationModel,
-                                          corsNetworkList: CorsNetworkModel[]}) => {
-
-            // if we already have a siteLogForm then this looks like a good place to reload the page
-            // TODO possibly work out a way to clear out all the data instead
-            if (this.siteLogForm) {
-                window.location.reload();
-            }
-
-            this.corsNetworkList = data.corsNetworkList;
-            this.siteAdminModel = data.siteAdminModel;
-            this.siteAdminModelOrigin = _.cloneDeep(data.siteAdminModel);
-
-            this.siteLogModel = data.siteLogModel;
-            this.setupForm();
-            this.setupSubscriptions();
-            this.siteLogService.sendApplicationStateMessage({
-                applicationFormModified: false,
-                applicationFormInvalid: false,
-                applicationSaveState: ApplicationSaveState.idle
-            });
-            this.isLoading = false;
-            this.dialogService.showSuccessMessage('Site log loaded successfully for ' + this.siteId);
-        });
+        this.setupForm();
+        this.setupSubscriptions();
     }
 
     /**
@@ -104,50 +59,45 @@ export class SiteLogComponent implements OnInit, OnDestroy {
     public ngOnDestroy() {
         this.unsubscribe.next();
         this.unsubscribe.complete();
-
-        this.isLoading = false;
-        this.siteId = null;
         this.siteLogModel = null;
-        this.siteAdminModel = null;
     }
 
-    /**
-     * Save changes made back to siteLog XML
-     */
     public save() {
-        if (!this.siteLogService.isUserAuthorisedToEditSite.value) {
-            console.warn('Cannot save SiteLog - user does not have edit rights');
-            this.dialogService.showErrorMessage('Cannot save SiteLog - user does not have edit rights');
-            return;
-        } else if (!this.isFormDirty()) {
-            this.dialogService.showLogMessage('No changes have been made for ' + this.siteId + '.');
-            this.siteLogService.sendApplicationStateMessage({
-                applicationFormModified: false,
-                applicationFormInvalid: false,
-                applicationSaveState: ApplicationSaveState.saving
-            });
-            return;
+        let formValueClone: any = _.cloneDeep(this.siteLogForm.getRawValue());
+        this.moveSiteInformationUp(formValueClone);
+        this.sortArrays(formValueClone);
+        console.log(' formValue before merge and after reverse: ', formValueClone);
+
+        if (this.siteId === 'newSite') {
+            this.saveNewSiteLog(formValueClone);
+        } else {
+            this.saveExistingSiteLog(formValueClone);
         }
+    }
 
-        this.dialogService.confirmSaveDialog(
-            () => {
-                let formValueClone: any = _.cloneDeep(this.siteLogForm.getRawValue());
-                this.moveSiteInformationUp(formValueClone);
-                this.sortArrays(formValueClone);
-                console.log(' formValue before merge and after reverse: ', formValueClone);
+    public saveNewSiteLog(formValue: any) {
+        this.startRunning();
+        _.merge(this.siteLogModel, formValue);
+        this.removeDeletedItems();
 
-                if (this.siteId !== 'newSite') {
-                    this.saveExistingSiteLog(formValueClone);
-                    this.saveExistingCorsSite();
-                } else {
-                    this.saveNewSiteLog(formValueClone);
+        this.siteLogService.saveNewSiteLog(this.siteLogModel)
+            .takeUntil(this.unsubscribe)
+            .subscribe(
+                (responseJson: any) => {
+                    this.resetFormStatusAfterSave();
+                    this.dialogService.showSuccessMessage('Done in saving new site log data');
+                    this.dialogService.showNotificationDialog(
+                        `Thank you for requesting a new site. You will be contacted by a member
+                         from the GNSS Operations Team at Geoscience Australia regarding your request.`,
+                        () => this.router.navigate(['/'])
+                    );
+                },
+                (error: Error) => {
+                    this.stopRunning();
+                    console.error(error);
+                    this.dialogService.showErrorMessage('Error in saving new site log data');
                 }
-            },
-            () => {
-                this.dialogService.showLogMessage('Cancelled in saving SiteLog data for ' + this.siteId);
-                this.isLoading = false;
-            }
-        );
+            );
     }
 
     public saveExistingSiteLog(formValue: any) {
@@ -155,7 +105,7 @@ export class SiteLogComponent implements OnInit, OnDestroy {
             return;
         }
 
-        this.isLoading = true;
+        this.startRunning();
         _.mergeWith(this.siteLogModel, formValue,
             (objectValue: any, sourceValue: any, key: string, _object: any, _source: any, stack: any) => {
                 if (stack.size === 0 && _.isArray(objectValue)) {
@@ -183,7 +133,7 @@ export class SiteLogComponent implements OnInit, OnDestroy {
             .takeUntil(this.unsubscribe)
             .subscribe(
                 (responseJson: any) => {
-                    this.isLoading = false;
+                    this.stopRunning();
                     this.siteLogForm.markAsPristine();
                     this.siteLogService.sendApplicationStateMessage({
                         applicationFormModified: false,
@@ -198,111 +148,22 @@ export class SiteLogComponent implements OnInit, OnDestroy {
                     this.dialogService.showSuccessMessage('Done in saving SiteLog data for ' + this.siteId);
                 },
                 (error: Error) => {
-                    this.isLoading = false;
+                    this.stopRunning();
                     console.error(error);
                     this.dialogService.showErrorMessage('Error in saving SiteLog data for ' + this.siteId);
                 }
             );
     }
 
-    public saveNewSiteLog(formValue: any) {
-
-        this.isLoading = true;
-        _.merge(this.siteLogModel, formValue);
-        this.removeDeletedItems();
-
-        this.siteLogService.saveNewSiteLog(this.siteLogModel)
-            .takeUntil(this.unsubscribe)
-            .subscribe(
-                (responseJson: any) => {
-                    this.resetFormStatusAfterSave();
-                    this.dialogService.showSuccessMessage('Done in saving new site log data');
-                    this.dialogService.showNotificationDialog(
-                        `Thank you for requesting a new site. You will be contacted by a member
-                         from the GNSS Operations Team at Geoscience Australia regarding your request.`,
-                        () => this.goToHomePage()
-                    );
-                },
-                (error: Error) => {
-                    this.isLoading = false;
-                    console.error(error);
-                    this.dialogService.showErrorMessage('Error in saving new site log data');
-                }
-            );
-    }
-
-    /*
-     * Update CORS site properties if changed, including siteStatus (data permission) and networks
-     */
-    public saveExistingCorsSite() {
-        if (!this.siteLogService.isUserAuthorisedToEditSite.value || !this.corsSiteForm.dirty) {
-            return;
-        }
-
-        let observables = this.getCorsSiteHttpObservables();
-        if (observables.length > 0) {
-            this.isLoading = true;
-            this.updateCorsSiteProperties(observables);
-        }
-    }
-
-    /**
-     * Navigate to the default home page (Select-Site tab)
-     */
-    public goToHomePage() {
-        let link = ['/'];
-        this.router.navigate(link);
-        this.isLoading = false;
-    }
-
-    /**
-     * Popup a dialog prompting users whether or not to save changes if any before closing the site-log page
-     */
-    public confirmCloseSiteLogPage(): Promise<boolean> {
-        let msg: string = 'You have made changes to the ${this.siteId} Site Log. \
-            Closing the page will lose any unsaved changes.';
-        return new Promise<boolean>((resolve, reject) => {
-        this.dialogService.confirmCloseDialog(msg,
-            () => {
-                this.dialogService.showLogMessage('Site Log page closed without saving changes made.');
-                resolve(true);
-            },
-            () => {
-                this.dialogService.showLogMessage('Close cancelled');
-                resolve(false);
-            }
-        );
-      });
-    }
-
-    /**
-     * Shows a dialog prompting users to confirm reverting/reloading the page
-     */
-    public confirmRevert() {
-        let msg: string = 'You have made changes to the Site Log. \
-            Reverting will reload the page and will lose any unsaved changes.';
-
-        this.dialogService.confirmRevertDialog(msg,
-            () => {
-                this.reverting = true;
-                window.location.reload();
-            },
-            () => {
-                this.dialogService.showLogMessage('Revert cancelled');
-            }
-        );
-    }
-
     public isFormDirty(): boolean {
-        return this.siteLogForm.dirty || this.corsSiteForm.dirty;
+        return this.siteLogForm.dirty;
     }
 
     public isFormInvalid(): boolean {
-        return this.siteLogForm.invalid || this.corsSiteForm.invalid;
+        return this.siteLogForm.invalid;
     }
 
     private setupForm() {
-        this.corsSiteForm = this.formBuilder.group({});
         this.siteLogForm = this.formBuilder.group({
             gnssAntennas: this.formBuilder.array([]),
             gnssReceivers: this.formBuilder.array([]),
@@ -319,6 +180,8 @@ export class SiteLogComponent implements OnInit, OnDestroy {
             waterVaporSensors: this.formBuilder.array([]),
             otherInstrumentation: this.formBuilder.array([]),
         });
+
+        this.parentForm.addControl('siteLogForm', this.siteLogForm);
     }
 
     /**
@@ -345,26 +208,6 @@ export class SiteLogComponent implements OnInit, OnDestroy {
                 });
             });
 
-        this.corsSiteForm.valueChanges.debounceTime(500)
-            .takeUntil(this.unsubscribe)
-            .subscribe((value: any) => {
-                this.siteLogService.sendApplicationStateMessage({
-                    applicationFormModified: this.corsSiteForm.dirty,
-                    applicationFormInvalid: this.corsSiteForm.invalid,
-                    applicationSaveState: ApplicationSaveState.idle
-                });
-            });
-
-        this.corsSiteForm.statusChanges.debounceTime(500)
-            .takeUntil(this.unsubscribe)
-            .subscribe((value: any) => {
-                this.siteLogService.sendApplicationStateMessage({
-                    applicationFormModified: this.corsSiteForm.dirty,
-                    applicationFormInvalid: this.corsSiteForm.invalid,
-                    applicationSaveState: ApplicationSaveState.idle
-                });
-            });
-
         this.userAuthService.user
             .takeUntil(this.unsubscribe)
             .subscribe((_: User) => {
@@ -377,17 +220,7 @@ export class SiteLogComponent implements OnInit, OnDestroy {
                         this.siteLogForm.disable();
                     }
                 });
-
-                //this.userAuthService.isSuperuser().subscribe(superuser => {
-                    if (this.userAuthService.isSuperuser()) {
-                        this.corsSiteService.isSuperuser.next(true);
-                        this.corsSiteForm.enable();
-                    } else {
-                        this.corsSiteService.isSuperuser.next(false);
-                        this.corsSiteForm.disable();
-                    }
-                //});
-        });
+            });
     }
 
     private returnAssociatedComparator(itemName: string): any {
@@ -398,66 +231,9 @@ export class SiteLogComponent implements OnInit, OnDestroy {
         }
     }
 
-    private getCorsSiteHttpObservables(): Observable<Response>[] {
-        let observables: Observable<Response>[] = [];
-
-        // Save site status (data permission) if changed
-        let newSiteStatus = this.corsSiteForm.getRawValue().siteAdministration.siteStatus;
-        if (this.siteAdminModel.siteStatus !== newSiteStatus) {
-            this.siteAdminModel.siteStatus = newSiteStatus;
-            observables.push(this.corsSiteService.updateCorsSite(this.siteAdminModel));
-        }
-
-        let networkAddList = _.differenceBy(this.siteAdminModel.corsNetworks, this.siteAdminModelOrigin.corsNetworks, 'id');
-        networkAddList.forEach((network: CorsNetworkModel) => {
-            observables.push(this.corsSiteService.updateNetwork(this.siteAdminModel.addToNetworkHref, network.id));
-        });
-
-        let networkRemoveList = _.differenceBy(this.siteAdminModelOrigin.corsNetworks, this.siteAdminModel.corsNetworks, 'id');
-        networkRemoveList.forEach((network: CorsNetworkModel) => {
-            observables.push(this.corsSiteService.updateNetwork(this.siteAdminModel.removeFromNetworkHref, network.id));
-        });
-
-        return observables;
-    }
-
-    /*
-     * Update CORS site properties by recursively/sequentially invoking HTTP client service for each property to be changed
-     *
-     */
-    private updateCorsSiteProperties(observables: Observable<Response>[]) {
-        let observable = _.head(observables);
-        if (!observable) {
-            this.dialogService.showSuccessMessage('Done in updating CORS site properties');
-            this.siteAdminModelOrigin = _.cloneDeep(this.siteAdminModel);
-            this.resetFormStatusAfterSave();
-        } else {
-            observable.subscribe(
-                (response: Response) => {
-                    if (response.status === 200) {
-                        this.updateCorsSiteProperties(_.tail(observables));
-                    } else {
-                        this.handleError('Response status: ' + response.status + ' - ' + response.statusText);
-                    }
-                },
-                (error: Error) => {
-                    this.handleError(error.message);
-                }
-            );
-        }
-    }
-
-    private handleError(message: string) {
-        this.isLoading = false;
-        console.error(message);
-        this.dialogService.showErrorMessage(message);
-        throw new Error(message);
-    }
-
     private resetFormStatusAfterSave() {
-        this.isLoading = false;
+        this.stopRunning();
         this.siteLogForm.markAsPristine();
-        this.corsSiteForm.markAsPristine();
         this.siteLogService.sendApplicationStateMessage({
             applicationFormModified: false,
             applicationFormInvalid: false,
@@ -521,11 +297,18 @@ export class SiteLogComponent implements OnInit, OnDestroy {
     }
 
     private removeDeletedGroupItems(siteLogModelGroupItems: any[]) {
-        let i: number;
-        for (i = siteLogModelGroupItems.length - 1; i >= 0; i--) {
+        for (let i: number = siteLogModelGroupItems.length - 1; i >= 0; i--) {
             if (siteLogModelGroupItems[i].isDeleted) {
                 siteLogModelGroupItems.splice(i, 1);
             }
         }
+    }
+
+    private startRunning() {
+        this.runningStatusEmitter.emit(true);
+    }
+
+    private stopRunning() {
+        this.runningStatusEmitter.emit(false);
     }
 }

@@ -30,7 +30,7 @@ describe('SelectSite', () => {
         expect(selectSitePage.selectSiteListItems.first().getText()).toBe('ADE1');
     });
 
-    it('selecting a site from a list should display the siteLog', () => {
+    it('selecting a site from a list should display the site page', () => {
         selectSitePage.searchFor('ade');
         let siteLogPage: SiteLogPage = selectSitePage.clickOnSite('ade1');
         expect(siteLogPage.siteInformationHeader.isPresent()).toEqual(true, 'ADE1\'s siteLogPage.siteInformationHeader should exist');

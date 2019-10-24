@@ -21,6 +21,7 @@
             </button>
             <button *ngIf="hasItems()"
                     type="button"
+                    id="update-{{getElementName()}}"
                     class="btn btn-similar btn-xs"
                     title="Add a new {{getItemName()}} by updating the current one"
                     [disabled]="!isAuthorised"

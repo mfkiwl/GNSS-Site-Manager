@@ -1,86 +1,102 @@
-import { browser, by, element, ElementFinder, ElementArrayFinder } from 'protractor';
+import { by, element, ElementFinder, ElementArrayFinder } from 'protractor';
 import * as _ from 'lodash';
-import { TestUtils } from '../utils/test.utils';
 
-export class LogItemGroup {
+export abstract class LogItemGroup {
 
     readonly deletionReasonDialog: ElementFinder = element(by.cssContainingText('.dialog', 'Deletion Reason'));
     readonly deleteReasonInput: ElementFinder = this.deletionReasonDialog.element(by.css('input[type="text"]'));
     readonly confirmDeleteButton: ElementFinder = this.deletionReasonDialog.element(by.buttonText('OK'));
+    readonly confirmYesButton: ElementFinder = element(by.buttonText('Yes'));
+    readonly groupHeader: ElementFinder;
+    readonly addNewItemButton: ElementFinder;
+    readonly updateItemButton: ElementFinder;
 
-    readonly itemGroupHeader: ElementFinder;
-    readonly items: ElementArrayFinder;
-    readonly newItemButton: ElementFinder;
-    readonly currentItemContainer: ElementFinder;
-    readonly currentItemHeader: ElementFinder;
-    readonly firstDeleteButton: ElementFinder;
-    readonly newDateInstalledInput: ElementFinder;
-    readonly prevDateRemovedInput: ElementFinder;
+    public items: ElementArrayFinder;
+    public newItemContainer: ElementFinder;
 
-    public itemName: string;
-    public elementName: string;
     public newItemIndex: number;
+    public noOfItems: number;
+    public itemName: string;
+    public controlName: string;
+    public elementName: string;
+    public hasEndDateInput: boolean;
 
     public constructor(itemName: string) {
-        this.newItemIndex = 0;
+        this.newItemIndex = 0;    // by default, the new item is the first one
+        this.noOfItems = 0;
         this.itemName = itemName;
+        this.controlName = _.camelCase(itemName);
         this.elementName = _.kebabCase(itemName);
+        this.hasEndDateInput = true;
+
         this.items = element.all(by.css(this.elementName + '-item'));
-        this.newItemButton = element(by.id('new-' + this.elementName));
-        this.itemGroupHeader = element(by.cssContainingText('div.group-header>span.panel-title', this.getGroupName()));
-        this.currentItemContainer = element(by.id(this.elementName + '-0'));
-        this.currentItemHeader = this.currentItemContainer.element(by.css('span.panel-title'));
-        this.firstDeleteButton = this.currentItemContainer.element(by.buttonText('Delete'));
-        this.newDateInstalledInput = this.currentItemContainer.element(by.css('datetime-input[controlName="startDate"] input'));
-        this.prevDateRemovedInput = element(by.id(this.elementName + '-1')).element(by.css('datetime-input[controlName="endDate"] input'));
+        this.groupHeader = element(by.cssContainingText('div.group-header>span.panel-title', this.getGroupName()));
+        this.addNewItemButton = element(by.id('new-' + this.elementName));
+        this.updateItemButton = element(by.id('update-' + this.elementName));
+        this.newItemContainer = this.getNewItemContainer();
     }
 
     public getGroupName(): string {
         return this.itemName + 's';
     }
 
-    public addNewItem() {
-        this.newItemButton.click().then(() => {
-            console.log('Add a new ' + this.itemName + ' item');
-        });
-        browser.waitForAngular();
+    public getNewItemContainer(): ElementFinder {
+        return this.getItemContainer(this.newItemIndex);
     }
 
     public getItemContainer(index: number): ElementFinder {
-        this.newItemIndex = index;
         return element(by.id(this.elementName + '-' + index));
     }
 
-    public getDeleteButton(): ElementFinder {
-        let itemContainer: ElementFinder = this.getItemContainer(this.newItemIndex);
-        return itemContainer.element(by.buttonText('Delete'));
+    public getNewItemHeader(): ElementFinder {
+        let itemContainer: ElementFinder = this.getNewItemContainer();
+        return itemContainer.element(by.css('span.panel-title'));
+    }
+
+    public getNewItemStartDateInput(): ElementFinder {
+        let itemContainer: ElementFinder = this.getNewItemContainer();
+        return itemContainer.element(by.css('datetime-input[controlName="startDate"] input'));
     }
 
     /**
-     * Delete the new item with or without a reason
+     * Return the EndDate input element of the previous item.
+     *
+     * When adding a new item, the EndDate input field of the second item will be entered
+     * a datetime value which is the same value as the StartDate field of the new item (first item).
      */
-    public deleteItem(deleteReason?: string) {
-        this.itemGroupHeader.click().then(() => {
-            console.log('Open ' + this.getGroupName() + ' group');
-            browser.waitForAngular();
+    public getSecondItemEndDateInput(): ElementFinder {
+        let itemContainer: ElementFinder = this.getItemContainer(1);
+        return itemContainer.element(by.css('datetime-input[controlName="endDate"] input'));
+    }
 
-            this.getDeleteButton().click().then(() => {
-                console.log('Click "Delete" button of the ' + TestUtils.getOrdinalNumber(this.newItemIndex + 1) + ' item');
-            });
-            browser.waitForAngular();
+    public getDeleteButton(): ElementFinder {
+        let itemContainer: ElementFinder = this.getNewItemContainer();
+        return itemContainer.element(by.buttonText('Delete'));
+    }
 
-            if(deleteReason) {
-                this.deleteReasonInput.sendKeys(deleteReason);
-                this.confirmDeleteButton.click().then(() => {
-                    console.log('Deleted ' + TestUtils.getOrdinalNumber(this.newItemIndex + 1) + ' '
-                                + this.itemName + ' item for the reason: ' + deleteReason);
-                });
-            } else {
-                element(by.buttonText('Yes')).click().then(() => {
-                    console.log('Deleted ' + TestUtils.getOrdinalNumber(this.newItemIndex + 1) + ' ' + this.itemName + ' item.');
-                });
-            }
-            browser.waitForAngular();
-        });
+    public enterDateTime(dateInput: ElementFinder, datetimeValue: string) {
+        dateInput.sendKeys(datetimeValue);
+        let okButton: ElementFinder = element(by.buttonText('OK'));
+        okButton.click();
+    }
+
+    /**
+     * Define fields used by update function. Must be override by Antenna and Receiver groups
+     */
+    public getUpdatableInputFields(): ElementFinder[] {
+        return [];
+    }
+
+    /**
+     * Define abstract methods to be implemented by subclasses
+     */
+    public abstract getAllInputFields(): ElementFinder[];
+
+    /**
+     * Define fields for updating editable fields,
+     * Overridden by Antenna and Receiver groups
+     */
+    public getAllInputFieldsEditable(): ElementFinder[] {
+        return this.getAllInputFields();
     }
 }

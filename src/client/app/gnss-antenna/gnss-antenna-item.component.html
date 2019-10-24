@@ -41,7 +41,8 @@
         </div>
         <div *ngIf="antenna != null" [ngClass]="{'container-dirty': antenna.dateDeleted}">
             <div class="form-group">
-                <text-input [form]="itemGroup" controlName="antennaType">Antenna Type</text-input>
+                <text-input *ngIf="!isItemEditable && !isNew" [form]="itemGroup" controlName="antennaType">Antenna Radome Type</text-input>
+                <antenna-type-input *ngIf="isItemEditable || isNew" (antennaRadomeTypeChange)="onAntennaRadomeTypeChange($event)" [form]="itemGroup" controlName="antennaType">Antenna Radome Type</antenna-type-input>
                 <text-input [form]="itemGroup" controlName="serialNumber">Serial Number</text-input>
                 <text-input [form]="itemGroup" controlName="antennaReferencePoint">Antenna Reference Point</text-input>
                 <number-input [form]="itemGroup" controlName="markerArpUpEcc" [required]="true" step="0.0001" min="0.0000">
@@ -56,7 +57,7 @@
                 <number-input [form]="itemGroup" controlName="alignmentFromTrueNorth" step="1" min="-359" max="359">
                     Alignment From True North (degrees)
                 </number-input>
-                <text-input [form]="itemGroup" controlName="antennaRadomeType">Radome Type</text-input>
+                <text-input [readonly]="true" [form]="itemGroup" controlName="antennaRadomeType">Radome Type</text-input>
                 <text-input [form]="itemGroup" controlName="radomeSerialNumber">Radome Serial Number</text-input>
                 <text-input [form]="itemGroup" controlName="antennaCableType">Antenna Cable Type</text-input>
                 <number-input [form]="itemGroup" controlName="antennaCableLength" step="0.01" min="0">Antenna Cable Length (m)</number-input>

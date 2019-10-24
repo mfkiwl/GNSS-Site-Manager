@@ -5,6 +5,7 @@ import 'rxjs/add/operator/catch';
 declare let XLink_1_0: any;
 declare let GML_3_2_1: any;
 declare let ISO19139_GMD_20070417: any;
+declare let ISO19139_GMX_20070417: any;
 declare let ISO19139_GCO_20070417: any;
 declare let ISO19139_GSR_20070417: any;
 declare let ISO19139_GTS_20070417: any;
@@ -17,7 +18,7 @@ declare let Filter_2_0: any;
 declare let OWS_1_1_0: any;
 declare let WFS_2_0: any;
 
-let jsonIxMappings: any = [XLink_1_0, GML_3_2_1, GEODESYML_0_4, ISO19139_GMD_20070417, ISO19139_GCO_20070417,
+let jsonIxMappings: any = [XLink_1_0, GML_3_2_1, GEODESYML_0_4, ISO19139_GMD_20070417, ISO19139_GMX_20070417, ISO19139_GCO_20070417,
     OM_2_0, ISO19139_GSR_20070417, ISO19139_GTS_20070417, ISO19139_GSS_20070417, Filter_2_0, OWS_1_1_0, WFS_2_0,];
 
 let jsonIxOptions: any = {
@@ -53,12 +54,8 @@ export class JsonixService {
      * @return The  JSON representation of the given geodesyMl
      */
     geodesyMLToJson(geodesyMl: string): string {
-        console.debug('JsonixService - geodesyMLToJson - geodesyMl (length): ', geodesyMl.length);
-        // console.debug('JsonixService - geodesyMLToJson - geodesyMl: ', geodesyMl);
-
         let json: string = unmarshaller.unmarshalString(geodesyMl);
-        // console.debug('JsonixService - geodesyMLToJson - translated JSON: ', json);
-        console.debug('JsonixService - geodesyMLToJson - translated JSON (length): ', JSON.stringify(json).length);
+        console.debug('JsonixService - geodesyMLToJson - translated JSON: ', json);
         return json;
     };
 

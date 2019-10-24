@@ -5,6 +5,8 @@ import { GnssReceiverViewModel } from './gnss-receiver-view-model';
 import { DialogService } from '../shared/index';
 import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
 import { SiteLogService } from '../shared/site-log/site-log.service';
+import { GeodesyMLCodelistService } from '../shared/geodesyml-codelist/geodesyml-codelist.service';
+import { ReceiverTypeValidator } from './../shared/form-input-validators/receiver-type-validator';
 
 /**
  * This component represents a single GNSS Receiver.
@@ -24,6 +26,7 @@ export class GnssReceiverItemComponent extends AbstractItemComponent {
 
     constructor(protected dialogService: DialogService,
                 protected siteLogService: SiteLogService,
+                private geodesyMLCodelistService: GeodesyMLCodelistService,
                 protected formBuilder: FormBuilder) {
         super(dialogService, siteLogService);
     }
@@ -34,7 +37,8 @@ export class GnssReceiverItemComponent extends AbstractItemComponent {
     getItemForm(): FormGroup {
         return this.formBuilder.group({
             id: [null],
-            receiverType: [' ', [Validators.maxLength(25)]],
+            receiverType: [' ', [Validators.minLength(1), Validators.maxLength(20),
+                new ReceiverTypeValidator(this.geodesyMLCodelistService)]],
             manufacturerSerialNumber: ['', [Validators.maxLength(25)]],
             startDate: [''],
             endDate: [''],
@@ -53,5 +57,10 @@ export class GnssReceiverItemComponent extends AbstractItemComponent {
 
     getItemName(): string {
         return 'GNSS Receiver';
+    }
+
+    onReceiverTypeChange(event:any) {
+        this.gnssReceiver.receiverType = event.value;
+        this.itemGroup.controls.receiverType.setValue(this.gnssReceiver.receiverType);
     }
 }

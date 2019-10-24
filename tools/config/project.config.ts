@@ -34,6 +34,7 @@ export class ProjectConfig extends SeedConfig {
       {src: 'w3c-schemas/lib/XLink_1_0.js', inject: 'libs'},
       {src: 'ogc-schemas/lib/GML_3_2_1.js', inject: 'libs'},
       {src: 'ogc-schemas/lib/ISO19139_GMD_20070417.js', inject: 'libs'},
+      {src: 'ogc-schemas/lib/ISO19139_GMX_20070417.js', inject: 'libs'},
       {src: 'ogc-schemas/lib/ISO19139_GCO_20070417.js', inject: 'libs'},
       {src: 'ogc-schemas/lib/ISO19139_GSR_20070417.js', inject: 'libs'},
       {src: 'ogc-schemas/lib/ISO19139_GTS_20070417.js', inject: 'libs'},
@@ -72,11 +73,11 @@ export class ProjectConfig extends SeedConfig {
         name: 'ng2-bootstrap/*',
         path: 'node_modules/ng2-bootstrap/bundles/ng2-bootstrap.umd.min.js'
       },
-        {
-            name: 'moment-timezone',
-            path: 'node_modules/moment-timezone/moment-timezone.js'
-            //builds/moment-timezone-with-data.js'
-        },
+      {
+        name: 'moment-timezone',
+        path: 'node_modules/moment-timezone/moment-timezone.js'
+        //builds/moment-timezone-with-data.js'
+      },
       {
         name: 'lodash',
         path: 'node_modules/lodash/lodash.js'
@@ -129,6 +130,14 @@ export class ProjectConfig extends SeedConfig {
         name: 'libphonenumber-js',
         path: 'node_modules/libphonenumber-js/bundle/libphonenumber-js.min.js'
       },
+      {
+        name: 'ngx-bootstrap-ga',
+        path: 'node_modules/ngx-bootstrap-ga/bundles/ngx-bootstrap.umd.min.js'
+      },
+      {
+        name: 'ngx-bootstrap-ga/*',
+        path: 'node_modules/ngx-bootstrap-ga/bundles/ngx-bootstrap.umd.min.js'
+      }
     ];
 
     this.addPackagesBundles(additionalPackages);

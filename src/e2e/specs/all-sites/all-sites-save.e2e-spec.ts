@@ -51,7 +51,7 @@ describe('All GNSS sites', () => {
         let count: number = 0;
         allSiteIds.forEach((siteId: string) => {
             browser.waitForAngular();
-            let siteLogPage: SiteLogPage = selectSitePage.openSite(siteId);
+            let siteLogPage: SiteLogPage = selectSitePage.openSiteLogPage(siteId);
             browser.waitForAngular();
 
             count += 1;
@@ -69,7 +69,7 @@ describe('All GNSS sites', () => {
         allSiteIds.forEach((siteId: string) => {
             count += 1;
             browser.waitForAngular();
-            let siteLogPage: SiteLogPage = selectSitePage.openSite(siteId);
+            let siteLogPage: SiteLogPage = selectSitePage.openSiteLogPage(siteId);
             browser.waitForAngular();
 
             siteLogPage.siteInformationHeader.click();

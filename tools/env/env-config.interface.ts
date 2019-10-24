@@ -5,6 +5,7 @@ import { Link } from '../../src/client/app/shared/global/constants.service';
 export interface EnvConfig {
   API?: string;
   ENV?: string;
+  CODELIST_URL?: string;
   WEB_SERVICE_URL?: string;
   WFS_GEOSERVER_URL?: string;
   OPENAM_SERVER_URL?: string;
