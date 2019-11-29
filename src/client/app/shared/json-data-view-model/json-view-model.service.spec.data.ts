@@ -21,70 +21,76 @@ export class JsonViewModelServiceSpecData {
                     TYPE_NAME: 'GEODESYML_0_5.SitePropertyType'
                 },
                 formInformation: {
-                    TYPE_NAME: 'GEODESYML_0_5.FormInformationType',
-                    preparedBy: 'James C Berra',
-                    datePrepared: {
-                        TYPE_NAME: 'GML_3_2_1.TimePositionType',
-                        value: [
-                            '2008-05-30T00:00:00.000Z'
-                        ]
-                    },
-                    reportType: 'New'
+                    formInformation: {
+                        TYPE_NAME: 'GEODESYML_0_5.FormInformationType',
+                        preparedBy: 'James C Berra',
+                        datePrepared: {
+                            TYPE_NAME: 'GML_3_2_1.TimePositionType',
+                            value: [
+                                '2008-05-30T00:00:00.000Z'
+                            ]
+                        },
+                        reportType: 'New'
+                    }
                 },
                 siteIdentification: {
-                    TYPE_NAME: 'GEODESYML_0_5.SiteIdentificationType',
-                    siteName: 'Australia NGA collocated',
-                    fourCharacterID: 'ADE1',
-                    monumentInscription: '',
-                    iersDOMESNumber: '50109S001',
-                    cdpNumber: '',
-                    monumentDescription: {
-                        TYPE_NAME: 'GML_3_2_1.CodeType',
-                        codeSpace: 'eGeodesy/monumentDescription',
-                        value: 'None'
-                    },
-                    monumentFoundation: '',
-                    markerDescription: 'None',
-                    dateInstalled: {
-                        TYPE_NAME: 'GML_3_2_1.TimePositionType',
-                        value: [
-                            '1986-01-01T00:00:00.000Z'
-                        ]
-                    },
-                    geologicCharacteristic: {
-                        TYPE_NAME: 'GML_3_2_1.CodeType',
-                        codeSpace: 'eGeodesy/geologicCharacteristic',
-                        value: ''
-                    },
-                    bedrockType: '',
-                    bedrockCondition: '',
-                    fractureSpacing: '',
-                    faultZonesNearby: {
-                        TYPE_NAME: 'GML_3_2_1.CodeType',
-                        codeSpace: 'eGeodesy/faultZonesNearby',
-                        value: ''
-                    },
-                    distanceActivity: '',
-                    notes: ''
+                    siteIdentification: {
+                        TYPE_NAME: 'GEODESYML_0_5.SiteIdentificationType',
+                        siteName: 'Australia NGA collocated',
+                        fourCharacterID: 'ADE1',
+                        monumentInscription: '',
+                        iersDOMESNumber: '50109S001',
+                        cdpNumber: '',
+                        monumentDescription: {
+                            TYPE_NAME: 'GML_3_2_1.CodeType',
+                            codeSpace: 'eGeodesy/monumentDescription',
+                            value: 'None'
+                        },
+                        monumentFoundation: '',
+                        markerDescription: 'None',
+                        dateInstalled: {
+                            TYPE_NAME: 'GML_3_2_1.TimePositionType',
+                            value: [
+                                '1986-01-01T00:00:00.000Z'
+                            ]
+                        },
+                        geologicCharacteristic: {
+                            TYPE_NAME: 'GML_3_2_1.CodeType',
+                            codeSpace: 'eGeodesy/geologicCharacteristic',
+                            value: ''
+                        },
+                        bedrockType: '',
+                        bedrockCondition: '',
+                        fractureSpacing: '',
+                        faultZonesNearby: {
+                            TYPE_NAME: 'GML_3_2_1.CodeType',
+                            codeSpace: 'eGeodesy/faultZonesNearby',
+                            value: ''
+                        },
+                        distanceActivity: '',
+                        notes: ''
+                    }
                 },
                 siteLocation: {
-                    TYPE_NAME: 'GEODESYML_0_5.SiteLocationType',
-                    city: 'Salisbury',
-                    state: 'South Australia',
-                    countryCodeISO: 'Australia',
-                    tectonicPlate: {
-                        TYPE_NAME: 'GML_3_2_1.CodeType',
-                        codeSpace: 'eGeodesy/tectonicPlate',
-                        value: 'Australian'
-                    },
-                    approximatePositionITRF: {
-                        TYPE_NAME: 'GEODESYML_0_5.SiteLocationType.ApproximatePositionITRF',
-                        xCoordinateInMeters: '-3939182.131',
-                        yCoordinateInMeters: '3467075.376',
-                        zCoordinateInMeters: '-3613220.824',
-                        elevationMEllips: '38.2'
-                    },
-                    notes: ''
+                    siteLocation: {
+                        TYPE_NAME: 'GEODESYML_0_5.SiteLocationType',
+                        city: 'Salisbury',
+                        state: 'South Australia',
+                        countryCodeISO: 'Australia',
+                        tectonicPlate: {
+                            TYPE_NAME: 'GML_3_2_1.CodeType',
+                            codeSpace: 'eGeodesy/tectonicPlate',
+                            value: 'Australian'
+                        },
+                        approximatePositionITRF: {
+                            TYPE_NAME: 'GEODESYML_0_5.SiteLocationType.ApproximatePositionITRF',
+                            xCoordinateInMeters: '-3939182.131',
+                            yCoordinateInMeters: '3467075.376',
+                            zCoordinateInMeters: '-3613220.824',
+                            elevationMEllips: '38.2'
+                        },
+                        notes: ''
+                    }
                 },
                 gnssReceivers: [
                     {
@@ -1286,7 +1292,9 @@ export class JsonViewModelServiceSpecData {
                     TYPE_NAME: 'GEODESYML_0_5.AgencyPropertyType'
                 },
                 moreInformation: {
-                    TYPE_NAME: 'GEODESYML_0_5.MoreInformationType'
+                    moreInformation: {
+                        TYPE_NAME: 'GEODESYML_0_5.MoreInformationType'
+                    }
                 },
                 dataStreams: {
                     TYPE_NAME: 'GEODESYML_0_5.DataStreamPropertyType'

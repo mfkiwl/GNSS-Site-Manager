@@ -269,7 +269,7 @@ export function main() {
      */
     function modifyCartesianPosition(json: any): any {
         // This is what we want to do in our View to Data translate when the values of the cartesianPosition or geodeticPosition are null
-        json['geo:siteLog'].siteLocation.approximatePositionITRF.cartesianPosition = {};
+        json['geo:siteLog'].siteLocation.siteLocation.approximatePositionITRF.cartesianPosition = {};
         return json;
     }
 

@@ -8,68 +8,74 @@
           "TYPE_NAME": "GEODESYML_0_5.SiteLogType",
           "id": "SiteLogType_20",
           "formInformation": {
-            "TYPE_NAME": "GEODESYML_0_5.FormInformationType",
-            "preparedBy": "Nick Dando",
-            "datePrepared": {
-              "TYPE_NAME": "GML_3_2_1.TimePositionType",
-              "value": [
-                "2013-07-07T14:00:00Z"
-              ]
-            },
-            "reportType": "UPDATE"
+            "formInformation": {
+              "TYPE_NAME": "GEODESYML_0_5.FormInformationType",
+              "preparedBy": "Nick Dando",
+              "datePrepared": {
+                "TYPE_NAME": "GML_3_2_1.TimePositionType",
+                "value": [
+                  "2013-07-07T14:00:00Z"
+                ]
+              },
+              "reportType": "UPDATE"
+            }
           },
           "siteIdentification": {
-            "TYPE_NAME": "GEODESYML_0_5.SiteIdentificationType",
-            "siteName": "Alice Springs AU012",
-            "fourCharacterID": "ALIC",
-            "monumentInscription": "National Geodetic Fiducial Ntwk (AUSLIG) AU012",
-            "iersDOMESNumber": "50137M001",
-            "cdpNumber": "Not Available",
-            "monumentDescription": {
-              "TYPE_NAME": "GML_3_2_1.CodeType",
-              "value": "PILLAR"
-            },
-            "heightOfTheMonument": 0.5,
-            "monumentFoundation": "CONCRETE BLOCK",
-            "dateInstalled": {
-              "TYPE_NAME": "GML_3_2_1.TimePositionType",
-              "value": [
-                "1992-08-11T14:00:00Z"
-              ]
-            },
-            "geologicCharacteristic": {
-              "TYPE_NAME": "GML_3_2_1.CodeType",
-              "value": "BEDROCK"
-            },
-            "bedrockType": "METAMORPHIC",
-            "bedrockCondition": "Weathered",
-            "faultZonesNearby": {
-              "TYPE_NAME": "GML_3_2_1.CodeType",
-              "value": "NO"
-            },
-            "distanceActivity": "along long time ago ...",
-            "notes": "Monument is a 600mm dia concrete pillar, 0.5 metes above ground surface."
+            "siteIdentification": {
+              "TYPE_NAME": "GEODESYML_0_5.SiteIdentificationType",
+              "siteName": "Alice Springs AU012",
+              "fourCharacterID": "ALIC",
+              "monumentInscription": "National Geodetic Fiducial Ntwk (AUSLIG) AU012",
+              "iersDOMESNumber": "50137M001",
+              "cdpNumber": "Not Available",
+              "monumentDescription": {
+                "TYPE_NAME": "GML_3_2_1.CodeType",
+                "value": "PILLAR"
+              },
+              "heightOfTheMonument": 0.5,
+              "monumentFoundation": "CONCRETE BLOCK",
+              "dateInstalled": {
+                "TYPE_NAME": "GML_3_2_1.TimePositionType",
+                "value": [
+                  "1992-08-11T14:00:00Z"
+                ]
+              },
+              "geologicCharacteristic": {
+                "TYPE_NAME": "GML_3_2_1.CodeType",
+                "value": "BEDROCK"
+              },
+              "bedrockType": "METAMORPHIC",
+              "bedrockCondition": "Weathered",
+              "faultZonesNearby": {
+                "TYPE_NAME": "GML_3_2_1.CodeType",
+                "value": "NO"
+              },
+              "distanceActivity": "along long time ago ...",
+              "notes": "Monument is a 600mm dia concrete pillar, 0.5 metes above ground surface."
+            }
           },
           "siteLocation": {
-            "TYPE_NAME": "GEODESYML_0_5.SiteLocationType",
-            "city": "Alice Springs",
-            "state": "Northern Territory",
-            "countryCodeISO": "AUS",
-            "tectonicPlate": {
-              "TYPE_NAME": "GML_3_2_1.CodeType",
-              "codeSpace": "",
-              "value": "Australian"
-            },
-            "approximatePositionITRF": {
-              "TYPE_NAME": "GEODESYML_0_5.SiteLocationType.ApproximatePositionITRF",
-              "xCoordinateInMeters": "-4052051.767",
-              "yCoordinateInMeters": "4212836.215",
-              "zCoordinateInMeters": "-2545106.027",
-              "latitudeNorth": -23.670123872222224,
-              "longitudeEast": 133.88551321944442,
-              "elevationMEllips": "603.3581"
-            },
-            "notes": "ARGN (Australian Regional GPS Network)"
+            "siteLocation": {
+              "TYPE_NAME": "GEODESYML_0_5.SiteLocationType",
+              "city": "Alice Springs",
+              "state": "Northern Territory",
+              "countryCodeISO": "AUS",
+              "tectonicPlate": {
+                "TYPE_NAME": "GML_3_2_1.CodeType",
+                "codeSpace": "",
+                "value": "Australian"
+              },
+              "approximatePositionITRF": {
+                "TYPE_NAME": "GEODESYML_0_5.SiteLocationType.ApproximatePositionITRF",
+                "xCoordinateInMeters": "-4052051.767",
+                "yCoordinateInMeters": "4212836.215",
+                "zCoordinateInMeters": "-2545106.027",
+                "latitudeNorth": -23.670123872222224,
+                "longitudeEast": 133.88551321944442,
+                "elevationMEllips": "603.3581"
+              },
+              "notes": "ARGN (Australian Regional GPS Network)"
+            }
           },
           "gnssReceivers": [
             {
@@ -1263,22 +1269,24 @@
             }
           },
           "moreInformation": {
-            "TYPE_NAME": "GEODESYML_0_5.MoreInformationType",
-            "dataCenter": [
-              ""
-            ],
-            "urlForMoreInformation": "",
-            "siteMap": "",
-            "siteDiagram": "Y",
-            "horizonMask": "Y",
-            "monumentDescription": "",
-            "sitePictures": "Y",
-            "antennaGraphicsWithDimensions": "",
-            "insertTextGraphicFromAntenna": "",
-            "doi": {
-              "TYPE_NAME": "GML_3_2_1.CodeType",
-              "codeSpace": "CodeSpaceTODO",
-              "value": "CodeTypeTODO"
+            "moreInformation": {
+              "TYPE_NAME": "GEODESYML_0_5.MoreInformationType",
+              "dataCenter": [
+                ""
+              ],
+              "urlForMoreInformation": "",
+              "siteMap": "",
+              "siteDiagram": "Y",
+              "horizonMask": "Y",
+              "monumentDescription": "",
+              "sitePictures": "Y",
+              "antennaGraphicsWithDimensions": "",
+              "insertTextGraphicFromAntenna": "",
+              "doi": {
+                "TYPE_NAME": "GML_3_2_1.CodeType",
+                "codeSpace": "CodeSpaceTODO",
+                "value": "CodeTypeTODO"
+              }
             }
           }
         }
