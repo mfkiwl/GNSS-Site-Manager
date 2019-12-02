@@ -15,8 +15,8 @@ if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then
             ./deploy.sh dev
         ;;
         "master")
-            npm run build.prod -- --config-env test
-            ./deploy.sh test
+            npm run build.prod -- --config-env dev
+            ./deploy.sh dev
         ;;
     esac
 else
